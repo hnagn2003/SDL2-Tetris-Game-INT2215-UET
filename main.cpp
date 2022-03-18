@@ -9,8 +9,8 @@ using namespace std;
 
 const int ROWS = 20;
 const int COLS = 10;
-const int SCREEN_WIDTH = COLS*TILE_SIZE;
-const int SCREEN_HEIGHT = ROWS*TILE_SIZE;
+const int SCREEN_WIDTH = 10*40;
+const int SCREEN_HEIGHT = 20*40;
 
 bool fullScreen = false;
 
