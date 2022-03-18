@@ -68,7 +68,6 @@ void Game::init(const char* title, int xPos, int yPos, int SCREEN_WIDTH, int SCR
 	{
 		printf( "Failed to initialize!\n" );
 	}
-    SDL_Delay(2000);
 }
 
 void Game::handelEvents()
