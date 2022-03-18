@@ -6,7 +6,7 @@ using namespace std;
 
 int main( int argc, char* args[] ){
 
-    cout << "hello";
-    Game *game = new Game;
-    game->render();
+    Game game;
+    game.init("Tetris - by me", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1000, 500, true );
+
 }

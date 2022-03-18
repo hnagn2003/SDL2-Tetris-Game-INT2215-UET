@@ -3,6 +3,7 @@
 
 #include <SDL.h>
 #include <stdio.h>
+#include <SDL_image.h>
 
 class Game {
 
@@ -16,13 +17,16 @@ public:
     void render();
     void clean();
 
-    bool running();
+    bool running()
+    {
+        return isRunning;
+    };
 
 private:
     bool isRunning;
     SDL_Window *window;
     SDL_Renderer *renderer;
-    
+
 };
 
 #endif
