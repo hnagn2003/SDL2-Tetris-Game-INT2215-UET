@@ -4,7 +4,8 @@
 #include <SDL.h>
 #include <stdio.h>
 #include <SDL_image.h>
-
+#include "Tetromino.h"
+#include "Grid.h"
 class Game {
 
 public:
