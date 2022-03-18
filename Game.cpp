@@ -52,7 +52,7 @@ void Game::init(const char* title, int xPos, int yPos, int SCREEN_WIDTH, int SCR
 			else
 			{
 				//Initialize renderer color
-				SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF, 0xFF );
+				SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0 );
 
 				//Initialize PNG loading
 				int imgFlags = IMG_INIT_PNG;
@@ -73,7 +73,7 @@ void Game::init(const char* title, int xPos, int yPos, int SCREEN_WIDTH, int SCR
 	}
 }
 
-void Game::handelEvents()
+void Game::handleEvents()
 {
     SDL_Event event;
     SDL_PollEvent(&event);
@@ -96,6 +96,7 @@ void Game::update()
 void Game::render()
 {
     SDL_RenderClear(renderer);
+
     SDL_RenderPresent(renderer);
 }
 
