@@ -23,6 +23,7 @@ void Game::init(const char* title, int xPos, int yPos, int SCREEN_WIDTH, int SCR
 	{
 		printf( "SDL could not initialize! SDL Error: %s\n", SDL_GetError() );
 		success = false;
+        isRunning = false;
 	}
 	else
 	{
@@ -33,7 +34,7 @@ void Game::init(const char* title, int xPos, int yPos, int SCREEN_WIDTH, int SCR
 		}
 
 		//Create window
-		window = SDL_CreateWindow( title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
+		window = SDL_CreateWindow( title, xPos, yPos, SCREEN_WIDTH, SCREEN_HEIGHT, fullscreen );
 		if( window == NULL )
 		{
 			printf( "Window could not be created! SDL Error: %s\n", SDL_GetError() );
@@ -62,6 +63,8 @@ void Game::init(const char* title, int xPos, int yPos, int SCREEN_WIDTH, int SCR
 				}
 			}
 		}
+
+        isRunning = true;
 	}
 
 	if( !success )
@@ -72,7 +75,17 @@ void Game::init(const char* title, int xPos, int yPos, int SCREEN_WIDTH, int SCR
 
 void Game::handelEvents()
 {
+    SDL_Event event;
+    SDL_PollEvent(&event);
+    switch (event.type)
+    {
+        case SDL_QUIT:
+            isRunning = false;
+            break;
 
+        default:
+            break;
+    }
 }
 
 void Game::update()
@@ -82,10 +95,16 @@ void Game::update()
 
 void Game::render()
 {
-
+    SDL_RenderClear(renderer);
+    SDL_RenderPresent(renderer);
 }
 
 void Game::clean()
 {
-
+    SDL_DestroyRenderer( renderer );
+	SDL_DestroyWindow( window );
+	window = NULL;
+	renderer = NULL;
+	IMG_Quit();
+	SDL_Quit();
 }
