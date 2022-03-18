@@ -2,11 +2,15 @@
 #include <iostream>
 #include <stdio.h>
 #include "Game.h"
+#include "Tetromino.h"
 using namespace std;
 // 10 x 20
 const int TILE_SIZE = 40;
-const int SCREEN_WIDTH = 10*TILE_SIZE;
-const int SCREEN_HEIGHT = 20*TILE_SIZE;
+const int ROWS = 20;
+const int COLS = 10;
+const int SCREEN_WIDTH = COLS*TILE_SIZE;
+const int SCREEN_HEIGHT = ROWS*TILE_SIZE;
+
 bool fullScreen = false;
 
 int main( int argc, char* args[] ){
