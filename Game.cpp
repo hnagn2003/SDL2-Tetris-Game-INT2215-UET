@@ -1,5 +1,6 @@
 #include "Game.h"
-
+#include <iostream>
+using namespace std;
 Game::Game()
 {
 
@@ -26,7 +27,7 @@ void Game::update()
 }
 
 void Game::render()
-{}
+{cout << "render";}
 
 void Game::clean()
 {
