@@ -3,8 +3,10 @@
 #include <stdio.h>
 #include "Game.h"
 using namespace std;
-const int SCREEN_WIDTH = 1920;
-const int SCREEN_HEIGHT = 1030;
+// 10 x 20
+const int TILE_SIZE = 40;
+const int SCREEN_WIDTH = 10*TILE_SIZE;
+const int SCREEN_HEIGHT = 20*TILE_SIZE;
 bool fullScreen = false;
 
 int main( int argc, char* args[] ){
@@ -19,3 +21,4 @@ int main( int argc, char* args[] ){
     }
     game->clean();
 }
+
