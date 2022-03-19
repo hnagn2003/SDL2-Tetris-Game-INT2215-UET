@@ -4,13 +4,10 @@
 #include "Game.h"
 #include "Tetromino.h"
 #include "Grid.h"
+#include "Specifications.h"
+
 using namespace std;
 // 10 x 20
-
-const int ROWS = 20;
-const int COLS = 10;
-const int SCREEN_WIDTH = 10*40;
-const int SCREEN_HEIGHT = 20*40;
 
 bool fullScreen = false;
 

@@ -1,7 +1,5 @@
 #include "Game.h"
-#include <iostream>
-#include <SDL_image.h>
-#include <SDL.h>
+
 using namespace std;
 Game::Game()
 {
@@ -97,7 +95,7 @@ void Game::render()
 {
     // SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0 );
     // SDL_RenderClear(renderer);
-    grid.render(renderer, 0, 0);
+    grid.render(renderer, (SCREEN_WIDTH - COLS*TILE_SIZE) /2, 0);
     SDL_RenderPresent(renderer);
 }
 

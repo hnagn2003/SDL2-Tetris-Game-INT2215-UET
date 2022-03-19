@@ -1,11 +1,7 @@
-#include <iostream>
-#include <SDL_image.h>
-#include <SDL.h>
 #include "Game.h"
 #include "Grid.h"
 using namespace std;
-const int ROWS = 20;
-const int COLS = 10;
+
 Grid::Grid(){
 
 }

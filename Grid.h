@@ -5,12 +5,8 @@
 #include <stdio.h>
 #include <SDL_image.h>
 #include "Game.h"
+#include "Specifications.h"
 
-const int TILE_SIZE = 40;
-// const int ROWS = 20;
-// const int COLS = 10;
-// const int SCREEN_WIDTH = COLS*TILE_SIZE;
-// const int SCREEN_HEIGHT = ROWS*TILE_SIZE;
 
 struct Box{
     int x, y;

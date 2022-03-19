@@ -6,6 +6,7 @@
 #include <SDL_image.h>
 #include "Tetromino.h"
 #include "Grid.h"
+#include "Specifications.h"
 class Game {
 
 public:
