@@ -1,3 +1,4 @@
+
 #ifndef Specifications_h
 #define Specifications_h
 
@@ -7,14 +8,26 @@ const int COLS = 10;
 const int SCREEN_WIDTH = 1920;
 const int SCREEN_HEIGHT = 1030;
 
-const SDL_Color I_cBLOCK = {0, 209, 232};
-const SDL_Color L_cBLOCK = {0, 126, 229};
-const SDL_Color J_cBLOCK = {218, 147, 0};
-const SDL_Color O_cBLOCK = {232, 214, 0};
-const SDL_Color S_cBLOCK = {0, 222, 61};
-const SDL_Color T_cBLOCK = {187, 0, 222};
-const SDL_Color Z_cBLOCK = {232, 0, 0};
+enum Shapes{
+    I_BLOCK,
+    L_BLOCK,
+    J_BLOCK,
+    O_BLOCK,
+    S_BLOCK,
+    T_BLOCK,
+    Z_BLOCK,
+    TOTAL_OF_TETRADS
+};
 
+const SDL_Color TetroColor[] = {
+    {0, 209, 232},
+    {0, 126, 229},
+    {218, 147, 0},
+    {232, 214, 0},
+    {0, 222, 61},
+    {187, 0, 222},
+    {232, 0, 0}
+};
 struct Point{
     int x;
     int y;
@@ -38,4 +51,5 @@ struct PointOnGrid{
         return (SCREEN_HEIGHT - ROWS*TILE_SIZE) / 2 + y*TILE_SIZE;
     }
 };
+
 #endif

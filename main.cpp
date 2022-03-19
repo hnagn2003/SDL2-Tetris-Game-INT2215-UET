@@ -8,7 +8,6 @@
 
 using namespace std;
 // 10 x 20
-
 bool fullScreen = false;
 int main( int argc, char* args[] ){
 

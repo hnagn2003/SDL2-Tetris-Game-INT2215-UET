@@ -7,7 +7,6 @@
 #include "Game.h"
 #include "Specifications.h"
 
-
 struct Box{
     int x, y;
     int width = TILE_SIZE;
