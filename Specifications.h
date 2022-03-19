@@ -1,4 +1,3 @@
-
 #ifndef Specifications_h
 #define Specifications_h
 
@@ -41,14 +40,8 @@ struct PointOnGrid{
     int x;
     int y;
     PointOnGrid(int _x = 0, int _y = 0){
-        x = _x;
-        y = _y;
-    }
-    int xPosOnGrid(){
-        return (SCREEN_WIDTH - COLS*TILE_SIZE) / 2 + x*TILE_SIZE;
-    } 
-    int yPosOnGrid(){
-        return (SCREEN_HEIGHT - ROWS*TILE_SIZE) / 2 + y*TILE_SIZE;
+        x = (SCREEN_WIDTH - COLS*TILE_SIZE) / 2 + _x*TILE_SIZE;
+        y = (SCREEN_HEIGHT - ROWS*TILE_SIZE) / 2 + _y*TILE_SIZE;
     }
 };
 
