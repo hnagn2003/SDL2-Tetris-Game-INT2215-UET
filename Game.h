@@ -18,7 +18,6 @@ public:
     void update();
     void render();
     void clean();
-
     bool running()
     {
         return isRunning;
@@ -28,7 +27,7 @@ private:
     SDL_Window *window;
     SDL_Renderer *renderer;
     Grid grid;
-    Tetromino current;
+    Tetromino currentTetrads = Tetrads;
 };
 
 #endif

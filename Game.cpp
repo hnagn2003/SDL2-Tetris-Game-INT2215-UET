@@ -96,7 +96,10 @@ void Game::render()
     // SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0 );
     // SDL_RenderClear(renderer);
     grid.render(renderer);
+	currentTetrads.fall();
+	currentTetrads.render(renderer);
     SDL_RenderPresent(renderer);
+
 }
 
 void Game::clean()

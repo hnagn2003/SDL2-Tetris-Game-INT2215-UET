@@ -5,21 +5,25 @@
 #include <stdio.h>
 #include <SDL_image.h>
 #include "Specifications.h"
-int gridToRenderer(int x){return x*TILE_SIZE}
+#include <iostream>
+int gridSizeToRendererSize(int w);
+int gridXPosToRendererPos(int x);
+int gridYPosToRendererPos(int y);
 class block{
     public:
-        int x, y, w = TILE_SIZE, h = TILE_SIZE;
+        int xGrid, yGrid, wGrid = 1, hGrid = 1;
         SDL_Color color;
         
     public:
-        block(int _x, int _y){
-            x = _x;
-            y = _y;
+        block(int x, int y, SDL_Color _color){
+            xGrid = x;
+            yGrid = y;
+            color = _color;
         }
         
         void render(SDL_Renderer* renderer){
-            SDL_Rect rectBlock{x, y, w, h};
-            SDL_SetRenderDrawColor( renderer, 100, 100, 100, 0 );
+            SDL_Rect rectBlock{gridXPosToRendererPos(xGrid), gridYPosToRendererPos(yGrid), gridSizeToRendererSize(wGrid), gridSizeToRendererSize(hGrid)};
+            SDL_SetRenderDrawColor( renderer, color.r, color.g, color.b, 0 );
             SDL_RenderDrawRect(renderer, &rectBlock);
         }
 };  
@@ -30,26 +34,41 @@ class Tetromino{
         SDL_Color color;
         SDL_Rect collin;
         bool matrix[size][size];
+        Uint32 startTime = SDL_GetTicks();
     public:
         Tetromino()
         {}
-        Tetromino (SDL_Color _color, bool _matrix[size][size], int _w, int _h, int _x = SCREEN_WIDTH/2, int _y = 0)
+        Tetromino (SDL_Color _color, bool _matrix[size][size], int _w, int _h, int _x = 5, int _y = 0)
         {
             color = _color;
             collin.x = _x;
             collin.y = _y;
-            collin.w = gridToRenderer(_w);
-            collin.h = gridToRenderer(_h);
+            collin.w = _w;
+            collin.h = _h;
             for (size_t i=0; i<size; i++){
                 for (size_t j=0; j<size; j++){
                     matrix[i][j] = _matrix[i][j];
                 }
             }
         }
-        void render(){
-            
+        void render(SDL_Renderer* renderer){
+            for (size_t i=0; i<size; i++){
+                for (size_t j=0; j<size; j++){
+                    if (matrix[i][j] == 1){
+                        block aBlock{collin.x+i, collin.y+j, color};
+                        aBlock.render(renderer);
+                    }
+                }
+            }
         }
 
+        void fall(size_t cusVEL = 1000){
+            std::cout << SDL_GetTicks() << " " << startTime << " " << collin.y << std::endl; //fb
+            if (SDL_GetTicks() - startTime >= 1000){
+                collin.y++;
+                startTime = SDL_GetTicks();
+            }
+        }
 };
 
 static bool mI[4][4] = {
