@@ -7,4 +7,13 @@ const int COLS = 10;
 const int SCREEN_WIDTH = 1920;
 const int SCREEN_HEIGHT = 1030;
 
+struct Point{
+    int x;
+    int y;
+    Point(int _x, int _y){
+        x = _x;
+        y = _y;
+    }
+};
+
 #endif

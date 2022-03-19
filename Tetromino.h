@@ -18,9 +18,10 @@ class Tetromino{
 
     private:
         SDL_Color color;
+        int size;
         bool matrix[4][4];
         double x, y;
-        int size;
+        
 };
 
 #endif

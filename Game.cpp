@@ -1,6 +1,6 @@
 #include "Game.h"
+#include "Grid.h"
 
-using namespace std;
 Game::Game()
 {
 
@@ -95,7 +95,7 @@ void Game::render()
 {
     // SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0 );
     // SDL_RenderClear(renderer);
-    grid.render(renderer, (SCREEN_WIDTH - COLS*TILE_SIZE) /2, 0);
+    grid.render(renderer);
     SDL_RenderPresent(renderer);
 }
 

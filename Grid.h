@@ -15,12 +15,15 @@ struct Box{
 };
 class Grid{
     private:
-        int xPos = 0, yPos = 0;
-
+        int width = COLS*TILE_SIZE;
+        int height = ROWS*TILE_SIZE;
+        int xPos = (SCREEN_WIDTH - width) / 2;
+        int yPos = (SCREEN_HEIGHT - height) / 2;
+        Point center{xPos + width, yPos + height};
     public:
         Grid();
         ~Grid();
-        void render(SDL_Renderer *renderer, int xPos, int yPos);
+        void render(SDL_Renderer *renderer);
     
 };
 

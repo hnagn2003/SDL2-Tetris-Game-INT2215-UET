@@ -23,7 +23,6 @@ public:
     {
         return isRunning;
     };
-
 private:
     bool isRunning;
     SDL_Window *window;
