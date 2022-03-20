@@ -27,7 +27,15 @@ private:
     SDL_Window *window;
     SDL_Renderer *renderer;
     Grid grid;
-    Tetromino currentTetrads = Tetrads;
 };
 
+
+class Game_State {
+    private:
+        int line = 0;
+        int level = 1;
+        int score = 0;
+        Tetromino nextTetrads = getRandomTetrads();
+        Tetromino currentTetrads = getRandomTetrads();
+};
 #endif
