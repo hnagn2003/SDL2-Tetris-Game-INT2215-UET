@@ -16,9 +16,13 @@ class Game_State {
         int velocity = 1000;
         Tetromino nextTetrads = getRandomTetrads();
         Tetromino currentTetrads = getRandomTetrads();
+        Grid grid;
     public: 
         int getVel(){
             return velocity;
+        }
+        Grid getGrid(){
+            return grid;
         }
         Tetromino getCurTetrads(){
             return currentTetrads;
@@ -33,7 +37,11 @@ class Game_State {
         }
 
         void newTetradsFalling(){
-            currentTetrads.fall(velocity);
+            currentTetrads.fall(velocity, grid);
+        }
+
+        void rotate(){
+            
         }
 };
 
@@ -56,7 +64,6 @@ private:
     bool isRunning;
     SDL_Window *window;
     SDL_Renderer *renderer;
-    Grid grid;
     Game_State gameState;
 };
 
