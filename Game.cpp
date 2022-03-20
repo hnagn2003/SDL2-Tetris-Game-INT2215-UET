@@ -88,8 +88,8 @@ void Game::handleEvents()
 
 void Game::update()
 {
-	gameState.getCurTetrads().render(renderer);
-	gameState.getCurTetrads().fall(gameState.getVel());
+	//if currentTetrads tiep dat, chuyen trang thai khoi, cho khoi moi tiep dat
+	gameState.newTetradsFalling();
 }
 
 void Game::render()

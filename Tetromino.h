@@ -24,7 +24,7 @@ enum LEVEL{
 };
 
 class block{
-    public:
+    private:
         int xGrid, yGrid, wGrid = 1, hGrid = 1;
         SDL_Color color;
         
@@ -34,7 +34,18 @@ class block{
             yGrid = y;
             color = _color;
         }
-        
+        int getXGrid(){
+            return xGrid;
+        }
+        int getYGrid(){
+            return yGrid;
+        }
+        int getWGrid(){
+            return wGrid;
+        }
+        int getHGrid(){
+            return hGrid;
+        }
         void render(SDL_Renderer* renderer){
             SDL_Rect rectBlock{gridXPosToRendererPos(xGrid), gridYPosToRendererPos(yGrid), gridSizeToRendererSize(wGrid), gridSizeToRendererSize(hGrid)};
             SDL_SetRenderDrawColor( renderer, color.r, color.g, color.b, 0 );
@@ -70,7 +81,9 @@ class Tetromino{
                 for (size_t j=0; j<sizeOfTetradsSide; j++){
                     if (matrix[i][j] == 1){
                         block aBlock{collin.x+j, collin.y+i, color};
-                        aBlock.render(renderer);
+                        if (aBlock.getYGrid()>=0){
+                            aBlock.render(renderer);
+                        }
                     }
                 }
             }

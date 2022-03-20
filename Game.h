@@ -31,6 +31,10 @@ class Game_State {
         void render (SDL_Renderer *renderer){
             currentTetrads.render(renderer);
         }
+
+        void newTetradsFalling(){
+            currentTetrads.fall(velocity);
+        }
 };
 
 class Game {
