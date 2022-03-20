@@ -15,12 +15,12 @@ int gridSizeToRendererSize(int w);
 int gridXPosToRendererPos(int x);
 int gridYPosToRendererPos(int y);
 
-enum VEL_LEVEL{
-    easy_VELS = 1000,
-    hard_VELS = 600,
-    extremely_hard_VELS = 300,
-    super_ultra_hard_VELS = 100,
-    asian_VELS = 30
+enum LEVEL{
+    easy = 1000,
+    hard = 600,
+    extremely_hard = 300,
+    super_ultra_hard = 100,
+    asian = 30
 };
 
 class block{
@@ -64,6 +64,7 @@ class Tetromino{
                 }
             }
         }
+
         void render(SDL_Renderer* renderer){
             for (size_t i=0; i<sizeOfTetradsSide; i++){
                 for (size_t j=0; j<sizeOfTetradsSide; j++){
@@ -74,21 +75,28 @@ class Tetromino{
                 }
             }
         }
+
         bool checkCollision(Grid grid){
             size_t rightSide = collin.x + collin.w;
             if (rightSide >= COLS){
                 return true;
             }
-            return 1;
+            return 1; // ...
         }
+
         void move(){
 
         }
-        void fall(size_t cusVEL = easy_VELS){
-            if (SDL_GetTicks() - startTime >= cusVEL){
+
+        void fall(int velocity){
+            if (SDL_GetTicks() - startTime >= velocity){
                 collin.y++;
                 startTime = SDL_GetTicks();
             }
+        }
+
+        void rotate(){
+            
         }
 };
 

@@ -88,14 +88,16 @@ void Game::handleEvents()
 
 void Game::update()
 {
-
+	gameState.getCurTetrads().render(renderer);
+	gameState.getCurTetrads().fall(gameState.getVel());
 }
 
 void Game::render()
 {
     SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0 );
     SDL_RenderClear(renderer);
-
+	grid.render(renderer);
+	gameState.render(renderer);
     SDL_RenderPresent(renderer);
 
 }
