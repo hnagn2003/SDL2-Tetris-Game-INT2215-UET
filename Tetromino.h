@@ -8,7 +8,7 @@
 #include "Grid.h"
 #include <iostream>
 const int xTetradsInit = 4;
-const int YTetradsInit = 0;
+const int YTetradsInit = -1;
 const int sizeOfTetradsSide = 4;
 
 int gridSizeToRendererSize(int w);
@@ -89,23 +89,37 @@ class Tetromino{
             }
         }
 
-        bool checkCollision(Grid grid){
-            size_t rightSide = collin.x + collin.w;
+        bool collision(Grid grid){ // nhan vao grid
+            short int rightSide = collin.x + collin.w;
             if (rightSide >= COLS){
                 return true;
             }
-            return 1; // ...
-        }
 
-        void move(){
-
-        }
-
-        void fall(int velocity){
-            if (SDL_GetTicks() - startTime >= velocity){
-                collin.y++;
-                startTime = SDL_GetTicks();
+            short int leftSide = collin.x;
+            if (leftSide <= 0){
+                return true;
             }
+
+            short int bottomSide = collin.y + collin.h;
+            if (bottomSide >= ROWS){
+                return true;
+            }
+
+
+            return false;
+        }
+
+        void move(int velocity, Grid grid){
+            if (!collision(grid)){
+                if (SDL_GetTicks() - startTime >= velocity){
+                    collin.y++;
+                    startTime = SDL_GetTicks();
+                }
+            }
+        }
+
+        void fall(int velocity, Grid grid){
+            move(velocity, grid);
         }
 
         void rotate(){
@@ -114,51 +128,51 @@ class Tetromino{
 };
 
 static bool matrixStructure_I[sizeOfTetradsSide][sizeOfTetradsSide] = {
+    {0, 0, 0, 0},
+    {0, 0, 0, 0},
     {1, 1, 1, 1},
-    {0, 0, 0, 0},
-    {0, 0, 0, 0},
     {0, 0, 0, 0}
 };
 
 static bool matrixStructure_L[sizeOfTetradsSide][sizeOfTetradsSide] = {
+    {0, 0, 0, 0},
     {1, 0, 0, 0},
     {1, 1, 1, 0},
-    {0, 0, 0, 0},
     {0, 0, 0, 0}
 };
 
 static bool matrixStructure_J[sizeOfTetradsSide][sizeOfTetradsSide] = {
+    {0, 0, 0, 0},
     {0, 0, 1, 0},
     {1, 1, 1, 0},
-    {0, 0, 0, 0},
     {0, 0, 0, 0}
 };
 
 static bool matrixStructure_O[sizeOfTetradsSide][sizeOfTetradsSide] = {
-    {1, 1, 0, 0},
-    {1, 1, 0, 0},
     {0, 0, 0, 0},
+    {0, 1, 1, 0},
+    {0, 1, 1, 0},
     {0, 0, 0, 0}
 };
 
 static bool matrixStructure_S[sizeOfTetradsSide][sizeOfTetradsSide] = {
+    {0, 0, 0, 0},
     {0, 1, 1, 0},
     {1, 1, 0, 0},
-    {0, 0, 0, 0},
     {0, 0, 0, 0}
 };
 
 static bool matrixStructure_T[sizeOfTetradsSide][sizeOfTetradsSide] = {
+    {0, 0, 0, 0},
     {0, 1, 0, 0},
     {1, 1, 1, 0},
-    {0, 0, 0, 0},
     {0, 0, 0, 0}
 };
 
 static bool matrixStructure_Z[sizeOfTetradsSide][sizeOfTetradsSide] = {
+    {0, 0, 0, 0},
     {1, 1, 0, 0},
     {0, 1, 1, 0},
-    {0, 0, 0, 0},
     {0, 0, 0, 0}
 };
 const Tetromino Tetrads[TOTAL_OF_TETRADS] =

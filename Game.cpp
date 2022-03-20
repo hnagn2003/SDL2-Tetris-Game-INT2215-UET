@@ -96,7 +96,7 @@ void Game::render()
 {
     SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0 );
     SDL_RenderClear(renderer);
-	grid.render(renderer);
+	gameState.getGrid().render(renderer);
 	gameState.render(renderer);
     SDL_RenderPresent(renderer);
 

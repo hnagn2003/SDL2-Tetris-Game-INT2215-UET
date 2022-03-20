@@ -3,7 +3,11 @@
 #include <iostream>
 
 Grid::Grid(){
-
+    for (size_t i=0; i<ROWS; i++){
+        for (size_t j=0; j<COLS; j++){
+            matrix[i][j] = 0;
+        }
+    }
 }
 Grid::~Grid(){
 

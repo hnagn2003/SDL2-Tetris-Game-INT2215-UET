@@ -19,6 +19,7 @@ class Grid{
         int xPos = (SCREEN_WIDTH - width) / 2;
         int yPos = (SCREEN_HEIGHT - height) / 2;
         Point center{xPos + width, yPos + height};
+        int matrix[ROWS][COLS];
     public:
         Grid();
         ~Grid();
