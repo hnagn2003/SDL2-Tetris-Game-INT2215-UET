@@ -54,4 +54,24 @@ struct PointOnGrid{
     }
 };
 
+class InputHandler{  
+    public:
+        SDL_Event event;
+        
+    public:
+        void getInputFromKeyboard(){
+            SDL_PollEvent(&event);
+        }
+        void handleInput(bool& isRunning){
+            switch (event.type)
+            {
+                case SDL_QUIT:
+                    isRunning = false;
+                    break;
+
+                default:
+                    break;
+            }
+        }
+};
 #endif

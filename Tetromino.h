@@ -87,21 +87,21 @@ class Tetromino{
             }
         }
 
-        bool collision(Grid grid){ // nhan vao grid
-            short int rightSide = collin.x + collin.w;
-            if (rightSide > COLS){
-                return true;
-            }
+        bool collision(Grid grid){ // ...
+            // short int rightSide = collin.x + collin.w;
+            // if (rightSide > COLS){
+            //     return true;
+            // }
 
-            short int leftSide = collin.x;
-            if (leftSide < 0){
-                return true;
-            }
+            // short int leftSide = collin.x;
+            // if (leftSide < 0){
+            //     return true;
+            // }
 
-            short int bottomSide = collin.y + collin.h;
-            if (bottomSide > ROWS){
-                return true;
-            }
+            // short int bottomSide = collin.y + collin.h;
+            // if (bottomSide > ROWS){
+            //     return true;
+            // }
 
 
             return false;

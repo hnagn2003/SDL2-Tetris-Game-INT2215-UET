@@ -73,17 +73,8 @@ void Game::init(const char* title, int xPos, int yPos, int SCREEN_WIDTH, int SCR
 
 void Game::handleEvents()
 {
-    SDL_Event event;
-    SDL_PollEvent(&event);
-    switch (event.type)
-    {
-        case SDL_QUIT:
-            isRunning = false;
-            break;
-
-        default:
-            break;
-    }
+    inputHandler.getInputFromKeyboard();
+	inputHandler.handleInput(isRunning);
 }
 
 void Game::update()

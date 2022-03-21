@@ -15,8 +15,7 @@ class Game_State {
         int level = 1;
         int velocity = 500;
         Tetromino nextTetrads = getRandomTetrads();
-        // Tetromino currentTetrads = getRandomTetrads();
-                Tetromino currentTetrads = Tetrads[J_BLOCK];
+        Tetromino currentTetrads = getRandomTetrads();
         Grid grid;
     public: 
         int getVel(){
@@ -60,12 +59,16 @@ public:
     bool running()
     {
         return isRunning;
-    };
+    }
+    // void setRunning(bool running){
+    //     isRunning = running;
+    // }
 private:
     bool isRunning;
     SDL_Window *window;
     SDL_Renderer *renderer;
     Game_State gameState;
+    InputHandler inputHandler;
 };
 
 
