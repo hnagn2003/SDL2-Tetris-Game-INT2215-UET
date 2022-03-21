@@ -27,6 +27,15 @@ const SDL_Color TetroColor[] = {
     {187, 0, 222},
     {232, 0, 0}
 };
+
+enum LEVEL{
+    easy = 1000,
+    hard = 600,
+    extremely_hard = 300,
+    super_ultra_hard = 100,
+    asian = 30
+};
+
 struct Point{
     int x;
     int y;

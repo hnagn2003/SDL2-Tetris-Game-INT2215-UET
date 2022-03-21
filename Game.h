@@ -13,9 +13,10 @@ class Game_State {
         int lineCount = 0;
         size_t score = 0;
         int level = 1;
-        int velocity = 1000;
+        int velocity = 500;
         Tetromino nextTetrads = getRandomTetrads();
-        Tetromino currentTetrads = getRandomTetrads();
+        // Tetromino currentTetrads = getRandomTetrads();
+                Tetromino currentTetrads = Tetrads[J_BLOCK];
         Grid grid;
     public: 
         int getVel(){
@@ -41,7 +42,7 @@ class Game_State {
         }
 
         void rotate(){
-            
+
         }
 };
 
