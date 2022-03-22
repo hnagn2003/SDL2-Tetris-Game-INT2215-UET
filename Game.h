@@ -7,6 +7,7 @@
 #include "Tetromino.h"
 #include "Grid.h"
 #include "Specifications.h"
+#include <iostream>
 
 class Game_State {
     private:
@@ -14,18 +15,23 @@ class Game_State {
         size_t score = 0;
         int level = 1;
         int velocity = 500;
+        int moveVel = velocity;
         Tetromino nextTetrads = getRandomTetrads();
         Tetromino currentTetrads = getRandomTetrads();
         Grid grid;
     public: 
-        int getVel(){
+
+        int getOriginVel(){
             return velocity;
+        }
+        void setVel(int vel){
+            moveVel = vel;
         }
         Grid getGrid(){
             return grid;
         }
-        Tetromino getCurTetrads(){
-            return currentTetrads;
+        Tetromino* getCurTetrads(){
+            return &currentTetrads;
         }
         void updateGameState(short int updateLines){
             score += updateLines * level;
@@ -37,12 +43,10 @@ class Game_State {
         }
 
         void newTetradsFalling(){
-            currentTetrads.fall(velocity, grid);
+            currentTetrads.fall(moveVel, grid);
         }
 
-        void rotate(){
 
-        }
 };
 
 class Game {
@@ -68,7 +72,6 @@ private:
     SDL_Window *window;
     SDL_Renderer *renderer;
     Game_State gameState;
-    InputHandler inputHandler;
 };
 
 

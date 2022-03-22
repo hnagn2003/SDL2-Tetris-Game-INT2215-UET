@@ -73,8 +73,36 @@ void Game::init(const char* title, int xPos, int yPos, int SCREEN_WIDTH, int SCR
 
 void Game::handleEvents()
 {
-    inputHandler.getInputFromKeyboard();
-	inputHandler.handleInput(isRunning);
+        SDL_Event event; 
+        SDL_PollEvent(&event);
+		switch (event.type)
+		{
+			case SDL_QUIT:
+				isRunning = false;
+				break;
+			case SDL_KEYDOWN:
+				switch( event.key.keysym.sym )
+				{
+					case SDLK_UP: gameState.getCurTetrads()->rotate(); break;
+					case SDLK_DOWN: gameState.setVel(gameState.getOriginVel()/10); break;
+					// case SDLK_LEFT:; break;
+					// case SDLK_RIGHT:; break;
+					default: break;
+				}
+				break;
+			case SDL_KEYUP:
+				switch( event.key.keysym.sym )
+				{
+					case SDLK_DOWN: gameState.setVel(gameState.getOriginVel()); break;
+					// case SDLK_LEFT:; break;
+					// case SDLK_RIGHT:; break;
+					default: break;
+				}
+				break;
+			default:
+				
+				break;
+		}
 }
 
 void Game::update()

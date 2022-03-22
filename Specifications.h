@@ -5,7 +5,7 @@ const int TILE_SIZE = 40;
 const int ROWS = 20;
 const int COLS = 10;
 const int SCREEN_WIDTH = 1920;
-const int SCREEN_HEIGHT = 1030;
+const int SCREEN_HEIGHT = 800;
 
 enum Shapes{
     I_BLOCK,
@@ -54,24 +54,4 @@ struct PointOnGrid{
     }
 };
 
-class InputHandler{  
-    public:
-        SDL_Event event;
-        
-    public:
-        void getInputFromKeyboard(){
-            SDL_PollEvent(&event);
-        }
-        void handleInput(bool& isRunning){
-            switch (event.type)
-            {
-                case SDL_QUIT:
-                    isRunning = false;
-                    break;
-
-                default:
-                    break;
-            }
-        }
-};
 #endif

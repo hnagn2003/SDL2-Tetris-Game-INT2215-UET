@@ -54,7 +54,6 @@ class Tetromino{
         int xPos, yPos;
         SDL_Rect collin;
         bool matrix[sizeOfTetradsSide][sizeOfTetradsSide];
-        Uint32 startTime = SDL_GetTicks();
     public:
         Tetromino()
         {}
@@ -148,12 +147,12 @@ class Tetromino{
             detectCoveredRect();
         }
         void move(int velocity, Grid grid){
+            static Uint32 startTime = SDL_GetTicks();
             if (!collision(grid)){
                 if (SDL_GetTicks() - startTime >= velocity){
                     collin.y++;
                     yPos++;
                     startTime = SDL_GetTicks();
-                    rotate();
                 }
             }
         }
