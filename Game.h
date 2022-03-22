@@ -21,12 +21,12 @@ class Game_State {
         Grid grid;
     public: 
 
-        int getOriginVel(){
-            return velocity;
-        }
-        void setVel(int vel){
-            moveVel = vel;
-        }
+        // int getOriginVel(){
+        //     return velocity;
+        // }
+        // void setVel(int vel){
+        //     moveVel = vel;
+        // }
         Grid getGrid(){
             return grid;
         }
@@ -46,7 +46,33 @@ class Game_State {
             currentTetrads.fall(moveVel, grid);
         }
 
-
+        void handleEvent(SDL_Event& event){
+            switch (event.type)
+            {
+                case SDL_KEYDOWN:
+                    switch( event.key.keysym.sym )
+                    {
+                        case SDLK_UP: currentTetrads.rotate(); break;
+                        case SDLK_DOWN: moveVel = velocity/10; break;
+                        // case SDLK_LEFT: ; break;
+                        // case SDLK_RIGHT: gameState.; break;
+                        default: break;
+                    }
+                    break;
+                case SDL_KEYUP:
+                    switch( event.key.keysym.sym )
+                    {
+                        case SDLK_DOWN: moveVel = velocity; break;
+                        // case SDLK_LEFT:; break;
+                        // case SDLK_RIGHT:; break;
+                        default: break;
+                    }
+                    break;
+                default:
+                    
+                    break;
+            }
+        }
 };
 
 class Game {

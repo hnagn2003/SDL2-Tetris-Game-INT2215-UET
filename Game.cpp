@@ -80,27 +80,9 @@ void Game::handleEvents()
 			case SDL_QUIT:
 				isRunning = false;
 				break;
-			case SDL_KEYDOWN:
-				switch( event.key.keysym.sym )
-				{
-					case SDLK_UP: gameState.getCurTetrads()->rotate(); break;
-					case SDLK_DOWN: gameState.setVel(gameState.getOriginVel()/10); break;
-					// case SDLK_LEFT:; break;
-					// case SDLK_RIGHT:; break;
-					default: break;
-				}
-				break;
-			case SDL_KEYUP:
-				switch( event.key.keysym.sym )
-				{
-					case SDLK_DOWN: gameState.setVel(gameState.getOriginVel()); break;
-					// case SDLK_LEFT:; break;
-					// case SDLK_RIGHT:; break;
-					default: break;
-				}
-				break;
+			// case ...
 			default:
-				
+				gameState.handleEvent(event);
 				break;
 		}
 }
