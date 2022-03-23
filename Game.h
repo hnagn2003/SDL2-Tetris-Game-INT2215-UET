@@ -14,7 +14,7 @@ class Game_State {
         int lineCount = 0;
         size_t score = 0;
         int level = 1;
-        int velocity = 500;
+        int velocity = initVelocity;
         int moveVel = velocity;
         Tetromino nextTetrads = getRandomTetrads();
         Tetromino currentTetrads = getRandomTetrads();
@@ -35,7 +35,7 @@ class Game_State {
         }
         void updateGameState(short int updateLines){
             score += updateLines * level;
-            level = score/100 + 1;
+            level = lineCount/10+1;
             velocity = -500*(level-1) + 1000;
         }
         void render (SDL_Renderer *renderer){
@@ -53,9 +53,10 @@ class Game_State {
                     switch( event.key.keysym.sym )
                     {
                         case SDLK_UP: currentTetrads.rotate(); break;
-                        case SDLK_DOWN: moveVel = velocity/10; break;
-                        // case SDLK_LEFT: ; break;
-                        // case SDLK_RIGHT: gameState.; break;
+                        // case SDLK_DOWN: moveVel = velocity/20; break;
+                        case SDLK_DOWN: currentTetrads.moveDown(grid); break;
+                        case SDLK_LEFT: currentTetrads.moveLeft(grid); break;
+                        case SDLK_RIGHT: currentTetrads.moveRight(grid); break;
                         default: break;
                     }
                     break;

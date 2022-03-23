@@ -146,21 +146,33 @@ class Tetromino{
             transPos(matrix);
             detectCoveredRect();
         }
-        void move(int velocity, Grid grid){
+        void fall(int velocity, Grid grid){
             static Uint32 startTime = SDL_GetTicks();
-            if (!collision(grid)){
                 if (SDL_GetTicks() - startTime >= velocity){
-                    collin.y++;
-                    yPos++;
+                    moveDown(grid);
                     startTime = SDL_GetTicks();
                 }
+        }
+
+        void moveDown(Grid grid){
+            if (!collision(grid)){
+                collin.y++;
+                yPos++;
+            }
+        }
+        void moveRight(Grid grid){
+            if (!collision(grid)){
+                collin.x++;
+                xPos++;
             }
         }
 
-        void fall(int velocity, Grid grid){
-            move(velocity, grid);
+        void moveLeft(Grid grid){
+            if (!collision(grid)){
+                collin.x--;
+                xPos--;
+            }
         }
-
 };
 
 static bool matrixStructure_I[sizeOfTetradsSide][sizeOfTetradsSide] = {
