@@ -54,11 +54,15 @@ class Tetromino{
         int xPos, yPos;
         SDL_Rect collin;
         bool matrix[sizeOfTetradsSide][sizeOfTetradsSide];
+        bool active;
     public:
         Tetromino()
-        {}
+        {
+            active == false;
+        }
         Tetromino (SDL_Color _color, bool _matrix[sizeOfTetradsSide][sizeOfTetradsSide], int _w, int _h, int _x, int _y, int _xPos = xTetradsInit, int _yPos = yTetradsInit)
         {
+            active == false;
             color = _color;
             collin.x = _x;
             collin.y = _y;
@@ -72,7 +76,9 @@ class Tetromino{
                 }
             }
         }
-
+        bool setActice(bool fall){
+            active = fall;
+        }
         void render(SDL_Renderer* renderer){
             for (size_t i=0; i<sizeOfTetradsSide; i++){
                 for (size_t j=0; j<sizeOfTetradsSide; j++){
@@ -87,22 +93,27 @@ class Tetromino{
         }
 
         bool collision(Grid grid){ // ...
-            // short int rightSide = collin.x + collin.w;
-            // if (rightSide > COLS){
-            //     return true;
-            // }
 
-            // short int leftSide = collin.x;
-            // if (leftSide < 0){
-            //     return true;
-            // }
+            short int bottomSide = collin.y + collin.h;
+            if (bottomSide >= ROWS){
+                active = false;
+                return true;
+            }
+            return false;
+        }
 
-            // short int bottomSide = collin.y + collin.h;
-            // if (bottomSide > ROWS){
-            //     return true;
-            // }
-
-
+        bool leftCollision(Grid grid){ // ...
+            short int leftSide = collin.x;
+            if (leftSide <= 0){
+                return true;
+            }
+            return false;
+        }
+        bool rightCollision(Grid grid){ // ...
+            short int rightSide = collin.x+collin.w;
+            if (rightSide >= COLS){
+                return true;
+            }
             return false;
         }
         void detectCoveredRect(){
@@ -147,28 +158,31 @@ class Tetromino{
             detectCoveredRect();
         }
         void fall(int velocity, Grid grid){
-            static Uint32 startTime = SDL_GetTicks();
+            if (active == true){
+                static Uint32 startTime = SDL_GetTicks();
                 if (SDL_GetTicks() - startTime >= velocity){
                     moveDown(grid);
                     startTime = SDL_GetTicks();
                 }
+           }
         }
 
         void moveDown(Grid grid){
+
             if (!collision(grid)){
                 collin.y++;
                 yPos++;
             }
         }
         void moveRight(Grid grid){
-            if (!collision(grid)){
+            if (!rightCollision(grid)){
                 collin.x++;
                 xPos++;
             }
         }
 
         void moveLeft(Grid grid){
-            if (!collision(grid)){
+            if (!leftCollision(grid)){
                 collin.x--;
                 xPos--;
             }

@@ -43,6 +43,7 @@ class Game_State {
         }
 
         void newTetradsFalling(){
+            currentTetrads.setActice(true);
             currentTetrads.fall(moveVel, grid);
         }
 
