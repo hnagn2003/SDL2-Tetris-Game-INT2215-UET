@@ -9,7 +9,7 @@
 #include <iostream>
 #include <algorithm>  
 const int xTetradsInit = 3;
-const int yTetradsInit = -1;
+const int yTetradsInit = -2;
 const int sizeOfTetradsSide = 4;
 
 int gridSizeToRendererSize(int w);
@@ -55,14 +55,17 @@ class Tetromino{
         SDL_Rect collin;
         bool matrix[sizeOfTetradsSide][sizeOfTetradsSide];
         bool active;
+        bool falling;
     public:
         Tetromino()
         {
             active == false;
+            falling = false;
         }
         Tetromino (SDL_Color _color, bool _matrix[sizeOfTetradsSide][sizeOfTetradsSide], int _w, int _h, int _x, int _y, int _xPos = xTetradsInit, int _yPos = yTetradsInit)
         {
             active == false;
+            falling = false;
             color = _color;
             collin.x = _x;
             collin.y = _y;
@@ -76,15 +79,18 @@ class Tetromino{
                 }
             }
         }
-        bool setActice(bool fall){
-            active = fall;
+        bool setActice(bool _active){
+            active = _active;
+        }
+        bool setFall(bool fall){
+            falling = fall;
         }
         void render(SDL_Renderer* renderer){
-            for (size_t i=0; i<sizeOfTetradsSide; i++){
-                for (size_t j=0; j<sizeOfTetradsSide; j++){
-                    if (matrix[i][j] == 1){
-                        block aBlock{xPos+j, yPos+i, color};
-                        if (aBlock.getYGrid()>=0){
+            if (collin.y >=0 ){
+                for (size_t i=0; i<sizeOfTetradsSide; i++){
+                    for (size_t j=0; j<sizeOfTetradsSide; j++){
+                        if (matrix[i][j] == 1){
+                            block aBlock{xPos+j, yPos+i, color};
                             aBlock.render(renderer);
                         }
                     }
@@ -158,7 +164,7 @@ class Tetromino{
             detectCoveredRect();
         }
         void fall(int velocity, Grid grid){
-            if (active == true){
+            if (active == true && falling == true){
                 static Uint32 startTime = SDL_GetTicks();
                 if (SDL_GetTicks() - startTime >= velocity){
                     moveDown(grid);
@@ -182,6 +188,7 @@ class Tetromino{
         }
 
         void moveLeft(Grid grid){
+
             if (!leftCollision(grid)){
                 collin.x--;
                 xPos--;

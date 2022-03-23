@@ -11,16 +11,24 @@
 
 class Game_State {
     private:
-        int lineCount = 0;
-        size_t score = 0;
-        int level = 1;
-        int velocity = initVelocity;
-        int moveVel = velocity;
-        Tetromino nextTetrads = getRandomTetrads();
-        Tetromino currentTetrads = getRandomTetrads();
+        int lineCount;
+        size_t score;
+        int level;
+        int velocity;
+        int moveVel;
+        Tetromino nextTetrads;
+        Tetromino currentTetrads;
         Grid grid;
     public: 
-
+        Game_State(){
+            lineCount = 0;
+            score = 0;
+            level = 1;
+            velocity = initVelocity;
+            moveVel = velocity;
+            nextTetrads = getRandomTetrads();
+            currentTetrads = getRandomTetrads();
+        }
         // int getOriginVel(){
         //     return velocity;
         // }
@@ -44,6 +52,7 @@ class Game_State {
 
         void newTetradsFalling(){
             currentTetrads.setActice(true);
+            currentTetrads.setFall(true);
             currentTetrads.fall(moveVel, grid);
         }
 
@@ -56,8 +65,12 @@ class Game_State {
                         case SDLK_UP: currentTetrads.rotate(); break;
                         // case SDLK_DOWN: moveVel = velocity/20; break;
                         case SDLK_DOWN: currentTetrads.moveDown(grid); break;
-                        case SDLK_LEFT: currentTetrads.moveLeft(grid); break;
-                        case SDLK_RIGHT: currentTetrads.moveRight(grid); break;
+                        case SDLK_LEFT: 
+                            currentTetrads.moveLeft(grid); 
+                            break;
+                        case SDLK_RIGHT: 
+                            currentTetrads.moveRight(grid); 
+                            break;
                         default: break;
                     }
                     break;
@@ -65,8 +78,10 @@ class Game_State {
                     switch( event.key.keysym.sym )
                     {
                         case SDLK_DOWN: moveVel = velocity; break;
-                        // case SDLK_LEFT:; break;
-                        // case SDLK_RIGHT:; break;
+                        // case SDLK_LEFT: 
+                        //     break;
+                        // case SDLK_RIGHT: 
+                        //     break;
                         default: break;
                     }
                     break;
