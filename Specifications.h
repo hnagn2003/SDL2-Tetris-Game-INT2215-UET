@@ -1,6 +1,6 @@
 #ifndef Specifications_h
 #define Specifications_h
-
+#include "Tetromino.h"
 const int TILE_SIZE = 40;
 const int ROWS = 20;
 const int COLS = 10;
@@ -28,6 +28,7 @@ const SDL_Color TetroColor[] = {
     {187, 0, 222},
     {232, 0, 0}
 };
+const SDL_Color backgroundColor = {255, 255, 255};
 
 enum LEVEL{
     easy = 1000,
@@ -55,4 +56,35 @@ struct PointOnGrid{
     }
 };
 
+int gridSizeToRendererSize(int w);
+int gridXPosToRendererPos(int x);
+int gridYPosToRendererPos(int y);
+
+struct block{
+        int xGrid, yGrid, wGrid = 1, hGrid = 1;
+        SDL_Color color;  
+        block(){}
+        block(int x, int y, SDL_Color _color){
+            xGrid = x;
+            yGrid = y;
+            color = _color;
+        }
+        int getXGrid(){
+            return xGrid;
+        }
+        int getYGrid(){
+            return yGrid;
+        }
+        int getWGrid(){
+            return wGrid;
+        }
+        int getHGrid(){
+            return hGrid;
+        }
+        void render(SDL_Renderer* renderer){
+            SDL_Rect rectBlock{gridXPosToRendererPos(xGrid), gridYPosToRendererPos(yGrid), gridSizeToRendererSize(wGrid), gridSizeToRendererSize(hGrid)};
+            SDL_SetRenderDrawColor( renderer, color.r, color.g, color.b, 0 );
+            SDL_RenderDrawRect(renderer, &rectBlock);
+        }
+};  
 #endif

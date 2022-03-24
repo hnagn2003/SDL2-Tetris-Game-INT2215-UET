@@ -90,6 +90,12 @@ class Game_State {
                     break;
             }
         }
+        void updateFallingTetrads(){
+            if (currentTetrads.getFall() == false){
+                currentTetrads = nextTetrads;
+                nextTetrads = getRandomTetrads();
+            }
+        }
 };
 
 class Game {

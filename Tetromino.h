@@ -6,47 +6,18 @@
 #include <SDL_image.h>
 #include "Specifications.h"
 #include "Grid.h"
+#include "Game.h"
 #include <iostream>
 #include <algorithm>  
 const int xTetradsInit = 3;
 const int yTetradsInit = -2;
 const int sizeOfTetradsSide = 4;
 
-int gridSizeToRendererSize(int w);
-int gridXPosToRendererPos(int x);
-int gridYPosToRendererPos(int y);
+
 void transPos(bool matrix[sizeOfTetradsSide][sizeOfTetradsSide]);
 
 
-class block{
-    private:
-        int xGrid, yGrid, wGrid = 1, hGrid = 1;
-        SDL_Color color;
-        
-    public:
-        block(int x, int y, SDL_Color _color){
-            xGrid = x;
-            yGrid = y;
-            color = _color;
-        }
-        int getXGrid(){
-            return xGrid;
-        }
-        int getYGrid(){
-            return yGrid;
-        }
-        int getWGrid(){
-            return wGrid;
-        }
-        int getHGrid(){
-            return hGrid;
-        }
-        void render(SDL_Renderer* renderer){
-            SDL_Rect rectBlock{gridXPosToRendererPos(xGrid), gridYPosToRendererPos(yGrid), gridSizeToRendererSize(wGrid), gridSizeToRendererSize(hGrid)};
-            SDL_SetRenderDrawColor( renderer, color.r, color.g, color.b, 0 );
-            SDL_RenderDrawRect(renderer, &rectBlock);
-        }
-};  
+
 
 class Tetromino{
     private:
@@ -79,17 +50,21 @@ class Tetromino{
                 }
             }
         }
-        bool setActice(bool _active){
+
+        void setActice(bool _active){
             active = _active;
         }
-        bool setFall(bool fall){
+        bool getFall(){
+            return falling;
+        }
+        void setFall(bool fall){
             falling = fall;
         }
         void render(SDL_Renderer* renderer){
             if (collin.y >=0 ){
                 for (size_t i=0; i<sizeOfTetradsSide; i++){
                     for (size_t j=0; j<sizeOfTetradsSide; j++){
-                        if (matrix[i][j] == 1){
+                        if (matrix[i][j] == true){
                             block aBlock{xPos+j, yPos+i, color};
                             aBlock.render(renderer);
                         }
@@ -97,12 +72,16 @@ class Tetromino{
                 }
             }
         }
-
+        void disableFromActivate(){
+            falling = false;
+            active = false;
+        }
         bool collision(Grid grid){ // ...
 
             short int bottomSide = collin.y + collin.h;
             if (bottomSide >= ROWS){
-                active = false;
+                // nhap nhay
+                disableFromActivate();
                 return true;
             }
             return false;
@@ -194,6 +173,7 @@ class Tetromino{
                 xPos--;
             }
         }
+
 };
 
 static bool matrixStructure_I[sizeOfTetradsSide][sizeOfTetradsSide] = {

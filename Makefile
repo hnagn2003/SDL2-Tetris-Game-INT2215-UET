@@ -1,6 +1,6 @@
 #We have a cpp file named project_name.cpp
 OBJS = main.cpp 
-MODULES = Game.cpp Tetromino.cpp Grid.cpp
+MODULES = Tetromino.cpp Grid.cpp Specifications.cpp Game.cpp 
 OBJ_NAME = main
 CC = g++
 INCLUDE_PATHS = -IC:\mingw_dev_lib\x86_64-w64-mingw32\include\SDL2

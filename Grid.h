@@ -4,14 +4,19 @@
 #include <SDL.h>
 #include <stdio.h>
 #include <SDL_image.h>
+#include "Tetromino.h"
 #include "Game.h"
 #include "Specifications.h"
+#include <iostream>
+#include <cstdlib>
 
+struct block;
 struct Box{
     int x, y;
     int width = TILE_SIZE;
     int height = TILE_SIZE;
 };
+
 class Grid{
     private:
         int width = COLS*TILE_SIZE;
@@ -19,12 +24,13 @@ class Grid{
         int xPos = (SCREEN_WIDTH - width) / 2;
         int yPos = (SCREEN_HEIGHT - height) / 2;
         Point center{xPos + width, yPos + height};
-        int matrix[ROWS][COLS];
+        block matrix[ROWS][COLS];
+        
     public:
         Grid();
         ~Grid();
         void render(SDL_Renderer *renderer);
-    
+
 };
 
 #endif
