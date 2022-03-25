@@ -20,5 +20,6 @@ int main( int argc, char* args[] ){
         game->render();
     }
     game->clean();
+    std::cout << "end.";
 }
 

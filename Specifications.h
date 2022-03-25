@@ -28,7 +28,7 @@ const SDL_Color TetroColor[] = {
     {187, 0, 222},
     {232, 0, 0}
 };
-const SDL_Color backgroundColor = {255, 255, 255};
+const SDL_Color backgroundColor = {0, 0, 0};
 
 enum LEVEL{
     easy = 1000,
@@ -84,7 +84,8 @@ struct block{
         void render(SDL_Renderer* renderer){
             SDL_Rect rectBlock{gridXPosToRendererPos(xGrid), gridYPosToRendererPos(yGrid), gridSizeToRendererSize(wGrid), gridSizeToRendererSize(hGrid)};
             SDL_SetRenderDrawColor( renderer, color.r, color.g, color.b, 0 );
-            SDL_RenderDrawRect(renderer, &rectBlock);
+            // SDL_RenderDrawRect(renderer, &rectBlock);
+            SDL_RenderFillRect(renderer, &rectBlock);
         }
 };  
 #endif

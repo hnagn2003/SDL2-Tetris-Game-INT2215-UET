@@ -29,6 +29,9 @@ class Grid{
     public:
         Grid();
         ~Grid();
+        block (*(getGrid)())[10]{
+            return matrix;
+        }
         void render(SDL_Renderer *renderer);
 
 };

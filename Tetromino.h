@@ -76,12 +76,29 @@ class Tetromino{
             falling = false;
             active = false;
         }
-        bool collision(Grid grid){ // ...
+
+        void mergeToGrid(Grid *grid){
+            for (size_t i=0; i<4; i++){
+                for (size_t j=0; j<4; j++){
+                    if (matrix[i][j] == true){
+                        // grid->getGrid()[j+xPos][i+yPos].xGrid;
+                        // std::cout << grid->getGrid()[0][0].xGrid << std::endl;
+                        grid->getGrid()[i+yPos][j+xPos].color = color;
+                        std::cout << j+xPos << ' ' << i+yPos << std::endl;
+                        // std::cout << grid->getGrid()[0][0].xGrid << std::endl;
+                    }
+                }
+            }
+        }
+        bool collision(Grid *grid){ // ...
 
             short int bottomSide = collin.y + collin.h;
             if (bottomSide >= ROWS){
                 // nhap nhay
-                disableFromActivate();
+                if (active == true){
+                    disableFromActivate();
+                    mergeToGrid(grid);
+                }
                 return true;
             }
             return false;
@@ -146,13 +163,13 @@ class Tetromino{
             if (active == true && falling == true){
                 static Uint32 startTime = SDL_GetTicks();
                 if (SDL_GetTicks() - startTime >= velocity){
-                    moveDown(grid);
+                    moveDown(&grid);
                     startTime = SDL_GetTicks();
                 }
            }
         }
 
-        void moveDown(Grid grid){
+        void moveDown(Grid *grid){
 
             if (!collision(grid)){
                 collin.y++;

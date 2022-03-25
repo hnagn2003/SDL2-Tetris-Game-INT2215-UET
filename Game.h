@@ -64,7 +64,7 @@ class Game_State {
                     {
                         case SDLK_UP: currentTetrads.rotate(); break;
                         // case SDLK_DOWN: moveVel = velocity/20; break;
-                        case SDLK_DOWN: currentTetrads.moveDown(grid); break;
+                        case SDLK_DOWN: currentTetrads.moveDown(&grid); break;
                         case SDLK_LEFT: 
                             currentTetrads.moveLeft(grid); 
                             break;
