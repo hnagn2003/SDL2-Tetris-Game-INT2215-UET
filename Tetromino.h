@@ -50,7 +50,9 @@ class Tetromino{
                 }
             }
         }
-
+        bool getStatus(){
+            return active;
+        }
         void setActice(bool _active){
             active = _active;
         }
@@ -61,7 +63,7 @@ class Tetromino{
             falling = fall;
         }
         void render(SDL_Renderer* renderer){
-            if (collin.y >=0 ){
+            if (collin.y >=0 && active){
                 for (size_t i=0; i<sizeOfTetradsSide; i++){
                     for (size_t j=0; j<sizeOfTetradsSide; j++){
                         if (matrix[i][j] == true){
@@ -81,38 +83,37 @@ class Tetromino{
             for (size_t i=0; i<4; i++){
                 for (size_t j=0; j<4; j++){
                     if (matrix[i][j] == true){
-                        // grid->getGrid()[j+xPos][i+yPos].xGrid;
-                        // std::cout << grid->getGrid()[0][0].xGrid << std::endl;
                         grid->getGrid()[i+yPos][j+xPos].color = color;
-                        std::cout << j+xPos << ' ' << i+yPos << std::endl;
-                        // std::cout << grid->getGrid()[0][0].xGrid << std::endl;
                     }
                 }
             }
         }
         bool collision(Grid *grid){ // ...
-
-            short int bottomSide = collin.y + collin.h;
-            if (bottomSide >= ROWS){
-                // nhap nhay
-                if (active == true){
+            
+            if (active){
+                std::cout << "still active" << std::endl;
+                int bottomSide = collin.y + collin.h;
+                if (bottomSide >= ROWS){
+                    // nhap nhay
                     disableFromActivate();
                     mergeToGrid(grid);
+                    std::cout << "disable successful" << std::endl;
+                    return true;
                 }
-                return true;
+                return false;
             }
-            return false;
+            return true;
         }
 
         bool leftCollision(Grid grid){ // ...
-            short int leftSide = collin.x;
+            int leftSide = collin.x;
             if (leftSide <= 0){
                 return true;
             }
             return false;
         }
         bool rightCollision(Grid grid){ // ...
-            short int rightSide = collin.x+collin.w;
+            int rightSide = collin.x+collin.w;
             if (rightSide >= COLS){
                 return true;
             }
@@ -141,7 +142,7 @@ class Tetromino{
             for (size_t i=0; i<sizeOfTetradsSide && !xStop; i++){
                 for (size_t j=0; j<sizeOfTetradsSide && !xStop; j++){
                     if (matrix[i][j]!=0){
-                        collin.y = yPos+j;
+                        collin.y = yPos+i;
                         xStop = true;
                     }
                 }
@@ -149,18 +150,20 @@ class Tetromino{
             for (size_t j=0; j<sizeOfTetradsSide && !yStop; j++){
                 for (size_t i=0; i<sizeOfTetradsSide && !yStop; i++){
                     if (matrix[i][j]!=0){
-                        collin.x = xPos+i;
+                        collin.x = xPos+j;
                         yStop = true;
                     }
                 }
             }
         }
         void rotate(){
-            transPos(matrix);
-            detectCoveredRect();
+            if (active){
+                transPos(matrix);
+                detectCoveredRect();
+            }
         }
         void fall(int velocity, Grid grid){
-            if (active == true && falling == true){
+            if (active && falling){
                 static Uint32 startTime = SDL_GetTicks();
                 if (SDL_GetTicks() - startTime >= velocity){
                     moveDown(&grid);
@@ -171,13 +174,13 @@ class Tetromino{
 
         void moveDown(Grid *grid){
 
-            if (!collision(grid)){
+            if (!collision(grid) && active){
                 collin.y++;
                 yPos++;
             }
         }
         void moveRight(Grid grid){
-            if (!rightCollision(grid)){
+            if (!rightCollision(grid) && active){
                 collin.x++;
                 xPos++;
             }
@@ -185,7 +188,7 @@ class Tetromino{
 
         void moveLeft(Grid grid){
 
-            if (!leftCollision(grid)){
+            if (!leftCollision(grid) && active){
                 collin.x--;
                 xPos--;
             }

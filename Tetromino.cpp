@@ -9,7 +9,8 @@
 
 
 Tetromino getRandomTetrads(){
-    return Tetrads[rand() % TOTAL_OF_TETRADS];
+    // return Tetrads[rand() % TOTAL_OF_TETRADS];
+    return Tetrads[I_BLOCK];
 }
 
 void transPos(bool matrix[sizeOfTetradsSide][sizeOfTetradsSide]){

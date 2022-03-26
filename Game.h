@@ -62,9 +62,18 @@ class Game_State {
                 case SDL_KEYDOWN:
                     switch( event.key.keysym.sym )
                     {
-                        case SDLK_UP: currentTetrads.rotate(); break;
+                        case SDLK_UP: 
+                            if ( !event.key.repeat ){
+                                currentTetrads.rotate(); 
+                                break;
+                            }
+                        break;
                         // case SDLK_DOWN: moveVel = velocity/20; break;
-                        case SDLK_DOWN: currentTetrads.moveDown(&grid); break;
+                        case SDLK_DOWN: 
+                            if (currentTetrads.getStatus()){
+                                currentTetrads.moveDown(&grid); 
+                            }
+                            break;
                         case SDLK_LEFT: 
                             currentTetrads.moveLeft(grid); 
                             break;
