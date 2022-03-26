@@ -109,13 +109,11 @@ class Tetromino{
         bool collision(Grid *grid){ // ...
             
             if (active){
-                std::cout << "still active" << std::endl;
                 int bottomSide = collin.y + collin.h;
                 if (bottomSide >= ROWS){
                     // nhap nhay
                     disableFromActivate();
                     mergeToGrid(grid);
-                    std::cout << "disable successful" << std::endl;
                     return true;
                 }
                 return false;
@@ -180,11 +178,11 @@ class Tetromino{
                 detectCoveredRect();
             }
         }
-        void fall(int velocity, Grid grid){
+        void fall(int velocity, Grid *grid){
             if (active && falling){
                 static Uint32 startTime = SDL_GetTicks();
                 if (SDL_GetTicks() - startTime >= velocity){
-                    moveDown(&grid);
+                    moveDown(grid);
                     startTime = SDL_GetTicks();
                 }
            }

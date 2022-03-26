@@ -74,16 +74,18 @@ void Game::init(const char* title, int xPos, int yPos, int SCREEN_WIDTH, int SCR
 void Game::handleEvents()
 {
         SDL_Event event; 
-        SDL_PollEvent(&event);
-		switch (event.type)
-		{
-			case SDL_QUIT:
-				isRunning = false;
-				break;
-			// case ...
-			default:
-				gameState.handleEvent(event);
-				break;
+        // SDL_PollEvent(&event);
+		while(SDL_PollEvent(&event)){
+			switch (event.type)
+			{
+				case SDL_QUIT:
+					isRunning = false;
+					break;
+				// case ...
+				default:
+					gameState.handleEvent(event);
+					break;
+			}
 		}
 }
 

@@ -51,10 +51,10 @@ class Game_State {
         }
 
         void newTetradsFalling(){
-            if (currentTetrads.getXPos() <= 0){
+            // if (currentTetrads.getXPos() <= 0){
                 currentTetrads.setFall(true);
-                currentTetrads.fall(moveVel, grid);
-            }
+                currentTetrads.fall(moveVel, &grid);
+            // }
         }
 
         void handleEvent(SDL_Event& event){
@@ -69,7 +69,6 @@ class Game_State {
                                 break;
                             }
                         break;
-                        // case SDLK_DOWN: moveVel = velocity/20; break;
                         case SDLK_DOWN: 
                             if (currentTetrads.getStatus()){
                                 currentTetrads.moveDown(&grid); 
@@ -99,6 +98,14 @@ class Game_State {
                     
                     break;
             }
+            // const Uint8* keystates = SDL_GetKeyboardState(NULL);
+
+            // if(keystates[SDL_SCANCODE_LEFT]) {
+            //     currentTetrads.moveLeft(grid);
+            // }
+            // if(keystates[SDL_SCANCODE_RIGHT]) {
+            //     currentTetrads.moveRight(grid); 
+            // }
         }
         void updateFallingTetrads(){
             if (!currentTetrads.getStatus()){
