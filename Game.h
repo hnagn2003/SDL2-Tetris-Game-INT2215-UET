@@ -51,9 +51,10 @@ class Game_State {
         }
 
         void newTetradsFalling(){
-            currentTetrads.setActice(true);
-            currentTetrads.setFall(true);
-            currentTetrads.fall(moveVel, grid);
+            if (currentTetrads.getXPos() <= 0){
+                currentTetrads.setFall(true);
+                currentTetrads.fall(moveVel, grid);
+            }
         }
 
         void handleEvent(SDL_Event& event){
@@ -100,7 +101,7 @@ class Game_State {
             }
         }
         void updateFallingTetrads(){
-            if (currentTetrads.getFall() == false){
+            if (!currentTetrads.getStatus()){
                 currentTetrads = nextTetrads;
                 nextTetrads = getRandomTetrads();
             }

@@ -30,12 +30,12 @@ class Tetromino{
     public:
         Tetromino()
         {
-            active == false;
+            active = true;
             falling = false;
         }
         Tetromino (SDL_Color _color, bool _matrix[sizeOfTetradsSide][sizeOfTetradsSide], int _w, int _h, int _x, int _y, int _xPos = xTetradsInit, int _yPos = yTetradsInit)
         {
-            active == false;
+            active = true;
             falling = false;
             color = _color;
             collin.x = _x;
@@ -61,6 +61,24 @@ class Tetromino{
         }
         void setFall(bool fall){
             falling = fall;
+        }
+        int getXPos(){
+            return xPos;
+        }
+        int getYPos(){
+            return yPos;
+        }
+        int getXCol(){
+            return collin.x;
+        }
+        int getYCol(){
+            return collin.y;
+        }
+        int getWCol(){
+            return collin.w;
+        }
+        int getHCol(){
+            return collin.h;
         }
         void render(SDL_Renderer* renderer){
             if (collin.y >=0 && active){
