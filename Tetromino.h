@@ -101,8 +101,8 @@ class Tetromino{
             for (size_t i=0; i<4; i++){
                 for (size_t j=0; j<4; j++){
                     if (matrix[i][j] == true){
-                        grid->getGrid()[i+yPos][j+xPos].color = color;
-                        grid->getGrid()[i+yPos][j+xPos].exist = true;
+                        grid->getGrid()[i+yPos+HIDDEN_ROWS][j+xPos].color = color;
+                        grid->getGrid()[i+yPos+HIDDEN_ROWS][j+xPos].exist = true;
 
                     }
                 }
@@ -126,7 +126,7 @@ class Tetromino{
             for (size_t i=0; i<sizeOfTetradsSide; i++){
                 for (size_t j=0; j<sizeOfTetradsSide; j++){
                     if (matrix[i][j]){
-                        if (grid->getGrid()[i+yPos+1][j+xPos].exist){
+                        if (grid->getGrid()[i+yPos+HIDDEN_ROWS+1][j+xPos].exist){
                             return true;
                         }
                     }

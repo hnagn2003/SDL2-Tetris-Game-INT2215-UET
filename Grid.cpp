@@ -6,9 +6,9 @@
 
 Grid::Grid(){
 
-    for (size_t i=0; i<ROWS; i++){
+    for (size_t i=0; i<ROWS+HIDDEN_ROWS; i++){
         for (size_t j=0; j<COLS; j++){
-            matrix[i][j] = {j, i, backgroundColor};
+            matrix[i][j] = {j, i-HIDDEN_ROWS, backgroundColor};
         }
     }
 }
@@ -27,8 +27,8 @@ void Grid::render(SDL_Renderer *renderer){
 
     for (size_t i = 0; i < ROWS; i++){
         for (size_t j = 0; j < COLS; j++){
-            if (matrix[i][j].exist){
-                matrix[i][j].render(renderer);
+            if (matrix[i+HIDDEN_ROWS][j].exist){
+                matrix[i+HIDDEN_ROWS][j].render(renderer);
             }
         }
     }

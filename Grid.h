@@ -10,12 +10,12 @@
 #include <iostream>
 #include <cstdlib>
 
-struct block;
-struct Box{
-    int x, y;
-    int width = TILE_SIZE;
-    int height = TILE_SIZE;
-};
+// struct block;
+// struct Box{
+//     int x, y;
+//     int width = TILE_SIZE;
+//     int height = TILE_SIZE;
+// };
 
 class Grid{
     private:
@@ -23,13 +23,13 @@ class Grid{
         int height = ROWS*TILE_SIZE;
         int xPos = (SCREEN_WIDTH - width) / 2;
         int yPos = (SCREEN_HEIGHT - height) / 2;
-        Point center{xPos + width, yPos + height};
-        block matrix[ROWS][COLS];
+        // Point center{xPos + width, yPos + height};
+        block matrix[ROWS+HIDDEN_ROWS][COLS];
         
     public:
         Grid();
         ~Grid();
-        block (*(getGrid)())[10]{
+        block (*(getGrid)())[COLS]{
             return matrix;
         }
         void render(SDL_Renderer *renderer);
