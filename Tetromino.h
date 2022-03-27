@@ -13,11 +13,7 @@ const int xTetradsInit = 3;
 const int yTetradsInit = -2;
 const int sizeOfTetradsSide = 4;
 
-
 void transPos(bool matrix[sizeOfTetradsSide][sizeOfTetradsSide]);
-
-
-
 
 class Tetromino{
     private:
@@ -81,7 +77,7 @@ class Tetromino{
             return collin.h;
         }
         void render(SDL_Renderer* renderer){
-            if (collin.y >=0 && active){
+            if (collin.y >=-4 && active){
                 for (size_t i=0; i<sizeOfTetradsSide; i++){
                     for (size_t j=0; j<sizeOfTetradsSide; j++){
                         if (matrix[i][j] == true){
@@ -122,6 +118,18 @@ class Tetromino{
             }
             return true;
         }
+        bool checkSuperimposed(Grid *grid){
+            for (size_t i=0; i<sizeOfTetradsSide; i++){
+                for (size_t j=0; j<sizeOfTetradsSide; j++){
+                    if (matrix[i][j]){
+                        if (grid->getGrid()[i+yPos+HIDDEN_ROWS][j+xPos].exist || collin.x < 0 || collin.x + collin.w > COLS || collin.y + collin.h > ROWS){
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
         bool collisionWithOtherTetrads(Grid *grid){
             for (size_t i=0; i<sizeOfTetradsSide; i++){
                 for (size_t j=0; j<sizeOfTetradsSide; j++){
@@ -134,16 +142,40 @@ class Tetromino{
             }
             return false;
         }
+        bool collisionWithRightTetrads(Grid *grid){
+            for (size_t i=0; i<sizeOfTetradsSide; i++){
+                for (size_t j=0; j<sizeOfTetradsSide; j++){
+                    if (matrix[i][j]){
+                        if (grid->getGrid()[i+yPos+HIDDEN_ROWS][j+xPos+1].exist){
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+        bool collisionWithLeftTetrads(Grid *grid){
+            for (size_t i=0; i<sizeOfTetradsSide; i++){
+                for (size_t j=0; j<sizeOfTetradsSide; j++){
+                    if (matrix[i][j]){
+                        if (grid->getGrid()[i+yPos+HIDDEN_ROWS][j+xPos-1].exist){
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
         bool leftCollision(Grid grid){ // ...
             int leftSide = collin.x;
-            if (leftSide <= 0){
+            if (leftSide <= 0 || collisionWithLeftTetrads(&grid)){
                 return true;
             }
             return false;
         }
         bool rightCollision(Grid grid){ // ...
             int rightSide = collin.x+collin.w;
-            if (rightSide >= COLS){
+            if (rightSide >= COLS || collisionWithRightTetrads(&grid)){
                 return true;
             }
             return false;
@@ -187,6 +219,14 @@ class Tetromino{
         }
         void rotate(){
             if (active){
+                transPos(matrix);
+                detectCoveredRect();
+            }
+        }
+        void rotateBack(){
+            if (active){
+                transPos(matrix);
+                transPos(matrix);
                 transPos(matrix);
                 detectCoveredRect();
             }
