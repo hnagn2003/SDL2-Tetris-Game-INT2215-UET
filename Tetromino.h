@@ -102,6 +102,7 @@ class Tetromino{
                 for (size_t j=0; j<4; j++){
                     if (matrix[i][j] == true){
                         grid->getGrid()[i+yPos][j+xPos].color = color;
+                        grid->getGrid()[i+yPos][j+xPos].exist = true;
                     }
                 }
             }

@@ -60,14 +60,19 @@ int gridSizeToRendererSize(int w);
 int gridXPosToRendererPos(int x);
 int gridYPosToRendererPos(int y);
 
-struct block{
+class block{
+    public:
         int xGrid, yGrid, wGrid = 1, hGrid = 1;
         SDL_Color color;  
-        block(){}
+        bool exist;
+        block(){
+            exist = false;
+        }
         block(int x, int y, SDL_Color _color){
             xGrid = x;
             yGrid = y;
             color = _color;
+            exist = false;
         }
         int getXGrid(){
             return xGrid;
@@ -81,10 +86,10 @@ struct block{
         int getHGrid(){
             return hGrid;
         }
+
         void render(SDL_Renderer* renderer){
             SDL_Rect rectBlock{gridXPosToRendererPos(xGrid), gridYPosToRendererPos(yGrid), gridSizeToRendererSize(wGrid), gridSizeToRendererSize(hGrid)};
             SDL_SetRenderDrawColor( renderer, color.r, color.g, color.b, 0 );
-            // SDL_RenderDrawRect(renderer, &rectBlock);
             SDL_RenderFillRect(renderer, &rectBlock);
         }
 };  

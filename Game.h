@@ -47,7 +47,9 @@ class Game_State {
             velocity = -500*(level-1) + 1000;
         }
         void render (SDL_Renderer *renderer){
+            grid.render(renderer);
             currentTetrads.render(renderer);
+
         }
 
         void newTetradsFalling(){
@@ -98,14 +100,14 @@ class Game_State {
                     
                     break;
             }
-            // const Uint8* keystates = SDL_GetKeyboardState(NULL);
+        //     const Uint8* keystates = SDL_GetKeyboardState(NULL);
 
-            // if(keystates[SDL_SCANCODE_LEFT]) {
-            //     currentTetrads.moveLeft(grid);
-            // }
-            // if(keystates[SDL_SCANCODE_RIGHT]) {
-            //     currentTetrads.moveRight(grid); 
-            // }
+        //     if(keystates[SDL_SCANCODE_LEFT]) {
+        //         currentTetrads.moveLeft(grid);
+        //     }
+        //     if(keystates[SDL_SCANCODE_RIGHT]) {
+        //         currentTetrads.moveRight(grid); 
+        //     }
         }
         void updateFallingTetrads(){
             if (!currentTetrads.getStatus()){

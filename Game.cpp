@@ -74,7 +74,6 @@ void Game::init(const char* title, int xPos, int yPos, int SCREEN_WIDTH, int SCR
 void Game::handleEvents()
 {
         SDL_Event event; 
-        // SDL_PollEvent(&event);
 		while(SDL_PollEvent(&event)){
 			switch (event.type)
 			{
@@ -87,6 +86,7 @@ void Game::handleEvents()
 					break;
 			}
 		}
+		
 }
 
 void Game::update()
@@ -100,7 +100,6 @@ void Game::render()
 {
     SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0 );
     SDL_RenderClear(renderer);
-	gameState.getGrid().render(renderer);
 	gameState.render(renderer);
     SDL_RenderPresent(renderer);
 
