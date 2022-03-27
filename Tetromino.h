@@ -103,6 +103,7 @@ class Tetromino{
                     if (matrix[i][j] == true){
                         grid->getGrid()[i+yPos][j+xPos].color = color;
                         grid->getGrid()[i+yPos][j+xPos].exist = true;
+
                     }
                 }
             }
@@ -111,7 +112,7 @@ class Tetromino{
             
             if (active){
                 int bottomSide = collin.y + collin.h;
-                if (bottomSide >= ROWS){
+                if (bottomSide >= ROWS || collisionWithOtherTetrads(grid)){
                     // nhap nhay
                     disableFromActivate();
                     mergeToGrid(grid);
@@ -121,7 +122,18 @@ class Tetromino{
             }
             return true;
         }
-
+        bool collisionWithOtherTetrads(Grid *grid){
+            for (size_t i=0; i<sizeOfTetradsSide; i++){
+                for (size_t j=0; j<sizeOfTetradsSide; j++){
+                    if (matrix[i][j]){
+                        if (grid->getGrid()[i+yPos+1][j+xPos].exist){
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
         bool leftCollision(Grid grid){ // ...
             int leftSide = collin.x;
             if (leftSide <= 0){
