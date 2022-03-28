@@ -67,7 +67,7 @@ class Game_State {
                     {
                         case SDLK_UP: 
                             if ( !event.key.repeat ){
-                                currentTetrads.rotate(); 
+                                currentTetrads.rotate(&grid); 
                                 break;
                             }
                         break;
@@ -77,10 +77,10 @@ class Game_State {
                             }
                             break;
                         case SDLK_LEFT: 
-                            currentTetrads.moveLeft(grid); 
+                            currentTetrads.moveLeft(&grid); 
                             break;
                         case SDLK_RIGHT: 
-                            currentTetrads.moveRight(grid); 
+                            currentTetrads.moveRight(&grid); 
                             break;
                         default: break;
                     }
@@ -115,6 +115,15 @@ class Game_State {
                 nextTetrads = getRandomTetrads();
             }
         }
+        bool gameOver(){
+            for (size_t j=0; j<COLS; j++){
+                if (grid.getGrid()[-2+HIDDEN_ROWS][j].exist){
+                    return true;
+                }
+            }
+            return false;
+        }
+        
 };
 
 class Game {

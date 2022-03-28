@@ -10,7 +10,7 @@
 #include <iostream>
 #include <algorithm>  
 const int xTetradsInit = 3;
-const int yTetradsInit = -2;
+const int yTetradsInit = -3;
 const int sizeOfTetradsSide = 4;
 
 void transPos(bool matrix[sizeOfTetradsSide][sizeOfTetradsSide]);
@@ -77,7 +77,7 @@ class Tetromino{
             return collin.h;
         }
         void render(SDL_Renderer* renderer){
-            if (collin.y >=-4 && active){
+            if (collin.y >=0 && active){
                 for (size_t i=0; i<sizeOfTetradsSide; i++){
                     for (size_t j=0; j<sizeOfTetradsSide; j++){
                         if (matrix[i][j] == true){
@@ -217,12 +217,7 @@ class Tetromino{
                 }
             }
         }
-        void rotate(){
-            if (active){
-                transPos(matrix);
-                detectCoveredRect();
-            }
-        }
+       
         void rotateBack(){
             if (active){
                 transPos(matrix);
@@ -240,7 +235,13 @@ class Tetromino{
                 }
            }
         }
+        void moveUp(Grid *grid){
 
+            if (!collision(grid) && active){
+                collin.y--;
+                yPos--;
+            }
+        }
         void moveDown(Grid *grid){
 
             if (!collision(grid) && active){
@@ -248,21 +249,53 @@ class Tetromino{
                 yPos++;
             }
         }
-        void moveRight(Grid grid){
-            if (!rightCollision(grid) && active){
+        void moveRight(Grid *grid){
+            if (!rightCollision(*grid) && active){
                 collin.x++;
                 xPos++;
             }
         }
 
-        void moveLeft(Grid grid){
+        void moveLeft(Grid *grid){
 
-            if (!leftCollision(grid) && active){
+            if (!leftCollision(*grid) && active){
                 collin.x--;
                 xPos--;
             }
         }
-
+        void rotate(Grid *grid){
+            if (active){
+                transPos(matrix);
+                detectCoveredRect();
+                if (checkSuperimposed(grid)){
+                    moveLeft(grid);
+                    if(checkSuperimposed(grid)){
+                        moveLeft(grid);
+                        if (checkSuperimposed(grid)){
+                            moveRight(grid);
+                            moveRight(grid);
+                            moveRight(grid);
+                            if (checkSuperimposed(grid)){
+                                moveRight(grid);
+                                if (checkSuperimposed(grid)){
+                                    moveLeft(grid);
+                                    moveLeft(grid);
+                                    moveUp(grid);
+                                    if (checkSuperimposed(grid)){
+                                        moveUp(grid);
+                                        if (checkSuperimposed(grid)){
+                                            moveDown(grid);
+                                            moveDown(grid);
+                                            rotateBack();
+                                        }
+                                    }
+                                }    
+                            }
+                        }
+                    }
+                }
+            }
+        }
 };
 
 static bool matrixStructure_I[sizeOfTetradsSide][sizeOfTetradsSide] = {

@@ -94,6 +94,9 @@ void Game::update()
 	//if currentTetrads tiep dat, chuyen trang thai khoi, cho khoi moi tiep dat
 	gameState.newTetradsFalling();
 	gameState.updateFallingTetrads();
+	if (gameState.gameOver()){
+		// khi game over ...
+	}
 }
 
 void Game::render()
