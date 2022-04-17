@@ -263,6 +263,13 @@ class Tetromino{
                 xPos--;
             }
         }
+        void dropDown(Grid *grid){
+            if (active){
+                while(!collision(grid)){
+                    moveDown(grid);
+                }
+            }
+        }
         void rotate(Grid *grid){
             if (active){
                 transPos(matrix);

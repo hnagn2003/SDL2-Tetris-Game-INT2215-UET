@@ -32,5 +32,5 @@ void Grid::render(SDL_Renderer *renderer){
             }
         }
     }
-
 }
+

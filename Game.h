@@ -29,12 +29,7 @@ class Game_State {
             nextTetrads = getRandomTetrads();
             currentTetrads = getRandomTetrads();
         }
-        // int getOriginVel(){
-        //     return velocity;
-        // }
-        // void setVel(int vel){
-        //     moveVel = vel;
-        // }
+
         Grid getGrid(){
             return grid;
         }
@@ -82,6 +77,9 @@ class Game_State {
                         case SDLK_RIGHT: 
                             currentTetrads.moveRight(&grid); 
                             break;
+                        case SDLK_SPACE:
+                            currentTetrads.dropDown(&grid);
+                            break;
                         default: break;
                     }
                     break;
@@ -111,6 +109,7 @@ class Game_State {
         }
         void updateFallingTetrads(){
             if (!currentTetrads.getStatus()){
+                int filledRow = grid.update(currentTetrads.getYPos(), currentTetrads.getYPos()+currentTetrads.getHCol());
                 currentTetrads = nextTetrads;
                 nextTetrads = getRandomTetrads();
             }

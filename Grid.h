@@ -16,7 +16,6 @@
 //     int width = TILE_SIZE;
 //     int height = TILE_SIZE;
 // };
-
 class Grid{
     private:
         int width = COLS*TILE_SIZE;
@@ -33,7 +32,15 @@ class Grid{
             return matrix;
         }
         void render(SDL_Renderer *renderer);
+        int update(int topRowCheck, int botRowCheck){
+            // for (size_t i = topRowCheck; i<=botRowCheck; i++){
+            //     if (filledRow(i)){
+            //         delete
+            //     }
+            // }
+                    return 0;
 
+        }
 };
 
 #endif
