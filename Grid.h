@@ -32,13 +32,34 @@ class Grid{
             return matrix;
         }
         void render(SDL_Renderer *renderer);
+        bool filledRow(int i){
+            for (size_t j = 0; j<COLS; j++){
+                if (matrix[i][j].exist==0){
+                    return false;
+                }
+            }
+            return true;
+        }
+        void deleteRow(int indexOfDeletedRow){
+            std::cout << indexOfDeletedRow;
+            for (int i=indexOfDeletedRow; i>0; i--){
+                for (int j=0; j<COLS; j++){
+                    matrix[i][j].exist = matrix[i-1][j].exist;
+                    matrix[i][j].color = matrix[i-1][j].color; //...
+                }
+            }
+            for (size_t j=0; j<COLS; j++){
+                matrix[0][j].exist = 0;
+                matrix[0][j].color = backgroundColor;
+            }
+            
+        }
         int update(int topRowCheck, int botRowCheck){
-            // for (size_t i = topRowCheck; i<=botRowCheck; i++){
-            //     if (filledRow(i)){
-            //         delete
-            //     }
-            // }
-                    return 0;
+            for (size_t i = topRowCheck; i<=botRowCheck; i++){
+                if (filledRow(i)){
+                    deleteRow(i);
+                }
+            }
 
         }
 };
