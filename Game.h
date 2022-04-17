@@ -109,7 +109,7 @@ class Game_State {
         }
         void updateFallingTetrads(){
             if (!currentTetrads.getStatus()){
-                int filledRow = grid.update(currentTetrads.getYPos(), currentTetrads.getYPos()+currentTetrads.getHCol());
+                int filledRow = grid.update(currentTetrads.getYPos()+HIDDEN_ROWS, currentTetrads.getYPos()+currentTetrads.getHCol()+HIDDEN_ROWS);
                 currentTetrads = nextTetrads;
                 nextTetrads = getRandomTetrads();
             }

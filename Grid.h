@@ -41,7 +41,6 @@ class Grid{
             return true;
         }
         void deleteRow(int indexOfDeletedRow){
-            std::cout << indexOfDeletedRow;
             for (int i=indexOfDeletedRow; i>0; i--){
                 for (int j=0; j<COLS; j++){
                     matrix[i][j].exist = matrix[i-1][j].exist;
