@@ -1,5 +1,5 @@
 #We have a cpp file named project_name.cpp
-OBJS = main.cpp 
+OBJS = main.cpp
 MODULES = Tetromino.cpp Grid.cpp Specifications.cpp Game.cpp 
 OBJ_NAME = main
 CC = g++

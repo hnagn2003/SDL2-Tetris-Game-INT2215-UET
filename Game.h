@@ -41,6 +41,7 @@ class Game_State {
             level = lineCount/10+1;
             velocity = -500*(level-1) + 1000;
         }
+        //
         void render (SDL_Renderer *renderer){
             grid.render(renderer);
             currentTetrads.render(renderer);
