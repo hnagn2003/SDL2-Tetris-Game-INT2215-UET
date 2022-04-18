@@ -10,7 +10,7 @@
 #include <iostream>
 #include <algorithm>  
 const int xTetradsInit = 3;
-const int yTetradsInit = -3;
+const int yTetradsInit = -1;
 const int sizeOfTetradsSide = 4;
 
 void transPos(bool matrix[sizeOfTetradsSide][sizeOfTetradsSide]);
@@ -18,8 +18,11 @@ void transPos(bool matrix[sizeOfTetradsSide][sizeOfTetradsSide]);
 class Tetromino{
     private:
         SDL_Color color;
+        // xPos, yPos tọa độ x, y chiếu trong bảng grid
         int xPos, yPos;
+        // hình chữ nhật bao quanh khối tetrads
         SDL_Rect collin;
+        // mảng 2 chiều đại diện cho khối tetrads
         bool matrix[sizeOfTetradsSide][sizeOfTetradsSide];
         bool active;
         bool falling;
@@ -88,11 +91,12 @@ class Tetromino{
                 }
             }
         }
+        // tắt active
         void disableFromActivate(){
             falling = false;
             active = false;
         }
-
+        // kết nạp khối tetrads vào grid của game
         void mergeToGrid(Grid *grid){
             for (size_t i=0; i<4; i++){
                 for (size_t j=0; j<4; j++){
@@ -104,20 +108,27 @@ class Tetromino{
                 }
             }
         }
-        bool collision(Grid *grid){ // ...
+        // kiểm tra va chạm dưới
+        bool collision(Grid *grid, bool disabled = 1){ // ...
             
             if (active){
                 int bottomSide = collin.y + collin.h;
-                if (bottomSide >= ROWS || collisionWithOtherTetrads(grid)){
-                    // nhap nhay
-                    disableFromActivate();
-                    mergeToGrid(grid);
+                static int moribundFrames = 0;
+                if ((bottomSide >= ROWS || collisionWithOtherTetrads(grid)) && disabled){
+                    moribundFrames++;
+                    // if (moribundFrames>60){
+                        moribundFrames = 0;
+                        disableFromActivate();
+                        fixTheSuperimposed(grid);
+                        mergeToGrid(grid);
+                    // }
                     return true;
                 }
                 return false;
             }
             return true;
         }
+        //kiểm tra chồng chéo giữa các khối tetrads và tetrads với grid
         bool checkSuperimposed(Grid *grid){
             for (size_t i=0; i<sizeOfTetradsSide; i++){
                 for (size_t j=0; j<sizeOfTetradsSide; j++){
@@ -130,6 +141,7 @@ class Tetromino{
             }
             return false;
         }
+        // kiểm tra va chạm với các khối tetrads khác
         bool collisionWithOtherTetrads(Grid *grid){
             for (size_t i=0; i<sizeOfTetradsSide; i++){
                 for (size_t j=0; j<sizeOfTetradsSide; j++){
@@ -142,6 +154,8 @@ class Tetromino{
             }
             return false;
         }
+
+        // va chạm phải, trái
         bool collisionWithRightTetrads(Grid *grid){
             for (size_t i=0; i<sizeOfTetradsSide; i++){
                 for (size_t j=0; j<sizeOfTetradsSide; j++){
@@ -180,6 +194,7 @@ class Tetromino{
             }
             return false;
         }
+        // xác định hình chữ nhật bao quanh khối tetrads
         void detectCoveredRect(){
             collin.w = 0; collin.h = 0;
             for (size_t i=0; i<sizeOfTetradsSide; i++){
@@ -217,7 +232,7 @@ class Tetromino{
                 }
             }
         }
-       
+       // hàm thực hiện hành động xoay khối ngược lại
         void rotateBack(){
             if (active){
                 transPos(matrix);
@@ -226,31 +241,33 @@ class Tetromino{
                 detectCoveredRect();
             }
         }
+        // rơi khối tetrads
         void fall(int velocity, Grid *grid){
             if (active && falling){
                 static Uint32 startTime = SDL_GetTicks();
-                if (SDL_GetTicks() - startTime >= velocity){
+                if (SDL_GetTicks() - startTime >= velocity){ // cứ mỗi velocity/1000 giây khối tetrads sẽ rơi xuống
                     moveDown(grid);
                     startTime = SDL_GetTicks();
                 }
            }
         }
+        // di chuyển
         void moveUp(Grid *grid){
-
-            if (!collision(grid) && active){
                 collin.y--;
                 yPos--;
-            }
         }
-        void moveDown(Grid *grid){
+        void moveDown(Grid *grid, bool disable = 1){
 
-            if (!collision(grid) && active){
+            if (!collision(grid, disable) ){
                 collin.y++;
                 yPos++;
             }
+            // if (checkSuperimposed(grid)){
+            //     moveUp(grid);
+            // }
         }
         void moveRight(Grid *grid){
-            if (!rightCollision(*grid) && active){
+            if (!rightCollision(*grid) ){
                 collin.x++;
                 xPos++;
             }
@@ -258,11 +275,12 @@ class Tetromino{
 
         void moveLeft(Grid *grid){
 
-            if (!leftCollision(*grid) && active){
+            if (!leftCollision(*grid) ){
                 collin.x--;
                 xPos--;
             }
         }
+        // rơi thẳng xuống nếu phím enter is pressed
         void dropDown(Grid *grid){
             if (active){
                 while(!collision(grid)){
@@ -270,41 +288,47 @@ class Tetromino{
                 }
             }
         }
-        void rotate(Grid *grid){
-            if (active){
-                transPos(matrix);
-                detectCoveredRect();
-                if (checkSuperimposed(grid)){
+        void fixTheSuperimposed(Grid *grid){
+            if (checkSuperimposed(grid)){
+                moveLeft(grid);
+                if(checkSuperimposed(grid)){
                     moveLeft(grid);
-                    if(checkSuperimposed(grid)){
-                        moveLeft(grid);
+                    if (checkSuperimposed(grid)){
+                        moveRight(grid);
+                        moveRight(grid);
+                        moveRight(grid);
                         if (checkSuperimposed(grid)){
                             moveRight(grid);
-                            moveRight(grid);
-                            moveRight(grid);
                             if (checkSuperimposed(grid)){
-                                moveRight(grid);
+                                moveLeft(grid);
+                                moveLeft(grid);
+                                moveUp(grid);
                                 if (checkSuperimposed(grid)){
-                                    moveLeft(grid);
-                                    moveLeft(grid);
                                     moveUp(grid);
                                     if (checkSuperimposed(grid)){
-                                        moveUp(grid);
-                                        if (checkSuperimposed(grid)){
-                                            moveDown(grid);
-                                            moveDown(grid);
-                                            rotateBack();
-                                        }
+
+                                        moveDown(grid, 0);
+                                        moveDown(grid, 0);
+                                        rotateBack();
                                     }
-                                }    
-                            }
+                                }
+                            }    
                         }
                     }
                 }
             }
         }
+        // hàm xoay (fix lỗi va chạm, lỗi chồng chéo khi xoay, có thể refac để code đẹp hơn nhưng em chưa kịp làm)
+        void rotate(Grid *grid){
+            if (active){
+                transPos(matrix);
+                detectCoveredRect();
+                fixTheSuperimposed(grid);
+                // std::cout <<collin.y + collin.h << std::endl;
+            }
+        }
 };
-
+// define matrix của 7 loại tetrads
 static bool matrixStructure_I[sizeOfTetradsSide][sizeOfTetradsSide] = {
     {0, 0, 0, 0},
     {1, 1, 1, 1},
@@ -353,6 +377,7 @@ static bool matrixStructure_Z[sizeOfTetradsSide][sizeOfTetradsSide] = {
     {0, 1, 1, 0},
     {0, 0, 0, 0}
 };
+// khởi tạo 7 loại tetrads
 const Tetromino Tetrads[TOTAL_OF_TETRADS] =
     {
         {

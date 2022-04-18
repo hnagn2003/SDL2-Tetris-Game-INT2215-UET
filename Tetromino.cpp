@@ -7,11 +7,11 @@
 #include "Specifications.h"
 #include <cstdlib>
 
-
+// hàm random tetrads, làm giảm xác suất giống nhau của 2 khối liên tiếp
 Tetromino getRandomTetrads(){
     return Tetrads[rand() % TOTAL_OF_TETRADS];
 }
-
+// hàm chuyển vị ma trận (xoay khối tetrads)
 void transPos(bool matrix[sizeOfTetradsSide][sizeOfTetradsSide]){
     bool backUp[sizeOfTetradsSide][sizeOfTetradsSide];
     for (size_t i=0; i<sizeOfTetradsSide; i++){

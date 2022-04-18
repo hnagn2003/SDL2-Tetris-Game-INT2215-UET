@@ -23,6 +23,7 @@ class Grid{
         int xPos = (SCREEN_WIDTH - width) / 2;
         int yPos = (SCREEN_HEIGHT - height) / 2;
         // Point center{xPos + width, yPos + height};
+        // mỗi 1 ô trên grid define = 1 block
         block matrix[ROWS+HIDDEN_ROWS][COLS];
         
     public:
@@ -53,13 +54,16 @@ class Grid{
             }
             
         }
+        // kiểm tra sự tạo thành 1 hàng và xóa, return số hàng bị xóa
         int update(int topRowCheck, int botRowCheck){
+            int deletedRowCount = 0;
             for (size_t i = topRowCheck; i<=botRowCheck; i++){
                 if (filledRow(i)){
                     deleteRow(i);
+                    deletedRowCount++;
                 }
             }
-
+            return deletedRowCount;
         }
 };
 

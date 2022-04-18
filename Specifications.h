@@ -56,7 +56,7 @@ struct PointOnGrid{
         y = (SCREEN_HEIGHT - ROWS*TILE_SIZE) / 2 + _y*TILE_SIZE;
     }
 };
-
+// chuyển tọa độ trong grid về tọa độ thực (tọa độ render ra màn hình)
 int gridSizeToRendererSize(int w);
 int gridXPosToRendererPos(int x);
 int gridYPosToRendererPos(int y);
