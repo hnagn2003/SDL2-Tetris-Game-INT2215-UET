@@ -14,13 +14,13 @@ Tetromino getRandomTetrads(){ //...
 // hàm chuyển vị ma trận (xoay khối tetrads)
 void transPos(bool matrix[sizeOfTetradsSide][sizeOfTetradsSide]){
     bool backUp[sizeOfTetradsSide][sizeOfTetradsSide];
-    for (size_t i=0; i<sizeOfTetradsSide; i++){
-        for (size_t j=0; j<sizeOfTetradsSide; j++){
+    for (int i=0; i<sizeOfTetradsSide; i++){
+        for (int j=0; j<sizeOfTetradsSide; j++){
             backUp[i][j] = matrix[i][j];
         }
     }
-    for (size_t i=0; i<sizeOfTetradsSide; i++){
-        for (size_t j=0; j<sizeOfTetradsSide; j++){
+    for (int i=0; i<sizeOfTetradsSide; i++){
+        for (int j=0; j<sizeOfTetradsSide; j++){
             matrix[j][sizeOfTetradsSide-1-i] = backUp[i][j];
         }
     }

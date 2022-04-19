@@ -12,7 +12,7 @@
 class Game_State {
     private:
         int lineCount;
-        size_t score;
+        long long score;
         int level;
         int velocity;
         int moveVel;
@@ -119,7 +119,7 @@ class Game_State {
             // std::cout << "b2"<<currentTetrads.getYPos()<<' ' << nextTetrads.getYPos() << std::endl;
             if (!currentTetrads.getStatus()){
                 // std::cout<<'1' << nextTetrads.getYPos() <<std::endl;
-                if (grid.getHighestRow()<=HIDDEN_ROWS){
+                if (grid.getHighestRow(HIDDEN_ROWS, 0, COLS-1)<=HIDDEN_ROWS){
                     nextTetrads.setCollinYInitTetrads();
                 }
                 // std::cout<<'2' << nextTetrads.getYPos() <<std::endl;
@@ -133,7 +133,7 @@ class Game_State {
 
         }
         bool gameOver(){
-            if (grid.getHighestRow()<=delimitedLine+HIDDEN_ROWS){
+            if (grid.getHighestRow(HIDDEN_ROWS, 0, COLS)<=delimitedLine+HIDDEN_ROWS){
                 return true;
             }
             return false;

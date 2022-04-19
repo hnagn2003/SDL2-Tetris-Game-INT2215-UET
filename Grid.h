@@ -35,7 +35,7 @@ class Grid{
         void render(SDL_Renderer *renderer);
         //kiểm tra 1 hàng có filled hay ko
         bool filledRow(int i){
-            for (size_t j = 0; j<COLS; j++){
+            for (int j = 0; j<COLS; j++){
                 if (matrix[i][j].exist==0){
                     return false;
                 }
@@ -49,7 +49,7 @@ class Grid{
                     matrix[i][j].color = matrix[i-1][j].color; //...
                 }
             }
-            // for (size_t j=0; j<COLS; j++){
+            // for (int j=0; j<COLS; j++){
             //     matrix[0][j].exist = 0;
             //     matrix[0][j].color = backgroundColor;
             // }
@@ -66,9 +66,9 @@ class Grid{
             }
             return deletedRowCount;
         }
-        int getHighestRow(){
-            for (int i=0; i<ROWS+HIDDEN_ROWS; i++){
-                for (int j=0; j<COLS; j++){
+        int getHighestRow(int startPoint, int leftLimit, int rightLimit){
+            for (int i=startPoint; i<ROWS+HIDDEN_ROWS; i++){
+                for (int j=leftLimit; j<rightLimit; j++){
                     if (matrix[i][j].exist){
                         return i;
                     }
