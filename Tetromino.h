@@ -49,6 +49,15 @@ class Tetromino{
                 }
             }
         }
+        void setCollinYInitTetrads(){
+            int tmp = collin.y - yPos;
+            yPos-=2;
+            collin.y-=2;
+            if (yPos+HIDDEN_ROWS<0){
+                yPos = -HIDDEN_ROWS;
+                collin.y = yPos + tmp;
+            }
+        }
         bool getStatus(){
             return active;
         }
@@ -133,7 +142,7 @@ class Tetromino{
             for (size_t i=0; i<sizeOfTetradsSide; i++){
                 for (size_t j=0; j<sizeOfTetradsSide; j++){
                     if (matrix[i][j]){
-                        if (grid->getGrid()[i+yPos+HIDDEN_ROWS][j+xPos].exist || collin.x < 0 || collin.x + collin.w > COLS || collin.y + collin.h > ROWS){
+                        if (grid->getGrid()[i+yPos+HIDDEN_ROWS][j+xPos].exist || collin.x < 0 || collin.y < 0 || collin.x + collin.w > COLS || collin.y + collin.h > ROWS){
                             return true;
                         }
                     }
@@ -306,10 +315,14 @@ class Tetromino{
                                 if (checkSuperimposed(grid)){
                                     moveUp(grid);
                                     if (checkSuperimposed(grid)){
-
                                         moveDown(grid, 0);
                                         moveDown(grid, 0);
-                                        rotateBack();
+                                        moveDown(grid, 0);
+                                        if (checkSuperimposed(grid)){
+                                            moveUp(grid);
+                                            rotateBack();
+                                        }
+                                        
                                     }
                                 }
                             }    
@@ -327,6 +340,7 @@ class Tetromino{
                 // std::cout <<collin.y + collin.h << std::endl;
             }
         }
+        
 };
 // define matrix của 7 loại tetrads
 static bool matrixStructure_I[sizeOfTetradsSide][sizeOfTetradsSide] = {

@@ -65,6 +65,17 @@ class Grid{
             }
             return deletedRowCount;
         }
+        int getHighestRow(){
+            for (int i=0; i<ROWS+HIDDEN_ROWS; i++){
+                for (int j=0; j<COLS; j++){
+                    if (matrix[i][j].exist){
+                        return i;
+                    }
+                }
+            }
+            return ROWS;
+        }
+        
 };
 
 #endif

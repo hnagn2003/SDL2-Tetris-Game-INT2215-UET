@@ -6,7 +6,7 @@ const int ROWS = 20;
 const int HIDDEN_ROWS = 4;
 const int COLS = 10;
 const int SCREEN_WIDTH = 1920;
-const int SCREEN_HEIGHT = 800;
+const int SCREEN_HEIGHT = 1035;
 const int initVelocity = 1000;
 
 enum Shapes{
