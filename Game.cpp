@@ -75,6 +75,7 @@ void Game::handleEvents()
 {
         SDL_Event event; 
 		while(SDL_PollEvent(&event)){
+			
 			switch (event.type)
 			{
 				case SDL_QUIT:
@@ -82,30 +83,38 @@ void Game::handleEvents()
 					break;
 				// case ...
 				default:
+					// std::cout << "e1 "<<gameState.getCurTetrads()->getYPos()<<' ' << gameState.getNextTetrads()->getYPos() << std::endl;
 					gameState.handleEvent(event);
+					// std::cout << "e2 "<<gameState.getCurTetrads()->getYPos()<<' ' << gameState.getNextTetrads()->getYPos() << std::endl;
 					break;
 			}
+			
 		}
 		
 }
 
 void Game::update()
 {
+	
 	//if currentTetrads tiep dat, chuyen trang thai khoi, cho khoi moi tiep dat
+	// std::cout << "YPos1" << gameState.getNextTetrads()->getYPos() << std::endl;
 	gameState.newTetradsFalling();
+	// std::cout << "YPos2" << gameState.getNextTetrads()->getYPos() << std::endl;
 	gameState.updateFallingTetrads();
+	// std::cout << "YPos3" << gameState.getNextTetrads()->getYPos() << std::endl;
 	if (gameState.gameOver()){
 		// khi game over ...
 	}
+	
 }
 
 void Game::render()
 {
+	
     SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0 );
     SDL_RenderClear(renderer);
 	gameState.render(renderer);
     SDL_RenderPresent(renderer);
-
 }
 
 void Game::clean()

@@ -57,6 +57,7 @@ class Tetromino{
                 yPos = -HIDDEN_ROWS;
                 collin.y = yPos + tmp;
             }
+            
         }
         bool getStatus(){
             return active;
@@ -119,23 +120,31 @@ class Tetromino{
         }
         // kiểm tra va chạm dưới
         bool collision(Grid *grid, bool disabled = 1){ // ...
-            
+            // std::cout << "beign1" << std::endl;
             if (active){
+                // std::cout << "b2" << std::endl;
                 int bottomSide = collin.y + collin.h;
                 static int moribundFrames = 0;
                 if ((bottomSide >= ROWS || collisionWithOtherTetrads(grid)) && disabled){
+                    // std::cout << "b3" << std::endl;
                     moribundFrames++;
                     // if (moribundFrames>60){
+                        
                         moribundFrames = 0;
                         disableFromActivate();
                         fixTheSuperimposed(grid);
                         mergeToGrid(grid);
+                        
                     // }
+                    // std::cout << "end1" << std::endl;
                     return true;
                 }
+                // std::cout << "end2" << std::endl;
                 return false;
             }
+            // std::cout << "end3" << std::endl;
             return true;
+            
         }
         //kiểm tra chồng chéo giữa các khối tetrads và tetrads với grid
         bool checkSuperimposed(Grid *grid){
@@ -155,6 +164,7 @@ class Tetromino{
             for (size_t i=0; i<sizeOfTetradsSide; i++){
                 for (size_t j=0; j<sizeOfTetradsSide; j++){
                     if (matrix[i][j]){
+                        // std::cout << i+yPos+HIDDEN_ROWS+1 << ' ' << j+xPos <<std::endl;
                         if (grid->getGrid()[i+yPos+HIDDEN_ROWS+1][j+xPos].exist){
                             return true;
                         }
@@ -291,11 +301,14 @@ class Tetromino{
         }
         // rơi thẳng xuống nếu phím enter is pressed
         void dropDown(Grid *grid){
-            if (active){
+            // std::cout << "e1 " << yPos <<std::endl;
+            if (active && collin.y>-1){
                 while(!collision(grid)){
+                    
                     moveDown(grid);
                 }
             }
+            // std::cout<<"e2 " << yPos << std::endl;
         }
         void fixTheSuperimposed(Grid *grid){
             if (checkSuperimposed(grid)){
