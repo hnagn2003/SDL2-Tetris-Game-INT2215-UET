@@ -123,19 +123,19 @@ class Game_State {
                 }
                 
                 int filledRow = grid.update(currentTetrads.getYPos()+HIDDEN_ROWS, currentTetrads.getYPos()+currentTetrads.getHCol()+HIDDEN_ROWS);
-                // std::cout << "e1"<<currentTetrads.getYPos()<<' ' << nextTetrads.getYPos() << std::endl;
+                updateGameState(filledRow);
+                std::cout << "e1"<<currentTetrads.getYPos()<<' ' << nextTetrads.getYPos() << std::endl;
                 currentTetrads = nextTetrads;
+                std::cout << "e2"<<currentTetrads.getYPos()<<' ' << nextTetrads.getYPos() << std::endl;
                 nextTetrads = getRandomTetrads();
                 
             }
-                    // std::cout << "e2"<<currentTetrads.getYPos()<<' ' << nextTetrads.getYPos() << std::endl;
+                    
 
         }
         bool gameOver(){
-            for (size_t j=0; j<COLS; j++){
-                if (grid.getGrid()[-2+HIDDEN_ROWS][j].exist){
-                    return true;
-                }
+            if (grid.getHighestRow()<=delimitedLine+HIDDEN_ROWS){
+                return true;
             }
             return false;
         }

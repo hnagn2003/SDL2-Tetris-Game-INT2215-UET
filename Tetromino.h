@@ -90,7 +90,7 @@ class Tetromino{
             return collin.h;
         }
         void render(SDL_Renderer* renderer){
-            if (collin.y >=0 && active){
+            if (active){
                 for (size_t i=0; i<sizeOfTetradsSide; i++){
                     for (size_t j=0; j<sizeOfTetradsSide; j++){
                         if (matrix[i][j] == true){
@@ -277,7 +277,7 @@ class Tetromino{
         }
         void moveDown(Grid *grid, bool disable = 1){
 
-            if (!collision(grid, disable) ){
+            if (!collision(grid, disable) && collin.y>-2 ){
                 collin.y++;
                 yPos++;
             }
@@ -302,7 +302,7 @@ class Tetromino{
         // rơi thẳng xuống nếu phím enter is pressed
         void dropDown(Grid *grid){
             // std::cout << "e1 " << yPos <<std::endl;
-            if (active && collin.y>-1){
+            if (active && collin.y>-2){
                 while(!collision(grid)){
                     
                     moveDown(grid);

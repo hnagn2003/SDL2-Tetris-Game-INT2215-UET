@@ -3,11 +3,12 @@
 #include "Tetromino.h"
 const int TILE_SIZE = 40;
 const int ROWS = 20;
-const int HIDDEN_ROWS = 4;
+const int HIDDEN_ROWS = 10;
 const int COLS = 10;
 const int SCREEN_WIDTH = 1920;
 const int SCREEN_HEIGHT = 1035;
 const int initVelocity = 1000;
+const int delimitedLine = -2;
 
 enum Shapes{
     I_BLOCK,
