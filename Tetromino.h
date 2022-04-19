@@ -51,8 +51,8 @@ class Tetromino{
         }
         void setCollinYInitTetrads(){
             int tmp = collin.y - yPos;
-            yPos-=2;
-            collin.y-=2;
+            yPos=delimitedLine-1;
+            collin.y-=yPos+tmp;
             if (yPos+HIDDEN_ROWS<0){
                 yPos = -HIDDEN_ROWS;
                 collin.y = yPos + tmp;
@@ -108,8 +108,8 @@ class Tetromino{
         }
         // kết nạp khối tetrads vào grid của game
         void mergeToGrid(Grid *grid){
-            for (size_t i=0; i<4; i++){
-                for (size_t j=0; j<4; j++){
+            for (size_t i=0; i<sizeOfTetradsSide; i++){
+                for (size_t j=0; j<sizeOfTetradsSide; j++){
                     if (matrix[i][j] == true){
                         grid->getGrid()[i+yPos+HIDDEN_ROWS][j+xPos].color = color;
                         grid->getGrid()[i+yPos+HIDDEN_ROWS][j+xPos].exist = true;
@@ -128,14 +128,14 @@ class Tetromino{
                 if ((bottomSide >= ROWS || collisionWithOtherTetrads(grid)) && disabled){
                     // std::cout << "b3" << std::endl;
                     moribundFrames++;
-                    // if (moribundFrames>60){
+                    if (moribundFrames>=delayBeforeDied){
                         
                         moribundFrames = 0;
                         disableFromActivate();
-                        fixTheSuperimposed(grid);
+                        // fixTheSuperimposed(grid);
                         mergeToGrid(grid);
                         
-                    // }
+                    }
                     // std::cout << "end1" << std::endl;
                     return true;
                 }
@@ -277,13 +277,10 @@ class Tetromino{
         }
         void moveDown(Grid *grid, bool disable = 1){
 
-            if (!collision(grid, disable) && collin.y>-2 ){
+            if (!collision(grid, disable) && collin.y + collin.h - 1 < grid->getHighestRow()){
                 collin.y++;
                 yPos++;
             }
-            // if (checkSuperimposed(grid)){
-            //     moveUp(grid);
-            // }
         }
         void moveRight(Grid *grid){
             if (!rightCollision(*grid) ){
@@ -302,12 +299,12 @@ class Tetromino{
         // rơi thẳng xuống nếu phím enter is pressed
         void dropDown(Grid *grid){
             // std::cout << "e1 " << yPos <<std::endl;
-            if (active && collin.y>-2){
+            if (active && collin.y + collin.h - 1 < grid->getHighestRow()){
                 while(!collision(grid)){
-                    
                     moveDown(grid);
                 }
             }
+            // disableFromActivate();
             // std::cout<<"e2 " << yPos << std::endl;
         }
         void fixTheSuperimposed(Grid *grid){
@@ -335,7 +332,6 @@ class Tetromino{
                                             moveUp(grid);
                                             rotateBack();
                                         }
-                                        
                                     }
                                 }
                             }    

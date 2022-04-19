@@ -8,7 +8,7 @@
 #include <cstdlib>
 
 // hàm random tetrads, làm giảm xác suất giống nhau của 2 khối liên tiếp
-Tetromino getRandomTetrads(){
+Tetromino getRandomTetrads(){ //...
     return Tetrads[rand() % TOTAL_OF_TETRADS];
 }
 // hàm chuyển vị ma trận (xoay khối tetrads)

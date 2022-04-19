@@ -33,6 +33,7 @@ class Grid{
             return matrix;
         }
         void render(SDL_Renderer *renderer);
+        //kiểm tra 1 hàng có filled hay ko
         bool filledRow(int i){
             for (size_t j = 0; j<COLS; j++){
                 if (matrix[i][j].exist==0){
@@ -42,22 +43,22 @@ class Grid{
             return true;
         }
         void deleteRow(int indexOfDeletedRow){
-            for (int i=indexOfDeletedRow; i>0; i--){
+            for (int i=indexOfDeletedRow; i>delimitedLine+HIDDEN_ROWS; i--){
                 for (int j=0; j<COLS; j++){
                     matrix[i][j].exist = matrix[i-1][j].exist;
                     matrix[i][j].color = matrix[i-1][j].color; //...
                 }
             }
-            for (size_t j=0; j<COLS; j++){
-                matrix[0][j].exist = 0;
-                matrix[0][j].color = backgroundColor;
-            }
+            // for (size_t j=0; j<COLS; j++){
+            //     matrix[0][j].exist = 0;
+            //     matrix[0][j].color = backgroundColor;
+            // }
             
         }
         // kiểm tra sự tạo thành 1 hàng và xóa, return số hàng bị xóa
         int update(int topRowCheck, int botRowCheck){
             int deletedRowCount = 0;
-            for (size_t i = topRowCheck; i<=botRowCheck; i++){
+            for (int i = topRowCheck; i<=botRowCheck; i++){
                 if (filledRow(i)){
                     deleteRow(i);
                     deletedRowCount++;
@@ -73,7 +74,7 @@ class Grid{
                     }
                 }
             }
-            return ROWS;
+            return ROWS+HIDDEN_ROWS;
         }
         
 };

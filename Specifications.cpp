@@ -10,7 +10,7 @@ int gridSizeToRendererSize(int w)
     {
     return w*TILE_SIZE;
     }
-int gridXPosToRendererPos(int x)
+int gridXPosToRendererPos(int x) //...
     {
         return (SCREEN_WIDTH - COLS*TILE_SIZE) / 2 + x*TILE_SIZE;
     }

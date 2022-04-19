@@ -118,15 +118,14 @@ class Game_State {
         void updateFallingTetrads(){
             // std::cout << "b2"<<currentTetrads.getYPos()<<' ' << nextTetrads.getYPos() << std::endl;
             if (!currentTetrads.getStatus()){
+                // std::cout<<'1' << nextTetrads.getYPos() <<std::endl;
                 if (grid.getHighestRow()<=HIDDEN_ROWS){
                     nextTetrads.setCollinYInitTetrads();
                 }
-                
+                // std::cout<<'2' << nextTetrads.getYPos() <<std::endl;
                 int filledRow = grid.update(currentTetrads.getYPos()+HIDDEN_ROWS, currentTetrads.getYPos()+currentTetrads.getHCol()+HIDDEN_ROWS);
                 updateGameState(filledRow);
-                std::cout << "e1"<<currentTetrads.getYPos()<<' ' << nextTetrads.getYPos() << std::endl;
                 currentTetrads = nextTetrads;
-                std::cout << "e2"<<currentTetrads.getYPos()<<' ' << nextTetrads.getYPos() << std::endl;
                 nextTetrads = getRandomTetrads();
                 
             }
