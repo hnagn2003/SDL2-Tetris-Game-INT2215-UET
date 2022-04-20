@@ -192,13 +192,15 @@ Uint32 LTimer::getTicks()
         if( mPaused )
         {
             time = mPausedTicks;
+			std::cout << '1' << std::endl;
         }
         else
         {
             time = SDL_GetTicks() - mStartTicks;
+			std::cout << '2' << std::endl;
         }
     }
-
+	
     return time;
 }
 

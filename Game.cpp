@@ -1,6 +1,5 @@
 #include "Game.h"
 #include "Grid.h"
-// #include "Structure.h"
 #include <iostream>
 #include <sstream>
 Game::Game()
@@ -125,15 +124,16 @@ void Game::update()
 	//if currentTetrads tiep dat, chuyen trang thai khoi, cho khoi moi tiep dat
 	// std::cout << "YPos1" << gameState.getNextTetrads()->getYPos() << std::endl;
 	static int countedFrames = 0;
-	float avgFPS = countedFrames / ( fpsTimer.getTicks() / 1000.f );
-	if( avgFPS > 2000000 )
-	{
-		avgFPS = 0;
-	}
+	long long avgFPS = countedFrames / ( fpsTimer.getTicks() / 1000.f );
+	// if( avgFPS > 2000000 )
+	// {
+	// 	avgFPS = 0;
+	// }
 	
 	//Set text to be rendered
 	std::stringstream timeText;
 	timeText.str( "" );
+	// std::cout << avgFPS;
 	timeText << "Average Frames Per Second " << avgFPS; 
 
 	//Render text
@@ -149,18 +149,22 @@ void Game::update()
 	if (gameState.gameOver()){
 		// khi game over ...
 	}
-	
+	++countedFrames;
 }
 
 void Game::render()
 {
 	
-    SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0 );
+    SDL_SetRenderDrawColor( renderer, 32, 64, 0, 0 );
     SDL_RenderClear(renderer);
+	gFPSTextTexture.render( renderer,( SCREEN_WIDTH - gFPSTextTexture.getWidth() ) / 2, ( SCREEN_HEIGHT - gFPSTextTexture.getHeight() ) / 2 );
 
 	gameState.render(renderer);
-	
+	SDL_SetRenderDrawColor( renderer, 32, 64, 0, 0 );
+		gFPSTextTexture.render( renderer,( SCREEN_WIDTH - gFPSTextTexture.getWidth() ) / 2, ( SCREEN_HEIGHT - gFPSTextTexture.getHeight() ) / 2 );
+
     SDL_RenderPresent(renderer);
+	
 }
 
 void Game::clean()
