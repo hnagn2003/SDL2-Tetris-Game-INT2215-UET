@@ -168,6 +168,7 @@ private:
     TTF_Font* gFont;
     LTexture gFPSTextTexture;
     LTimer fpsTimer;
+    LTimer capTimer;
     Game_State gameState;
     
 };

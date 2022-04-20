@@ -123,6 +123,7 @@ void Game::update()
 	
 	//if currentTetrads tiep dat, chuyen trang thai khoi, cho khoi moi tiep dat
 	// std::cout << "YPos1" << gameState.getNextTetrads()->getYPos() << std::endl;
+	capTimer.start();
 	static int countedFrames = 0;
 	long long avgFPS = countedFrames / ( fpsTimer.getTicks() / 1000.f );
 	// if( avgFPS > 2000000 )
@@ -149,7 +150,14 @@ void Game::update()
 	if (gameState.gameOver()){
 		// khi game over ...
 	}
+	
 	++countedFrames;
+	int frameTicks = capTimer.getTicks();
+	if( frameTicks < SCREEN_TICK_PER_FRAME )
+	{
+		//Wait remaining time
+		SDL_Delay( SCREEN_TICK_PER_FRAME - frameTicks );
+	}
 }
 
 void Game::render()
