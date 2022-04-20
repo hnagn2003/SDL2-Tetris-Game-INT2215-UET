@@ -145,4 +145,49 @@ class FPS_Processor{
             gFPSTextTexture->render( renderer,( SCREEN_WIDTH - gFPSTextTexture->getWidth() ), 0 );
         }
 };
+enum allButton{
+    START_BUTTON,
+    LEVEL_SETUP_BUTTON,
+    HIGH_SCORE,
+    SETTINGS_BUTTON,
+    HELP_BUTTON,
+    ABOUT_BUTTON
+};
+class LButton
+{
+	public:
+		LButton(){
+            motionMouse = 0;
+        }
+        LButton(LTexture* _keyUp, LTexture* _keyDown){
+            motionMouse = 0;
+            keyUp = _keyUp;
+            keyDown = _keyDown;
+        }
+        void setTexture(LTexture* _keyUp, LTexture* _keyDown){
+            keyUp = _keyUp;
+            keyDown = _keyDown;
+        }
+		void setPosition(){}
+		void render(SDL_Renderer* renderer, int x, int y){
+            if (motionMouse){
+                keyDown->render(renderer, x, y);
+            }else{
+                keyUp->render(renderer, x, y);
+            }
+        }
+
+	private:
+		LTexture* keyUp;
+        LTexture* keyDown;
+        bool motionMouse;
+        bool isPressing;
+};
+
+class Menu{
+    private:
+        int level;
+        
+    public:
+};
 #endif
