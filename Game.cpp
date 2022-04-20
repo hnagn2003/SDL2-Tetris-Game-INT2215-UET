@@ -1,6 +1,6 @@
 #include "Game.h"
 #include "Grid.h"
-#include "Structure.h"
+// #include "Structure.h"
 #include <iostream>
 #include <sstream>
 Game::Game()

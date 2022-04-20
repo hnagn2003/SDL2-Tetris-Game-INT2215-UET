@@ -4,10 +4,7 @@
 #include <SDL.h>
 #include <stdio.h>
 #include <SDL_image.h>
-#include "Specifications.h"
-#include "Grid.h"
-#include "Game.h"
-#include "Structure.h"
+#include <SDL_ttf.h>
 #include <iostream>
 #include <algorithm>  
 
