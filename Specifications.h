@@ -16,6 +16,7 @@ const int initVelocity = 1000;
 const int delimitedLine = -2;
 const int delayBeforeDied = 3;
 const std::string rFont = "MTO Grunge Sans Shadow.ttf";
+const std::string menuPicturePath = "assets/Pictures/menu.png";
 
 enum Shapes{
     I_BLOCK,
@@ -185,9 +186,14 @@ class LButton
 };
 
 class Menu{
-    private:
+    public:
+        LTexture background;
         int level;
         
     public:
+        Menu(SDL_Renderer* gRenderer){
+            level = 1;
+            background.loadFromFile(menuPicturePath, gRenderer);
+        }
 };
 #endif
