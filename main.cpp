@@ -16,7 +16,7 @@ int main( int argc, char* args[] ){
     Game *game = new Game;
     game->init("Tetris - by me", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, fullScreen );
     
-    
+    game->loadmedia();
     while (game->running())
     {
         

@@ -4,11 +4,12 @@
 #include <SDL.h>
 #include <stdio.h>
 #include <SDL_image.h>
+#include <SDL_ttf.h>
 #include "Tetromino.h"
 #include "Grid.h"
 #include "Specifications.h"
 #include <iostream>
-
+#include "Structure.h"
 class Game_State {
     private:
         int lineCount;
@@ -164,7 +165,11 @@ private:
     bool isRunning;
     SDL_Window *window;
     SDL_Renderer *renderer;
+    TTF_Font* gFont;
+    LTexture gFPSTextTexture;
+    LTimer fpsTimer;
     Game_State gameState;
+    
 };
 
 

@@ -1,6 +1,8 @@
 #include "Game.h"
 #include "Grid.h"
+#include "Structure.h"
 #include <iostream>
+#include <sstream>
 Game::Game()
 {
 
@@ -59,6 +61,11 @@ void Game::init(const char* title, int xPos, int yPos, int SCREEN_WIDTH, int SCR
 					printf( "SDL_image could not initialize! %s\n", IMG_GetError() );
 					success = false;
 				}
+				if( TTF_Init() == -1 )
+				{
+					printf( "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError() );
+					success = false;
+				}
 			}
 		}
 
@@ -72,7 +79,12 @@ void Game::init(const char* title, int xPos, int yPos, int SCREEN_WIDTH, int SCR
 }
 void Game::loadmedia()
 {
-	
+	fpsTimer.start();
+	gFont = TTF_OpenFont( "lazy.ttf", 28 );
+	if( gFont == NULL )
+	{
+		printf( "Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError() );
+	}
 }
 void Game::handleEvents()
 {
@@ -112,6 +124,24 @@ void Game::update()
 	
 	//if currentTetrads tiep dat, chuyen trang thai khoi, cho khoi moi tiep dat
 	// std::cout << "YPos1" << gameState.getNextTetrads()->getYPos() << std::endl;
+	static int countedFrames = 0;
+	float avgFPS = countedFrames / ( fpsTimer.getTicks() / 1000.f );
+	if( avgFPS > 2000000 )
+	{
+		avgFPS = 0;
+	}
+	
+	//Set text to be rendered
+	std::stringstream timeText;
+	timeText.str( "" );
+	timeText << "Average Frames Per Second " << avgFPS; 
+
+	//Render text
+	SDL_Color textColor = { 0, 0, 0, 255 };
+	if( !gFPSTextTexture.loadFromRenderedText( timeText.str().c_str(), textColor, gFont, renderer ))
+	{
+		printf( "Unable to render FPS texture!\n" );
+	}
 	gameState.newTetradsFalling();
 	// std::cout << "YPos2" << gameState.getNextTetrads()->getYPos() << std::endl;
 	gameState.updateFallingTetrads();
@@ -127,16 +157,23 @@ void Game::render()
 	
     SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0 );
     SDL_RenderClear(renderer);
+
 	gameState.render(renderer);
+	
     SDL_RenderPresent(renderer);
 }
 
 void Game::clean()
 {
+	gFPSTextTexture.free();
+	TTF_CloseFont( gFont );
+	gFont = NULL;
+
     SDL_DestroyRenderer( renderer );
 	SDL_DestroyWindow( window );
 	window = NULL;
 	renderer = NULL;
+	TTF_Quit();
 	IMG_Quit();
 	SDL_Quit();
 }
