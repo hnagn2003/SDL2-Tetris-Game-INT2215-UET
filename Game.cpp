@@ -70,7 +70,10 @@ void Game::init(const char* title, int xPos, int yPos, int SCREEN_WIDTH, int SCR
 		printf( "Failed to initialize!\n" );
 	}
 }
-
+void Game::loadmedia()
+{
+	
+}
 void Game::handleEvents()
 {
         SDL_Event event; 
@@ -81,8 +84,19 @@ void Game::handleEvents()
 				case SDL_QUIT:
 					isRunning = false;
 					break;
-				// case ...
+                case SDL_KEYDOWN:
+					switch ( event.key.keysym.sym )
+					{
+					case SDLK_ESCAPE: //...
+						isRunning = false;
+						break;
+					
+					default:
+						break;
+					}
+					// case ...
 				default:
+
 					// std::cout << "e1 "<<gameState.getCurTetrads()->getYPos()<<' ' << gameState.getNextTetrads()->getYPos() << std::endl;
 					gameState.handleEvent(event);
 					// std::cout << "e2 "<<gameState.getCurTetrads()->getYPos()<<' ' << gameState.getNextTetrads()->getYPos() << std::endl;
