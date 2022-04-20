@@ -77,13 +77,13 @@ void Game::init(const char* title, int xPos, int yPos, int SCREEN_WIDTH, int SCR
 		printf( "Failed to initialize!\n" );
 	}
 	
-	gFPS_Processor->fpsTimer->start();
+	gFPS_Processor->initTimeCounting();
 	
 }
 void Game::loadmedia()
 {
 	
-	gFont = TTF_OpenFont( "lazy.ttf", 28 );
+	gFont = TTF_OpenFont( rFont.c_str(), 28 );
 	if( gFont == NULL )
 	{
 		printf( "Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError() );

@@ -2,6 +2,7 @@
 #define Specifications_h
 #include "Tetromino.h"
 #include <sstream>
+#include <iostream>
 #include "Structure.h"
 const int TILE_SIZE = 40;
 const int ROWS = 20;
@@ -14,6 +15,7 @@ const int SCREEN_TICK_PER_FRAME = 1000 / SCREEN_FPS;
 const int initVelocity = 1000;
 const int delimitedLine = -2;
 const int delayBeforeDied = 3;
+const std::string rFont = "MTO Grunge Sans Shadow.ttf";
 
 enum Shapes{
     I_BLOCK,
@@ -118,9 +120,7 @@ class FPS_Processor{
             gFPSTextTexture->free();
         }
         void initTimeCounting(){
-            std::cout << "begin0";
             fpsTimer->start();
-            std::cout << "end0";
         }
         void cappingFrame(){
             capTimer->start();
@@ -133,17 +133,16 @@ class FPS_Processor{
             }
         }
         void printFPS(SDL_Renderer* renderer, TTF_Font* gFont){
-            long long avgFPS = countedFrames / ( fpsTimer->getTicks() / 1000.f );
+            int avgFPS = countedFrames / ( fpsTimer->getTicks() / 1000.f );
             std::stringstream timeText;
             timeText.str( "" );
-            // std::cout << avgFPS;
-            timeText << "Average Frames Per Second " << avgFPS; 
+            timeText << "FPS: " << avgFPS; 
             SDL_Color textColor = { 0, 0, 0, 255 };
             if( !gFPSTextTexture->loadFromRenderedText( timeText.str().c_str(), textColor, gFont, renderer ))
             {
                 printf( "Unable to render FPS texture!\n" );
 	        }
-            gFPSTextTexture->render( renderer,( SCREEN_WIDTH - gFPSTextTexture->getWidth() ) / 2, ( SCREEN_HEIGHT - gFPSTextTexture->getHeight() ) / 2 );
+            gFPSTextTexture->render( renderer,( SCREEN_WIDTH - gFPSTextTexture->getWidth() ), 0 );
         }
 };
 #endif
