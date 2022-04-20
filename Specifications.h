@@ -1,6 +1,8 @@
 #ifndef Specifications_h
 #define Specifications_h
 #include "Tetromino.h"
+#include <sstream>
+#include "Structure.h"
 const int TILE_SIZE = 40;
 const int ROWS = 20;
 const int HIDDEN_ROWS = 10;
@@ -98,4 +100,50 @@ class block{
             SDL_RenderFillRect(renderer, &rectBlock);
         }
 };  
+// xử lý fps: print, capping
+class FPS_Processor{
+    public:
+        long long countedFrames;
+        LTexture* gFPSTextTexture;
+        LTimer* fpsTimer;
+        LTimer* capTimer;
+    public:
+        FPS_Processor(){
+            countedFrames = 0;
+            gFPSTextTexture = new LTexture;
+            fpsTimer = new LTimer;
+            capTimer = new LTimer;
+        }
+        ~FPS_Processor(){
+            gFPSTextTexture->free();
+        }
+        void initTimeCounting(){
+            std::cout << "begin0";
+            fpsTimer->start();
+            std::cout << "end0";
+        }
+        void cappingFrame(){
+            capTimer->start();
+            ++countedFrames;
+            int frameTicks = capTimer->getTicks();
+            if( frameTicks < SCREEN_TICK_PER_FRAME )
+            {
+                //Wait remaining time
+                SDL_Delay( SCREEN_TICK_PER_FRAME - frameTicks );
+            }
+        }
+        void printFPS(SDL_Renderer* renderer, TTF_Font* gFont){
+            long long avgFPS = countedFrames / ( fpsTimer->getTicks() / 1000.f );
+            std::stringstream timeText;
+            timeText.str( "" );
+            // std::cout << avgFPS;
+            timeText << "Average Frames Per Second " << avgFPS; 
+            SDL_Color textColor = { 0, 0, 0, 255 };
+            if( !gFPSTextTexture->loadFromRenderedText( timeText.str().c_str(), textColor, gFont, renderer ))
+            {
+                printf( "Unable to render FPS texture!\n" );
+	        }
+            gFPSTextTexture->render( renderer,( SCREEN_WIDTH - gFPSTextTexture->getWidth() ) / 2, ( SCREEN_HEIGHT - gFPSTextTexture->getHeight() ) / 2 );
+        }
+};
 #endif

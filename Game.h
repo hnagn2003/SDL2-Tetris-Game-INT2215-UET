@@ -166,9 +166,7 @@ private:
     SDL_Window *window;
     SDL_Renderer *renderer;
     TTF_Font* gFont;
-    LTexture gFPSTextTexture;
-    LTimer fpsTimer;
-    LTimer capTimer;
+    FPS_Processor* gFPS_Processor;
     Game_State gameState;
     
 };

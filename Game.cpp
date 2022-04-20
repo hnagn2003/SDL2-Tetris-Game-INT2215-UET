@@ -1,10 +1,11 @@
 #include "Game.h"
 #include "Grid.h"
+#include "Specifications.h"
 #include <iostream>
 #include <sstream>
 Game::Game()
 {
-
+	gFPS_Processor = new FPS_Processor;
 }
 
 Game::~Game()
@@ -75,10 +76,13 @@ void Game::init(const char* title, int xPos, int yPos, int SCREEN_WIDTH, int SCR
 	{
 		printf( "Failed to initialize!\n" );
 	}
+	
+	gFPS_Processor->fpsTimer->start();
+	
 }
 void Game::loadmedia()
 {
-	fpsTimer.start();
+	
 	gFont = TTF_OpenFont( "lazy.ttf", 28 );
 	if( gFont == NULL )
 	{
@@ -108,9 +112,7 @@ void Game::handleEvents()
 					// case ...
 				default:
 
-					// std::cout << "e1 "<<gameState.getCurTetrads()->getYPos()<<' ' << gameState.getNextTetrads()->getYPos() << std::endl;
 					gameState.handleEvent(event);
-					// std::cout << "e2 "<<gameState.getCurTetrads()->getYPos()<<' ' << gameState.getNextTetrads()->getYPos() << std::endl;
 					break;
 			}
 			
@@ -122,27 +124,11 @@ void Game::update()
 {
 	
 	//if currentTetrads tiep dat, chuyen trang thai khoi, cho khoi moi tiep dat
-	// std::cout << "YPos1" << gameState.getNextTetrads()->getYPos() << std::endl;
-	capTimer.start();
-	static int countedFrames = 0;
-	long long avgFPS = countedFrames / ( fpsTimer.getTicks() / 1000.f );
-	// if( avgFPS > 2000000 )
-	// {
-	// 	avgFPS = 0;
-	// }
-	
-	//Set text to be rendered
-	std::stringstream timeText;
-	timeText.str( "" );
-	// std::cout << avgFPS;
-	timeText << "Average Frames Per Second " << avgFPS; 
+	gFPS_Processor->cappingFrame();
+
 
 	//Render text
-	SDL_Color textColor = { 0, 0, 0, 255 };
-	if( !gFPSTextTexture.loadFromRenderedText( timeText.str().c_str(), textColor, gFont, renderer ))
-	{
-		printf( "Unable to render FPS texture!\n" );
-	}
+
 	gameState.newTetradsFalling();
 	// std::cout << "YPos2" << gameState.getNextTetrads()->getYPos() << std::endl;
 	gameState.updateFallingTetrads();
@@ -151,13 +137,7 @@ void Game::update()
 		// khi game over ...
 	}
 	
-	++countedFrames;
-	int frameTicks = capTimer.getTicks();
-	if( frameTicks < SCREEN_TICK_PER_FRAME )
-	{
-		//Wait remaining time
-		SDL_Delay( SCREEN_TICK_PER_FRAME - frameTicks );
-	}
+	
 }
 
 void Game::render()
@@ -165,19 +145,17 @@ void Game::render()
 	
     SDL_SetRenderDrawColor( renderer, 32, 64, 0, 0 );
     SDL_RenderClear(renderer);
-	gFPSTextTexture.render( renderer,( SCREEN_WIDTH - gFPSTextTexture.getWidth() ) / 2, ( SCREEN_HEIGHT - gFPSTextTexture.getHeight() ) / 2 );
-
 	gameState.render(renderer);
+	
+	gFPS_Processor->printFPS(renderer, gFont);
+	
 	SDL_SetRenderDrawColor( renderer, 32, 64, 0, 0 );
-		gFPSTextTexture.render( renderer,( SCREEN_WIDTH - gFPSTextTexture.getWidth() ) / 2, ( SCREEN_HEIGHT - gFPSTextTexture.getHeight() ) / 2 );
-
     SDL_RenderPresent(renderer);
 	
 }
 
 void Game::clean()
 {
-	gFPSTextTexture.free();
 	TTF_CloseFont( gFont );
 	gFont = NULL;
 

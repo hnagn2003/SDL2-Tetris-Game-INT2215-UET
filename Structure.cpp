@@ -148,6 +148,7 @@ void LTimer::start()
 
     mStartTicks = SDL_GetTicks();
 	mPausedTicks = 0;
+
 }
 
 void LTimer::stop()
