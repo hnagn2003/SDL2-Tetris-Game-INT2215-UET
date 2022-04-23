@@ -16,7 +16,7 @@ const int initVelocity = 1000;
 const int delimitedLine = -2;
 const int delayBeforeDied = 3;
 const std::string rFont = "MTO Grunge Sans Shadow.ttf";
-const std::string menuPicturePath = "assets/Pictures/menu.png";
+const std::string menuPicturePath = "assets/Pictures/tabs_menu.png";
 const std::string menuButton[] = {"assets/Pictures/menu_button0.png","assets/Pictures/menu_button1.png","assets/Pictures/menu_button2.png","assets/Pictures/menu_button3.png"};
 enum Tabs {
     Menu = -1,
@@ -35,23 +35,65 @@ class LButton
     public:
 		LTexture keyUp;
         LTexture keyDown;
+        bool inside;
         bool motionMouse;
         bool isPressing;
+        int xPos, yPos, width, height;
+        int redirect = 0;
 	public:
 		LButton(){
             motionMouse = 0;
+            inside = 0;
+            isPressing = 0;
         }
         LButton(LTexture _keyUp, LTexture _keyDown){
             motionMouse = 0;
             keyUp = _keyUp;
             keyDown = _keyDown;
+            width = keyUp.getWidth();
+            height = keyUp.getHeight();
         }
         void setTexture(const LTexture& _keyUp, const LTexture& _keyDown){
             keyUp = _keyUp;
             keyDown = _keyDown;
+            width = keyUp.getWidth();
+            height = keyUp.getHeight();
         }
-		void setPosition(){}
-		void render(SDL_Renderer* renderer, int x, int y){
+		void setPosition( int x, int y ){
+            xPos = x; yPos = y;
+        }
+        void handleEvents(SDL_Event* e){
+        	if( e->type == SDL_MOUSEMOTION || e->type == SDL_MOUSEBUTTONDOWN || e->type == SDL_MOUSEBUTTONUP ){
+                int x, y;
+		        SDL_GetMouseState( &x, &y );
+                bool inside = true;
+                if (x<xPos){
+                    inside = false;
+                }else if (x>xPos+width){
+                    inside = false;
+                }else if (y<yPos){
+                    inside = false;
+                }else if (y>yPos + height){
+                    inside = false;
+                }
+
+                if (inside){
+                    switch (e->type)
+                    {
+                        case SDL_MOUSEMOTION:
+                            motionMouse = 1;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+    
+        }
+		void render(SDL_Renderer* renderer, int x = 0, int y = 0){
+            if (x==0&&y==0){
+                x=xPos; y = yPos;
+            }
             if (motionMouse){
                 keyDown.render(renderer, x, y);
             }else{
@@ -64,6 +106,7 @@ class LButton
 class Tabs_Menu{
     private:
         LButton button[allButtonsOfMenu];
+        LTexture keyUp[4], keyDown[4];
     public:
         Tabs_Menu(){
 
@@ -75,11 +118,13 @@ class Tabs_Menu{
 
         }
         void render(SDL_Renderer* renderer){
-            LTexture keyUp[4], keyDown[4];
+            LTexture bkgr;
+            bkgr.loadFromFile(menuPicturePath, renderer);
+            bkgr.render(renderer, 0, 0);
             for (int i=0; i<4; i++){
                 keyUp[i].loadFromFile(menuButton[i], renderer);
-                button[InGame_SoloMode].setTexture(keyUp[i], keyDown[i]);
-                button[InGame_SoloMode].render(renderer, i*100, i*100);//...
+                button[i].setTexture(keyUp[i], keyDown[i]);
+                button[i].render(renderer);//...
             }
             
         }
