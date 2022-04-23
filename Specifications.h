@@ -185,8 +185,8 @@ class LButton
         bool isPressing;
 };
 
-class Menu{
-    public:
+class Menu{ 
+    private:
         LTexture background;
         int level;
         
