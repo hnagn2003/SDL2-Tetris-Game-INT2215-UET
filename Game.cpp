@@ -6,6 +6,7 @@
 Game::Game()
 {
 	gFPS_Processor = new FPS_Processor;
+	tabs = 0;
 }
 
 Game::~Game()
@@ -148,8 +149,7 @@ void Game::render()
 	gameState.render(renderer);
 	
 	gFPS_Processor->printFPS(renderer, gFont);
-	Menu menu(renderer);
-	menu.background.render(renderer, 0, 0);
+	
 	SDL_SetRenderDrawColor( renderer, 32, 64, 0, 0 );
     SDL_RenderPresent(renderer);
 	

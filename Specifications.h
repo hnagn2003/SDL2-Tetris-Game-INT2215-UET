@@ -17,7 +17,17 @@ const int delimitedLine = -2;
 const int delayBeforeDied = 3;
 const std::string rFont = "MTO Grunge Sans Shadow.ttf";
 const std::string menuPicturePath = "assets/Pictures/menu.png";
-
+enum Tabs {
+    Menu,
+    InGame_SoloMode,
+    LevelSelect,
+    HighestScoreTable,
+    InGame_BattleMode,
+    Settings,
+    ExitGame,
+    Helps,
+    About
+};
 enum Shapes{
     I_BLOCK,
     L_BLOCK,
@@ -185,15 +195,4 @@ class LButton
         bool isPressing;
 };
 
-class Menu{ 
-    private:
-        LTexture background;
-        int level;
-        
-    public:
-        Menu(SDL_Renderer* gRenderer){
-            level = 1;
-            background.loadFromFile(menuPicturePath, gRenderer);
-        }
-};
 #endif

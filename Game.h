@@ -12,6 +12,7 @@
 #include "Structure.h"
 class Game_State {
     private:
+        bool playing;
         int lineCount;
         long long score;
         int level;
@@ -20,8 +21,10 @@ class Game_State {
         Tetromino nextTetrads;
         Tetromino currentTetrads;
         Grid grid;
+
     public: 
         Game_State(){
+            playing = 0;
             lineCount = 0;
             score = 0;
             level = 1;
@@ -30,7 +33,9 @@ class Game_State {
             nextTetrads = getRandomTetrads();
             currentTetrads = getRandomTetrads();
         }
-
+        void setPlaying(bool _playing){
+            playing = _playing;
+        }
         Grid getGrid(){
             return grid;
         }
@@ -53,59 +58,63 @@ class Game_State {
         }
 
         void newTetradsFalling(){
+            if (playing){
             // if (currentTetrads.getXPos() <= 0){
                 currentTetrads.setFall(true);
                 currentTetrads.fall(moveVel, &grid);
             // }
+            }
         }
 
         void handleEvent(SDL_Event& event){
-            switch (event.type)
-            {
-                case SDL_KEYDOWN:
-                    
-                    switch( event.key.keysym.sym )
-                    {
-                        case SDLK_UP: 
-                            if ( !event.key.repeat ){
-                                currentTetrads.rotate(&grid); 
+            if (playing){
+                switch (event.type)
+                {
+                    case SDL_KEYDOWN:
+                        
+                        switch( event.key.keysym.sym )
+                        {
+                            case SDLK_UP: 
+                                if ( !event.key.repeat ){
+                                    currentTetrads.rotate(&grid); 
+                                    break;
+                                }
+                            break;
+                            case SDLK_DOWN: 
+                                if (currentTetrads.getStatus()){
+                                    currentTetrads.moveDown(&grid); 
+                                }
                                 break;
-                            }
+                            case SDLK_LEFT: 
+                                currentTetrads.moveLeft(&grid); 
+                                break;
+                            case SDLK_RIGHT: 
+                                currentTetrads.moveRight(&grid); 
+                                break;
+                            case SDLK_SPACE:
+                                // std::cout << "e1 "<<currentTetrads.getYPos()<<' ' << nextTetrads.getYPos() << std::endl;
+                                currentTetrads.dropDown(&grid);
+                                // std::cout << "e2 "<<currentTetrads.getYPos()<<' ' << nextTetrads.getYPos() << std::endl;
+                                break;
+                            default: break;
+                        }
+                        
                         break;
-                        case SDLK_DOWN: 
-                            if (currentTetrads.getStatus()){
-                                currentTetrads.moveDown(&grid); 
-                            }
-                            break;
-                        case SDLK_LEFT: 
-                            currentTetrads.moveLeft(&grid); 
-                            break;
-                        case SDLK_RIGHT: 
-                            currentTetrads.moveRight(&grid); 
-                            break;
-                        case SDLK_SPACE:
-                            // std::cout << "e1 "<<currentTetrads.getYPos()<<' ' << nextTetrads.getYPos() << std::endl;
-                            currentTetrads.dropDown(&grid);
-                            // std::cout << "e2 "<<currentTetrads.getYPos()<<' ' << nextTetrads.getYPos() << std::endl;
-                            break;
-                        default: break;
+                    case SDL_KEYUP:
+                        switch( event.key.keysym.sym )
+                        {
+                            case SDLK_DOWN: moveVel = velocity; break;
+                            // case SDLK_LEFT: 
+                            //     break;
+                            // case SDLK_RIGHT: 
+                            //     break;
+                            default: break;
+                        }
+                        break;
+                    default:
+                        
+                        break;
                     }
-                    
-                    break;
-                case SDL_KEYUP:
-                    switch( event.key.keysym.sym )
-                    {
-                        case SDLK_DOWN: moveVel = velocity; break;
-                        // case SDLK_LEFT: 
-                        //     break;
-                        // case SDLK_RIGHT: 
-                        //     break;
-                        default: break;
-                    }
-                    break;
-                default:
-                    
-                    break;
             }
         //     const Uint8* keystates = SDL_GetKeyboardState(NULL);
 
@@ -117,27 +126,32 @@ class Game_State {
         //     }
         }
         void updateFallingTetrads(){
-            // std::cout << "b2"<<currentTetrads.getYPos()<<' ' << nextTetrads.getYPos() << std::endl;
-            if (!currentTetrads.getStatus()){
-                // std::cout<<'1' << nextTetrads.getYPos() <<std::endl;
-                if (grid.getHighestRow(HIDDEN_ROWS, 0, COLS-1)<=HIDDEN_ROWS){
-                    nextTetrads.setCollinYInitTetrads();
-                }
-                // std::cout<<'2' << nextTetrads.getYPos() <<std::endl;
-                int filledRow = grid.update(currentTetrads.getYPos()+HIDDEN_ROWS, currentTetrads.getYPos()+currentTetrads.getHCol()+HIDDEN_ROWS);
-                updateGameState(filledRow);
-                currentTetrads = nextTetrads;
-                nextTetrads = getRandomTetrads();
-                
-            }
+            if (playing){
+                // std::cout << "b2"<<currentTetrads.getYPos()<<' ' << nextTetrads.getYPos() << std::endl;
+                if (!currentTetrads.getStatus()){
+                    // std::cout<<'1' << nextTetrads.getYPos() <<std::endl;
+                    if (grid.getHighestRow(HIDDEN_ROWS, 0, COLS-1)<=HIDDEN_ROWS){
+                        nextTetrads.setCollinYInitTetrads();
+                    }
+                    // std::cout<<'2' << nextTetrads.getYPos() <<std::endl;
+                    int filledRow = grid.update(currentTetrads.getYPos()+HIDDEN_ROWS, currentTetrads.getYPos()+currentTetrads.getHCol()+HIDDEN_ROWS);
+                    updateGameState(filledRow);
+                    currentTetrads = nextTetrads;
+                    nextTetrads = getRandomTetrads();
                     
+                }
+            }     
 
         }
         bool gameOver(){
-            if (grid.getHighestRow(HIDDEN_ROWS, 0, COLS)<=delimitedLine+HIDDEN_ROWS){
-                return true;
+            if (playing){
+                if (grid.getHighestRow(HIDDEN_ROWS, 0, COLS)<=delimitedLine+HIDDEN_ROWS){
+                    playing = 0;
+                    return true;
+                }
+                return false;
             }
-            return false;
+            return true;
         }
         
 };
@@ -168,7 +182,7 @@ private:
     TTF_Font* gFont;
     FPS_Processor* gFPS_Processor;
     Game_State gameState;
-    
+    int tabs;
 };
 
 
