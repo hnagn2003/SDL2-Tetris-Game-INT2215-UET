@@ -79,7 +79,7 @@ void Game::init(const char* title, int xPos, int yPos, int SCREEN_WIDTH, int SCR
 	}
 	
 	gFPS_Processor->initTimeCounting();
-	tabs_menu.setRenderer(renderer);
+	// tabs_menu.setRenderer(renderer);
 	
 }
 void Game::loadmedia()
@@ -129,7 +129,7 @@ void Game::update()
 	gFPS_Processor->cappingFrame();
 
 	if (tabs == Menu){
-		tabs_menu.render();
+		tabs_menu.render(renderer);
 		// Tabs_Menu.handle
 	}
 	//Render text
@@ -150,7 +150,7 @@ void Game::render()
 	
     SDL_SetRenderDrawColor( renderer, 32, 64, 0, 0 );
     SDL_RenderClear(renderer);
-	tabs_menu.render();
+	tabs_menu.render(renderer);
 	// gameState.render(renderer);
 	
 	gFPS_Processor->printFPS(renderer, gFont);

@@ -32,6 +32,11 @@ enum Tabs {
 };
 class LButton
 {
+    public:
+		LTexture keyUp;
+        LTexture keyDown;
+        bool motionMouse;
+        bool isPressing;
 	public:
 		LButton(){
             motionMouse = 0;
@@ -41,9 +46,11 @@ class LButton
             keyUp = _keyUp;
             keyDown = _keyDown;
         }
-        void setTexture(LTexture _keyUp, LTexture _keyDown){
+        void setTexture(const LTexture& _keyUp, const LTexture& _keyDown){
             keyUp = _keyUp;
             keyDown = _keyDown;
+            if (keyUp.mTexture==NULL)
+                std::cout << "no";
         }
 		void setPosition(){}
 		void render(SDL_Renderer* renderer, int x, int y){
@@ -54,17 +61,11 @@ class LButton
             }
         }
 
-	private:
-		LTexture keyUp;
-        LTexture keyDown;
-        bool motionMouse;
-        bool isPressing;
 };
 
 class Tabs_Menu{
     private:
         LButton button[allButtonsOfMenu];
-        SDL_Renderer* renderer;
     public:
         Tabs_Menu(){
 
@@ -72,13 +73,22 @@ class Tabs_Menu{
         ~Tabs_Menu(){
 
         }
-        void setRenderer(SDL_Renderer* _renderer){
-            renderer = _renderer;
+        // void setRenderer(SDL_Renderer* _renderer){
+        //     renderer = _renderer;
+            
+        // }
+        void render(SDL_Renderer* renderer){
+            if (renderer == NULL){
+                std::cout << "no";
+            }
             LTexture keyUp0, keyDown0;
             keyUp0.loadFromFile(menuButton0, renderer);
             button[InGame_SoloMode].setTexture(keyUp0, keyDown0);
-        }
-        void render(){
+            // button.keyUp.render(renderer, 0, 0);
+            // if (button.keyUp.mTexture == NULL)
+            //     std::cout << "no";
+            // keyUp0.render(renderer, 0, 0);
+            // button.keyUp.render(renderer, 0, 0);
             button[InGame_SoloMode].render(renderer, 0, 0);
         }
 };
