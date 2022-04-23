@@ -17,7 +17,7 @@ const int delimitedLine = -2;
 const int delayBeforeDied = 3;
 const std::string rFont = "MTO Grunge Sans Shadow.ttf";
 const std::string menuPicturePath = "assets/Pictures/menu.png";
-const std::string menuButton0 = "assets/Pictures/menu_button0.png";
+const std::string menuButton[] = {"assets/Pictures/menu_button0.png","assets/Pictures/menu_button1.png","assets/Pictures/menu_button2.png","assets/Pictures/menu_button3.png"};
 enum Tabs {
     Menu = -1,
     InGame_SoloMode,
@@ -49,8 +49,6 @@ class LButton
         void setTexture(const LTexture& _keyUp, const LTexture& _keyDown){
             keyUp = _keyUp;
             keyDown = _keyDown;
-            if (keyUp.mTexture==NULL)
-                std::cout << "no";
         }
 		void setPosition(){}
 		void render(SDL_Renderer* renderer, int x, int y){
@@ -73,23 +71,17 @@ class Tabs_Menu{
         ~Tabs_Menu(){
 
         }
-        // void setRenderer(SDL_Renderer* _renderer){
-        //     renderer = _renderer;
-            
-        // }
+        void handleEvents(SDL_Event e){
+
+        }
         void render(SDL_Renderer* renderer){
-            if (renderer == NULL){
-                std::cout << "no";
+            LTexture keyUp[4], keyDown[4];
+            for (int i=0; i<4; i++){
+                keyUp[i].loadFromFile(menuButton[i], renderer);
+                button[InGame_SoloMode].setTexture(keyUp[i], keyDown[i]);
+                button[InGame_SoloMode].render(renderer, i*100, i*100);//...
             }
-            LTexture keyUp0, keyDown0;
-            keyUp0.loadFromFile(menuButton0, renderer);
-            button[InGame_SoloMode].setTexture(keyUp0, keyDown0);
-            // button.keyUp.render(renderer, 0, 0);
-            // if (button.keyUp.mTexture == NULL)
-            //     std::cout << "no";
-            // keyUp0.render(renderer, 0, 0);
-            // button.keyUp.render(renderer, 0, 0);
-            button[InGame_SoloMode].render(renderer, 0, 0);
+            
         }
 };
 
