@@ -79,6 +79,7 @@ void Game::init(const char* title, int xPos, int yPos, int SCREEN_WIDTH, int SCR
 	}
 	
 	gFPS_Processor->initTimeCounting();
+	tabs_menu.setRenderer(renderer);
 	
 }
 void Game::loadmedia()
@@ -127,7 +128,10 @@ void Game::update()
 	//if currentTetrads tiep dat, chuyen trang thai khoi, cho khoi moi tiep dat
 	gFPS_Processor->cappingFrame();
 
-
+	if (tabs == Menu){
+		tabs_menu.render();
+		// Tabs_Menu.handle
+	}
 	//Render text
 
 	gameState.newTetradsFalling();
@@ -146,11 +150,12 @@ void Game::render()
 	
     SDL_SetRenderDrawColor( renderer, 32, 64, 0, 0 );
     SDL_RenderClear(renderer);
-	gameState.render(renderer);
+	tabs_menu.render();
+	// gameState.render(renderer);
 	
 	gFPS_Processor->printFPS(renderer, gFont);
 	
-	SDL_SetRenderDrawColor( renderer, 32, 64, 0, 0 );
+	// SDL_SetRenderDrawColor( renderer, 32, 64, 0, 0 );
     SDL_RenderPresent(renderer);
 	
 }

@@ -17,8 +17,9 @@ const int delimitedLine = -2;
 const int delayBeforeDied = 3;
 const std::string rFont = "MTO Grunge Sans Shadow.ttf";
 const std::string menuPicturePath = "assets/Pictures/menu.png";
+const std::string menuButton0 = "assets/Pictures/menu_button0.png";
 enum Tabs {
-    Menu,
+    Menu = -1,
     InGame_SoloMode,
     LevelSelect,
     HighestScoreTable,
@@ -26,8 +27,62 @@ enum Tabs {
     Settings,
     ExitGame,
     Helps,
-    About
+    About,
+    allButtonsOfMenu
 };
+class LButton
+{
+	public:
+		LButton(){
+            motionMouse = 0;
+        }
+        LButton(LTexture _keyUp, LTexture _keyDown){
+            motionMouse = 0;
+            keyUp = _keyUp;
+            keyDown = _keyDown;
+        }
+        void setTexture(LTexture _keyUp, LTexture _keyDown){
+            keyUp = _keyUp;
+            keyDown = _keyDown;
+        }
+		void setPosition(){}
+		void render(SDL_Renderer* renderer, int x, int y){
+            if (motionMouse){
+                keyDown.render(renderer, x, y);
+            }else{
+                keyUp.render(renderer, x, y);
+            }
+        }
+
+	private:
+		LTexture keyUp;
+        LTexture keyDown;
+        bool motionMouse;
+        bool isPressing;
+};
+
+class Tabs_Menu{
+    private:
+        LButton button[allButtonsOfMenu];
+        SDL_Renderer* renderer;
+    public:
+        Tabs_Menu(){
+
+        }
+        ~Tabs_Menu(){
+
+        }
+        void setRenderer(SDL_Renderer* _renderer){
+            renderer = _renderer;
+            LTexture keyUp0, keyDown0;
+            keyUp0.loadFromFile(menuButton0, renderer);
+            button[InGame_SoloMode].setTexture(keyUp0, keyDown0);
+        }
+        void render(){
+            button[InGame_SoloMode].render(renderer, 0, 0);
+        }
+};
+
 enum Shapes{
     I_BLOCK,
     L_BLOCK,
@@ -163,36 +218,6 @@ enum allButton{
     SETTINGS_BUTTON,
     HELP_BUTTON,
     ABOUT_BUTTON
-};
-class LButton
-{
-	public:
-		LButton(){
-            motionMouse = 0;
-        }
-        LButton(LTexture* _keyUp, LTexture* _keyDown){
-            motionMouse = 0;
-            keyUp = _keyUp;
-            keyDown = _keyDown;
-        }
-        void setTexture(LTexture* _keyUp, LTexture* _keyDown){
-            keyUp = _keyUp;
-            keyDown = _keyDown;
-        }
-		void setPosition(){}
-		void render(SDL_Renderer* renderer, int x, int y){
-            if (motionMouse){
-                keyDown->render(renderer, x, y);
-            }else{
-                keyUp->render(renderer, x, y);
-            }
-        }
-
-	private:
-		LTexture* keyUp;
-        LTexture* keyDown;
-        bool motionMouse;
-        bool isPressing;
 };
 
 #endif
