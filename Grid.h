@@ -43,7 +43,7 @@ class Grid{
             return true;
         }
         void deleteRow(int indexOfDeletedRow){
-            for (int i=indexOfDeletedRow; i>delimitedLine+HIDDEN_ROWS; i--){
+            for (int i=indexOfDeletedRow; i>delimitedLine+HIDDEN_ROWS-2; i--){
                 for (int j=0; j<COLS; j++){
                     matrix[i][j].exist = matrix[i-1][j].exist;
                     matrix[i][j].color = matrix[i-1][j].color; //...

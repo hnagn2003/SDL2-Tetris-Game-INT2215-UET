@@ -80,34 +80,41 @@ class Game_State {
         }
 
         void handleEvent(SDL_Event& event){
-            
             if (playing){
+                
                 switch (event.type)
                 {
                     case SDL_KEYDOWN:
                         
                         switch( event.key.keysym.sym )
-                        {
+                        {   
+                            
                             case SDLK_UP: 
                                 if ( !event.key.repeat ){
                                     currentTetrads->rotate(&grid); 
                                     break;
                                 }
                             break;
-                            case SDLK_DOWN: 
+                            case SDLK_DOWN:
+                                 
                                 if (currentTetrads->getStatus()){
                                     currentTetrads->moveDown(&grid); 
                                 }
+                                
                                 break;
                             case SDLK_LEFT: 
+                            
                                 currentTetrads->moveLeft(&grid); 
+                                
                                 break;
                             case SDLK_RIGHT: 
                                 currentTetrads->moveRight(&grid); 
                                 break;
                             case SDLK_SPACE:
+                                
                                 // std::cout << "e1 "<<currentTetrads->getYPos()<<' ' << nextTetrads->getYPos() << std::endl;
                                 currentTetrads->dropDown(&grid);
+                                
                                 // std::cout << "e2 "<<currentTetrads->getYPos()<<' ' << nextTetrads->getYPos() << std::endl;
                                 break;
                             case SDLK_c:
@@ -135,6 +142,7 @@ class Game_State {
                                 // switchHold = 1;
                                 break;
                             default: break;
+                            
                         }
                         
                         break;
@@ -153,6 +161,7 @@ class Game_State {
                         
                         break;
                     }
+                
             }
         //     const Uint8* keystates = SDL_GetKeyboardState(NULL);
 
@@ -167,12 +176,11 @@ class Game_State {
             if (playing){
                 // std::cout << "b2"<<currentTetrads.getYPos()<<' ' << nextTetrads.getYPos() << std::endl;
                 if (!currentTetrads->getStatus()){
-
                     // std::cout<<'1' << nextTetrads.getYPos() <<std::endl;
                     int highestRow = grid.getHighestRow(HIDDEN_ROWS, 0, COLS-1);
-                    if (highestRow<=(2+HIDDEN_ROWS)){ //ch
+                    if (highestRow<=(HIDDEN_ROWS)){ //ch
                         next0Tetrads->setCollinYInitTetrads(highestRow);
-                }
+                    }
                     // std::cout<<'2' << nextTetrads.getYPos() <<std::endl;
                     int filledRow = grid.update(currentTetrads->getYPos()+HIDDEN_ROWS, currentTetrads->getYPos()+currentTetrads->getHCol()+HIDDEN_ROWS);
                     updateGameState(filledRow);

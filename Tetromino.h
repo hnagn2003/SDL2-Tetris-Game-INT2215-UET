@@ -50,13 +50,13 @@ class Tetromino{
             }
         }
         void setCollinYInitTetrads(int landingPoint){
-            int tmp = collin.y - yPos;
-            yPos=landingPoint-HIDDEN_ROWS-3;
-            collin.y=yPos+tmp;
+            // int tmp = collin.y - yPos;
+            yPos=landingPoint-HIDDEN_ROWS-4;
+            // collin.y=yPos+tmp;
+            detectCoveredRect();
             if (yPos+HIDDEN_ROWS<=0){
-                yPos = -HIDDEN_ROWS;
-                collin.y = yPos + tmp;
-
+                yPos = -1*HIDDEN_ROWS;
+                // collin.y = yPos + tmp;
             }
         }
         bool getStatus(){
@@ -125,32 +125,41 @@ class Tetromino{
             }
         }
         // kiểm tra va chạm dưới
+        bool testt(){
+            std::cout << "b" << std::endl;
+            return 0;
+        }
+        bool test2(){
+            std::cout << "e" << std::endl;
+            return 1;
+        }
         bool collision(Grid *grid, bool disabled = 1){ // ...
-            // std::cout << "beign1" << std::endl;
+        
             if (active){
-                // std::cout << "b2" << std::endl;
+                // std::cout << "begin" << std::endl;
                 int bottomSide = collin.y + collin.h;
-                static int moribundFrames = 0;
-                if ((bottomSide >= ROWS || collisionWithOtherTetrads(grid)) && disabled){
+                // static int moribundFrames = 0;
+                if ((bottomSide >= ROWS  || collisionWithOtherTetrads(grid)) && disabled){
+                    // std::cout << "begin" << std::endl;
                     // std::cout << "b3" << std::endl;
-                    moribundFrames++;
-                    // if (moribundFrames>=delayBeforeDied){
+                    // moribundFrames++;
+                    // if (moribundFrames>=delayBeforeDied){ //...
                         
-                        moribundFrames = 0;
+                        // moribundFrames = 0;
                         disableFromActivate();
                         // fixTheSuperimposed(grid);
                         mergeToGrid(grid);
-                        
-                    // }
                     // std::cout << "end1" << std::endl;
+                    // }
                     return true;
                 }
                 // std::cout << "end2" << std::endl;
                 return false;
+                // std::cout << "end" << std::endl;
             }
             // std::cout << "end3" << std::endl;
             return true;
-            
+        
         }
         //kiểm tra chồng chéo giữa các khối tetrads và tetrads với grid
         bool checkSuperimposed(Grid *grid){
@@ -170,7 +179,7 @@ class Tetromino{
             for (int i=0; i<sizeOfTetradsSide; i++){
                 for (int j=0; j<sizeOfTetradsSide; j++){
                     if (matrix[i][j]){
-                        // std::cout << i+yPos+HIDDEN_ROWS+1 << ' ' << j+xPos <<std::endl;
+                        std::cout << i+yPos+HIDDEN_ROWS+1 << ' ' << j+xPos <<std::endl;
                         if (grid->getGrid()[i+yPos+HIDDEN_ROWS+1][j+xPos].exist){
                             return true;
                         }
@@ -224,7 +233,7 @@ class Tetromino{
             collin.w = 0; collin.h = 0;
             for (int i=0; i<sizeOfTetradsSide; i++){
                 for (int j=0; j<sizeOfTetradsSide; j++){
-                    if (matrix[i][j]!=0){
+                    if (!matrix[i][j]){
                         collin.h++;
                         break;
                     }
@@ -232,7 +241,7 @@ class Tetromino{
             }
             for (int j=0; j<sizeOfTetradsSide; j++){
                 for (int i=0; i<sizeOfTetradsSide; i++){
-                    if (matrix[i][j]!=0){
+                    if (!matrix[i][j]){
                         collin.w++;
                         break;
                     }
@@ -242,7 +251,7 @@ class Tetromino{
             bool xStop = false, yStop = false;
             for (int i=0; i<sizeOfTetradsSide && !xStop; i++){
                 for (int j=0; j<sizeOfTetradsSide && !xStop; j++){
-                    if (matrix[i][j]!=0){
+                    if (!matrix[i][j]){
                         collin.y = yPos+i;
                         xStop = true;
                     }
@@ -250,7 +259,7 @@ class Tetromino{
             }
             for (int j=0; j<sizeOfTetradsSide && !yStop; j++){
                 for (int i=0; i<sizeOfTetradsSide && !yStop; i++){
-                    if (matrix[i][j]!=0){
+                    if (!matrix[i][j]){
                         collin.x = xPos+j;
                         yStop = true;
                     }
@@ -282,8 +291,7 @@ class Tetromino{
                 yPos--;
         }
         void moveDown(Grid *grid, bool disable = 1){
-
-            if (!collision(grid, disable) && collin.y + collin.h + HIDDEN_ROWS - 1 < grid->getHighestRow(yPos+collin.y-1+HIDDEN_ROWS, xPos, xPos+collin.w-1)){
+            if (!collision(grid, disable) && (collin.y + collin.h + HIDDEN_ROWS - 1) < grid->getHighestRow(yPos+collin.y-1+HIDDEN_ROWS, xPos, xPos+collin.w-1)){
                 collin.y++;
                 yPos++;
             }
@@ -304,12 +312,14 @@ class Tetromino{
         }
         // rơi thẳng xuống nếu phím enter is pressed
         void dropDown(Grid *grid){
+            
             // std::cout << "e1 " << yPos <<std::endl;
             if (active && collin.y + collin.h - 1 < grid->getHighestRow(yPos+collin.y-1+HIDDEN_ROWS, xPos, xPos+collin.w-1)){
-                while(!collision(grid)){
+                while(!collision(grid)){ //bughere
                     moveDown(grid);
                 }
             }
+            
             // disableFromActivate();
             // std::cout<<"e2 " << yPos << std::endl;
         }

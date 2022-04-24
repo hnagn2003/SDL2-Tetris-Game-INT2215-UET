@@ -123,7 +123,11 @@ void Game::handleEvents()
 					case InGame_SoloMode:
 						//SDL_Delay...
 						gameState.setPlaying(1);
+											
+
 						gameState.handleEvent(event);
+											
+
 						break;
 					default:
 						break;
@@ -132,7 +136,6 @@ void Game::handleEvents()
 			}
 			
 		}
-		
 }
 
 void Game::update()

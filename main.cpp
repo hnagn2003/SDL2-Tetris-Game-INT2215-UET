@@ -19,13 +19,11 @@ int main( int argc, char* args[] ){
     game->loadmedia();
     while (game->running())
     {
-        
         game->handleEvents();
         
         game->update();
         
         game->render();
-        
     }
     game->clean();
     
