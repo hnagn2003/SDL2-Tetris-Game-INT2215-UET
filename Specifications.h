@@ -41,7 +41,6 @@ class LButton
         
 	public:
 		LButton(){
-            motionMouse = 0;
             inside = 0;
             pressed = 0;
         }
@@ -73,6 +72,7 @@ class LButton
             xPos = x; yPos = y;
         }
         void handleEvents(SDL_Event* e){
+            motionMouse = 0;
         	if( e->type == SDL_MOUSEMOTION || e->type == SDL_MOUSEBUTTONDOWN || e->type == SDL_MOUSEBUTTONUP ){
                 int x, y;
 		        SDL_GetMouseState( &x, &y );
@@ -149,9 +149,6 @@ class Tabs_Menu{
             }
         }
         void render(SDL_Renderer* renderer){
-            LTexture bkgr;
-            bkgr.loadFromFile(menuPicturePath, renderer);
-            bkgr.render(renderer, 0, 0);
             for (int i=0; i<4; i++){
                 button[i].render(renderer, button[i].getXPos(), button[i].getYPos());
             }

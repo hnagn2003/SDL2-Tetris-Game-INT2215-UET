@@ -94,6 +94,7 @@ void Game::loadmedia()
 }
 void Game::handleEvents()
 {
+		tabs = tabs_menu.getDirect();
         SDL_Event event; 
 		while(SDL_PollEvent(&event)){
 			
@@ -114,10 +115,19 @@ void Game::handleEvents()
 					}
 					// case ...
 				default:
-					tabs_menu.handleEvents(&event);
-					// std::cout << tabs_menu.button[0].xPos << ' '<< tabs_menu.button[0].yPos << ' '<< tabs_menu.button[0].width << ' ' << std::endl;
-					std::cout << tabs_menu.getDirect() << std::endl;
-					gameState.handleEvent(event);
+					switch (tabs)
+					{
+					case Menu:
+						tabs_menu.handleEvents(&event);
+						break;
+					case InGame_SoloMode:
+						//SDL_Delay...
+						gameState.setPlaying(1);
+						gameState.handleEvent(event);
+						break;
+					default:
+						break;
+					}
 					break;
 			}
 			
@@ -136,25 +146,40 @@ void Game::update()
 		// Tabs_Menu.handle
 	}
 	//Render text
-
-	gameState.newTetradsFalling();
-	// std::cout << "YPos2" << gameState.getNextTetrads()->getYPos() << std::endl;
-	gameState.updateFallingTetrads();
-	// std::cout << "YPos3" << gameState.getNextTetrads()->getYPos() << std::endl;
-	if (gameState.gameOver()){
-		// khi game over ...
+	if (tabs == InGame_SoloMode){
+		gameState.newTetradsFalling();
+		// std::cout << "YPos2" << gameState.getNextTetrads()->getYPos() << std::endl;
+		gameState.updateFallingTetrads();
+		// std::cout << "YPos3" << gameState.getNextTetrads()->getYPos() << std::endl;
+		if (gameState.gameOver()){
+			// khi game over ...
+		}
 	}
-	
 	
 }
 
 void Game::render()
 {
 	
-    SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0 );
+    // SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0 );
     SDL_RenderClear(renderer);
-	tabs_menu.render(renderer);
-	// gameState.render(renderer);
+	LTexture bkgr;
+            bkgr.loadFromFile(menuPicturePath, renderer);
+            bkgr.render(renderer, 0, 0);
+	switch (tabs)
+	{
+	case Menu:
+		tabs_menu.render(renderer);
+		break;
+	case InGame_SoloMode:
+		gameState.render(renderer);
+		break;
+	default:
+		break;
+	}
+	
+	
+	
 	
 	gFPS_Processor->printFPS(renderer, gFont);
 	
