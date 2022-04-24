@@ -25,7 +25,7 @@ void Grid::render(SDL_Renderer *renderer){
         SDL_RenderDrawLine(renderer, i*TILE_SIZE + xPos, yPos, i*TILE_SIZE + xPos, yPos + TILE_SIZE*ROWS);
     }
 
-    for (int i = 0; i < ROWS; i++){
+    for (int i = -4; i < ROWS; i++){
         for (int j = 0; j < COLS; j++){
             if (matrix[i+HIDDEN_ROWS][j].exist){
                 matrix[i+HIDDEN_ROWS][j].render(renderer);

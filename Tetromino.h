@@ -49,15 +49,15 @@ class Tetromino{
                 }
             }
         }
-        void setCollinYInitTetrads(){
+        void setCollinYInitTetrads(int landingPoint){
             int tmp = collin.y - yPos;
-            yPos=delimitedLine-1;
-            collin.y-=yPos+tmp;
-            if (yPos+HIDDEN_ROWS<0){
+            yPos=landingPoint-HIDDEN_ROWS-3;
+            collin.y=yPos+tmp;
+            if (yPos+HIDDEN_ROWS<=0){
                 yPos = -HIDDEN_ROWS;
                 collin.y = yPos + tmp;
+
             }
-            
         }
         bool getStatus(){
             return active;

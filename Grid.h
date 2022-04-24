@@ -68,7 +68,7 @@ class Grid{
         }
         int getHighestRow(int startPoint, int leftLimit, int rightLimit){
             for (int i=startPoint; i<ROWS+HIDDEN_ROWS; i++){
-                for (int j=leftLimit; j<rightLimit; j++){
+                for (int j=leftLimit; j<=rightLimit; j++){
                     if (matrix[i][j].exist){
                         return i;
                     }

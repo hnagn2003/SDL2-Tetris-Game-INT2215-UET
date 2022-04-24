@@ -152,10 +152,10 @@ void Game::update()
 		gameState.updateFallingTetrads();
 		// std::cout << "YPos3" << gameState.getNextTetrads()->getYPos() << std::endl;
 		if (gameState.gameOver()){
+			tabs = -1; //...
 			// khi game over ...
 		}
 	}
-	
 }
 
 void Game::render()
