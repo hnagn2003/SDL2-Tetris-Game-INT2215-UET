@@ -355,7 +355,9 @@ class Tetromino{
                 // std::cout <<collin.y + collin.h << std::endl;
             }
         }
-        
+        void swapWithHolding(Tetromino &holding){
+
+        }
 };
 // define matrix của 7 loại tetrads
 static bool matrixStructure_I[sizeOfTetradsSide][sizeOfTetradsSide] = {
@@ -459,8 +461,7 @@ const Tetromino Tetrads[TOTAL_OF_TETRADS] =
         }
     };
 
-Tetromino getRandomTetrads();
-void swapTetrads(Tetromino &holding, Tetromino &current);
+Tetromino* getRandomTetrads();
 
 
 #endif

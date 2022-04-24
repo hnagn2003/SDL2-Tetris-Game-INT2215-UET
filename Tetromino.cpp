@@ -8,8 +8,10 @@
 #include <cstdlib>
 
 // hàm random tetrads, làm giảm xác suất giống nhau của 2 khối liên tiếp
-Tetromino getRandomTetrads(){ //...
-    return Tetrads[rand() % TOTAL_OF_TETRADS];
+Tetromino* getRandomTetrads(){ //...
+    Tetromino* res = new Tetromino;
+    *res = Tetrads[rand() % TOTAL_OF_TETRADS];
+    return res;
 }
 // hàm chuyển vị ma trận (xoay khối tetrads)
 void transPos(bool matrix[sizeOfTetradsSide][sizeOfTetradsSide]){
@@ -26,6 +28,3 @@ void transPos(bool matrix[sizeOfTetradsSide][sizeOfTetradsSide]){
     }
 }
 
-void swapTetrads(Tetromino &holding, Tetromino &current){
-    
-}
