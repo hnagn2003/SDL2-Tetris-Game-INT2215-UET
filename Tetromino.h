@@ -77,6 +77,12 @@ class Tetromino{
         int getYPos(){
             return yPos;
         }
+        void setXPos(int x){
+            xPos = x;
+        }
+        void setYPos(int y){
+            yPos = y;
+        }
         int getXCol(){
             return collin.x;
         }
@@ -453,9 +459,8 @@ const Tetromino Tetrads[TOTAL_OF_TETRADS] =
         }
     };
 
-
 Tetromino getRandomTetrads();
-
+void swapTetrads(Tetromino &holding, Tetromino &current);
 
 
 #endif

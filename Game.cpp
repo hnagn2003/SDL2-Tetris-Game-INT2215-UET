@@ -161,11 +161,9 @@ void Game::update()
 void Game::render()
 {
 	
-    // SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0 );
+    SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0 );
     SDL_RenderClear(renderer);
-	LTexture bkgr;
-            bkgr.loadFromFile(menuPicturePath, renderer);
-            bkgr.render(renderer, 0, 0);
+
 	switch (tabs)
 	{
 	case Menu:

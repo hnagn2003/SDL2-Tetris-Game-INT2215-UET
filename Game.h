@@ -10,6 +10,8 @@
 #include "Specifications.h"
 #include <iostream>
 #include "Structure.h"
+
+
 class Game_State {
     private:
         bool playing;
@@ -18,8 +20,11 @@ class Game_State {
         int level;
         int velocity;
         int moveVel;
-        Tetromino nextTetrads;
+        Tetromino next0Tetrads;
+        Tetromino next1Tetrads;
+        Tetromino next2Tetrads;
         Tetromino currentTetrads;
+        Tetromino* holding;
         Grid grid;
 
     public: 
@@ -30,7 +35,9 @@ class Game_State {
             level = 1;
             velocity = initVelocity;
             moveVel = velocity;
-            nextTetrads = getRandomTetrads();
+            next0Tetrads = getRandomTetrads();
+            next1Tetrads = getRandomTetrads();
+            next2Tetrads = getRandomTetrads();
             currentTetrads = getRandomTetrads();
         }
 
@@ -43,8 +50,8 @@ class Game_State {
         Tetromino* getCurTetrads(){
             return &currentTetrads;
         }
-        Tetromino* getNextTetrads(){
-            return &nextTetrads;
+        Tetromino* getNext0Tetrads(){
+            return &next0Tetrads;
         }
         void updateGameState(short int updateLines){
             score += updateLines * level;
@@ -55,7 +62,6 @@ class Game_State {
         void render (SDL_Renderer *renderer){
             grid.render(renderer);
             currentTetrads.render(renderer);
-
         }
 
         void newTetradsFalling(){
@@ -97,6 +103,18 @@ class Game_State {
                                 currentTetrads.dropDown(&grid);
                                 // std::cout << "e2 "<<currentTetrads.getYPos()<<' ' << nextTetrads.getYPos() << std::endl;
                                 break;
+                            case SDLK_c:
+                                if (holding == NULL){
+                                    holding = new Tetromino;
+                                    // *holding = currentTetrads;
+                                    currentTetrads = next0Tetrads;
+                                    next0Tetrads = next1Tetrads;
+                                    next1Tetrads = next2Tetrads;
+                                    next2Tetrads = getRandomTetrads();
+                                }else{
+                                    swapTetrads(holding, currentTetrads)
+                                }
+                                break;
                             default: break;
                         }
                         
@@ -132,17 +150,17 @@ class Game_State {
                 if (!currentTetrads.getStatus()){
                     // std::cout<<'1' << nextTetrads.getYPos() <<std::endl;
                     if (grid.getHighestRow(HIDDEN_ROWS, 0, COLS-1)<=HIDDEN_ROWS){
-                        nextTetrads.setCollinYInitTetrads();
+                        next0Tetrads.setCollinYInitTetrads();
                     }
                     // std::cout<<'2' << nextTetrads.getYPos() <<std::endl;
                     int filledRow = grid.update(currentTetrads.getYPos()+HIDDEN_ROWS, currentTetrads.getYPos()+currentTetrads.getHCol()+HIDDEN_ROWS);
                     updateGameState(filledRow);
-                    currentTetrads = nextTetrads;
-                    nextTetrads = getRandomTetrads();
-                    
+                    currentTetrads = next0Tetrads;
+                    next0Tetrads = next1Tetrads;
+                    next1Tetrads = next2Tetrads;
+                    next2Tetrads = getRandomTetrads();
                 }
             }     
-
         }
         bool gameOver(){
             if (playing){
