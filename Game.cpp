@@ -6,7 +6,7 @@
 Game::Game()
 {
 	gFPS_Processor = new FPS_Processor;
-	tabs = 0;
+	tabs = -1;
 }
 
 Game::~Game()
@@ -80,6 +80,7 @@ void Game::init(const char* title, int xPos, int yPos, int SCREEN_WIDTH, int SCR
 	
 	gFPS_Processor->initTimeCounting();
 	// tabs_menu.setRenderer(renderer);
+	tabs_menu.setUpMenu(renderer);
 	
 }
 void Game::loadmedia()
@@ -113,7 +114,9 @@ void Game::handleEvents()
 					}
 					// case ...
 				default:
-
+					tabs_menu.handleEvents(&event);
+					// std::cout << tabs_menu.button[0].xPos << ' '<< tabs_menu.button[0].yPos << ' '<< tabs_menu.button[0].width << ' ' << std::endl;
+					std::cout << tabs_menu.getDirect() << std::endl;
 					gameState.handleEvent(event);
 					break;
 			}
@@ -148,7 +151,7 @@ void Game::update()
 void Game::render()
 {
 	
-    SDL_SetRenderDrawColor( renderer, 32, 64, 0, 0 );
+    SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0 );
     SDL_RenderClear(renderer);
 	tabs_menu.render(renderer);
 	// gameState.render(renderer);

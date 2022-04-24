@@ -21,7 +21,6 @@ const std::string menuButton[] = {"assets/Pictures/menu_button0.png","assets/Pic
 enum Tabs {
     Menu = -1,
     InGame_SoloMode,
-    LevelSelect,
     HighestScoreTable,
     InGame_BattleMode,
     Settings,
@@ -37,14 +36,14 @@ class LButton
         LTexture keyDown;
         bool inside;
         bool motionMouse;
-        bool isPressing;
+        bool pressed;
         int xPos, yPos, width, height;
-        int redirect = 0;
+        
 	public:
 		LButton(){
             motionMouse = 0;
             inside = 0;
-            isPressing = 0;
+            pressed = 0;
         }
         LButton(LTexture _keyUp, LTexture _keyDown){
             motionMouse = 0;
@@ -52,6 +51,17 @@ class LButton
             keyDown = _keyDown;
             width = keyUp.getWidth();
             height = keyUp.getHeight();
+        }
+        bool getPressed(){
+            return pressed;
+        }
+        bool getInside(){
+            return inside;
+        }
+        int getXPos(){return xPos;}
+        int getYPos(){return yPos;}
+        void setPressed(bool _pressed){
+            pressed = _pressed;
         }
         void setTexture(const LTexture& _keyUp, const LTexture& _keyDown){
             keyUp = _keyUp;
@@ -83,6 +93,8 @@ class LButton
                         case SDL_MOUSEMOTION:
                             motionMouse = 1;
                             break;
+                        case SDL_MOUSEBUTTONUP:
+                            pressed = 1;
                         default:
                             break;
                     }
@@ -104,29 +116,46 @@ class LButton
 };
 
 class Tabs_Menu{
-    private:
+    public:
         LButton button[allButtonsOfMenu];
         LTexture keyUp[4], keyDown[4];
+        int direct = -1;
     public:
         Tabs_Menu(){
-
+            button[InGame_SoloMode].setPosition(560, 439);//...
+            button[HighestScoreTable].setPosition(986, 439);
+            button[InGame_BattleMode].setPosition(560, 557);
+            button[Settings].setPosition(986, 557);
         }
         ~Tabs_Menu(){
 
         }
-        void handleEvents(SDL_Event e){
-
+        int getDirect(){
+            return direct;
+        }
+        void handleEvents(SDL_Event* e){
+            for (int i=0; i<allButtonsOfMenu; i++){
+                button[i].handleEvents(e);
+                if (button[i].getPressed()){
+                    button[i].setPressed(0);
+                    direct=i;
+                }
+            }
+        }
+        void setUpMenu(SDL_Renderer* renderer){
+            for (int i=0; i<4; i++){
+                keyUp[i].loadFromFile(menuButton[i], renderer);
+                button[i].setTexture(keyUp[i], keyDown[i]);
+            }
         }
         void render(SDL_Renderer* renderer){
             LTexture bkgr;
             bkgr.loadFromFile(menuPicturePath, renderer);
             bkgr.render(renderer, 0, 0);
             for (int i=0; i<4; i++){
-                keyUp[i].loadFromFile(menuButton[i], renderer);
-                button[i].setTexture(keyUp[i], keyDown[i]);
-                button[i].render(renderer);//...
+                button[i].render(renderer, button[i].getXPos(), button[i].getYPos());
             }
-            
+
         }
 };
 
@@ -258,13 +287,6 @@ class FPS_Processor{
             gFPSTextTexture->render( renderer,( SCREEN_WIDTH - gFPSTextTexture->getWidth() ), 0 );
         }
 };
-enum allButton{
-    START_BUTTON,
-    LEVEL_SETUP_BUTTON,
-    HIGH_SCORE,
-    SETTINGS_BUTTON,
-    HELP_BUTTON,
-    ABOUT_BUTTON
-};
+
 
 #endif
