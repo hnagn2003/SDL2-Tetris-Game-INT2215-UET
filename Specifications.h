@@ -93,8 +93,13 @@ class LButton
                         case SDL_MOUSEMOTION:
                             motionMouse = 1;
                             break;
-                        case SDL_MOUSEBUTTONUP:
+                        case SDL_MOUSEBUTTONDOWN:
+                            motionMouse = 1;
                             pressed = 1;
+                            break;
+                        case SDL_MOUSEBUTTONUP:
+                            pressed = 0;
+                            break;
                         default:
                             break;
                     }
@@ -119,9 +124,10 @@ class Tabs_Menu{
     public:
         LButton button[allButtonsOfMenu];
         LTexture keyUp[4], keyDown[4];
-        int direct = -1;
+        int direct;
     public:
         Tabs_Menu(){
+            direct = -1;
             button[InGame_SoloMode].setPosition(560, 439);//...
             button[HighestScoreTable].setPosition(986, 439);
             button[InGame_BattleMode].setPosition(560, 557);
@@ -132,6 +138,9 @@ class Tabs_Menu{
         }
         int getDirect(){
             return direct;
+        }
+        void resetDirect(){
+            direct = -1;
         }
         void handleEvents(SDL_Event* e){
             for (int i=0; i<allButtonsOfMenu; i++){

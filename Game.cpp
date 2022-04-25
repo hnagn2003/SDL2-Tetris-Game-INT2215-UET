@@ -94,7 +94,6 @@ void Game::loadmedia()
 }
 void Game::handleEvents()
 {
-		tabs = tabs_menu.getDirect();
         SDL_Event event; 
 		while(SDL_PollEvent(&event)){
 			
@@ -119,12 +118,11 @@ void Game::handleEvents()
 					{
 					case Menu:
 						tabs_menu.handleEvents(&event);
+						tabs = tabs_menu.getDirect();
 						break;
 					case InGame_SoloMode:
 						//SDL_Delay...
 						gameState.setPlaying(1);
-											
-
 						gameState.handleEvent(event);
 											
 
@@ -145,9 +143,12 @@ void Game::update()
 	gFPS_Processor->cappingFrame();
 
 	if (tabs == Menu){
+		// std::cout << tabs << std::endl;
+		
 		tabs_menu.render(renderer);
 		// Tabs_Menu.handle
 	}
+
 	//Render text
 	if (tabs == InGame_SoloMode){
 		gameState.newTetradsFalling();
@@ -156,6 +157,7 @@ void Game::update()
 		// std::cout << "YPos3" << gameState.getNextTetrads()->getYPos() << std::endl;
 		if (gameState.gameOver()){
 			tabs = -1; //...
+			gameState = Game_State();
 			// khi game over ...
 		}
 	}
