@@ -49,15 +49,16 @@ class Tetromino{
                 }
             }
         }
-        void setCollinYInitTetrads(int landingPoint){
+        int setCollinYInitTetrads(int landingPoint){
             // int tmp = collin.y - yPos;
             yPos=landingPoint-HIDDEN_ROWS-4;
             // collin.y=yPos+tmp;
-            detectCoveredRect();
+            
             if (yPos+HIDDEN_ROWS<=0){
                 yPos = -1*HIDDEN_ROWS;
                 // collin.y = yPos + tmp;
             }
+            detectCoveredRect();
         }
         bool getStatus(){
             return active;
@@ -166,7 +167,7 @@ class Tetromino{
             for (int i=0; i<sizeOfTetradsSide; i++){
                 for (int j=0; j<sizeOfTetradsSide; j++){
                     if (matrix[i][j]){
-                        if (grid->getGrid()[i+yPos+HIDDEN_ROWS][j+xPos].exist || collin.x < 0 || collin.y < 0 || collin.x + collin.w > COLS || collin.y + collin.h > ROWS){
+                        if (grid->getGrid()[i+yPos+HIDDEN_ROWS][j+xPos].exist || collin.x < 0|| collin.y < HIDDEN_ROWS*-1  || collin.x + collin.w > COLS || collin.y + collin.h > ROWS){
                             return true;
                         }
                     }
@@ -175,17 +176,24 @@ class Tetromino{
             return false;
         }
         // kiểm tra va chạm với các khối tetrads khác
-        bool collisionWithOtherTetrads(Grid *grid){
+        bool collisionWithOtherTetrads(Grid *grid){ //bug
             for (int i=0; i<sizeOfTetradsSide; i++){
                 for (int j=0; j<sizeOfTetradsSide; j++){
                     if (matrix[i][j]){
-                        std::cout << i+yPos+HIDDEN_ROWS+1 << ' ' << j+xPos <<std::endl;
+                        // std::cout << i+yPos+HIDDEN_ROWS+1 << ' ' << j+xPos <<std::endl;
                         if (grid->getGrid()[i+yPos+HIDDEN_ROWS+1][j+xPos].exist){
                             return true;
                         }
                     }
                 }
             }
+
+            // for (int i=collin.x; i<collin.x+collin.w; i++){
+            //     // std::cout << collin.y+collin.h+HIDDEN_ROWS << ' ' << i << std::endl;
+            //     if (grid->getGrid()[collin.y+collin.h+HIDDEN_ROWS][i].exist){
+            //         return true;
+            //     }
+            // }
             return false;
         }
 
@@ -229,11 +237,12 @@ class Tetromino{
             return false;
         }
         // xác định hình chữ nhật bao quanh khối tetrads
-        void detectCoveredRect(){
+        void detectCoveredRect(){ //bug
+            //  std::cout << collin.x << ' ' << collin.y<<' ' << collin.w << ' ' <<collin.h<<std::endl;
             collin.w = 0; collin.h = 0;
             for (int i=0; i<sizeOfTetradsSide; i++){
                 for (int j=0; j<sizeOfTetradsSide; j++){
-                    if (!matrix[i][j]){
+                    if (matrix[i][j]!=0){
                         collin.h++;
                         break;
                     }
@@ -241,7 +250,7 @@ class Tetromino{
             }
             for (int j=0; j<sizeOfTetradsSide; j++){
                 for (int i=0; i<sizeOfTetradsSide; i++){
-                    if (!matrix[i][j]){
+                    if (matrix[i][j]!=0){
                         collin.w++;
                         break;
                     }
@@ -251,7 +260,7 @@ class Tetromino{
             bool xStop = false, yStop = false;
             for (int i=0; i<sizeOfTetradsSide && !xStop; i++){
                 for (int j=0; j<sizeOfTetradsSide && !xStop; j++){
-                    if (!matrix[i][j]){
+                    if (matrix[i][j]!=0){
                         collin.y = yPos+i;
                         xStop = true;
                     }
@@ -259,13 +268,16 @@ class Tetromino{
             }
             for (int j=0; j<sizeOfTetradsSide && !yStop; j++){
                 for (int i=0; i<sizeOfTetradsSide && !yStop; i++){
-                    if (!matrix[i][j]){
+                    if (matrix[i][j]!=0){
                         collin.x = xPos+j;
                         yStop = true;
                     }
                 }
             }
+                                    // std::cout << collin.x << ' ' << collin.y<<' ' << collin.w << ' ' <<collin.h<<std::endl;
+
         }
+
        // hàm thực hiện hành động xoay khối ngược lại
         void rotateBack(){
             if (active){
@@ -291,7 +303,7 @@ class Tetromino{
                 yPos--;
         }
         void moveDown(Grid *grid, bool disable = 1){
-            if (!collision(grid, disable) && (collin.y + collin.h + HIDDEN_ROWS - 1) < grid->getHighestRow(yPos+collin.y-1+HIDDEN_ROWS, xPos, xPos+collin.w-1)){
+            if (!collision(grid, disable) && (collin.y + collin.h + HIDDEN_ROWS - 1) < grid->getHighestRow(0, xPos, xPos+collin.w-1)){
                 collin.y++;
                 yPos++;
             }
@@ -314,7 +326,7 @@ class Tetromino{
         void dropDown(Grid *grid){
             
             // std::cout << "e1 " << yPos <<std::endl;
-            if (active && collin.y + collin.h - 1 < grid->getHighestRow(yPos+collin.y-1+HIDDEN_ROWS, xPos, xPos+collin.w-1)){
+            if (active && collin.y + collin.h - 1 < grid->getHighestRow(0, xPos, xPos+collin.w-1)){
                 while(!collision(grid)){ //bughere
                     moveDown(grid);
                 }
@@ -326,27 +338,42 @@ class Tetromino{
         void fixTheSuperimposed(Grid *grid){
             if (checkSuperimposed(grid)){
                 moveLeft(grid);
+                detectCoveredRect();
                 if(checkSuperimposed(grid)){
                     moveLeft(grid);
+                    detectCoveredRect();
                     if (checkSuperimposed(grid)){
                         moveRight(grid);
+                        detectCoveredRect();
                         moveRight(grid);
+                        detectCoveredRect();
                         moveRight(grid);
+                        detectCoveredRect();
                         if (checkSuperimposed(grid)){
                             moveRight(grid);
+                            detectCoveredRect();
                             if (checkSuperimposed(grid)){
                                 moveLeft(grid);
+                                detectCoveredRect();
                                 moveLeft(grid);
+                                detectCoveredRect();
                                 moveUp(grid);
+                                detectCoveredRect();
                                 if (checkSuperimposed(grid)){
                                     moveUp(grid);
+                                    detectCoveredRect();
                                     if (checkSuperimposed(grid)){
                                         moveDown(grid, 0);
+                                        detectCoveredRect();
                                         moveDown(grid, 0);
+                                        detectCoveredRect();
                                         moveDown(grid, 0);
+                                        detectCoveredRect();
                                         if (checkSuperimposed(grid)){
                                             moveUp(grid);
+                                            detectCoveredRect();
                                             rotateBack();
+                                            detectCoveredRect();
                                         }
                                     }
                                 }
@@ -362,6 +389,7 @@ class Tetromino{
                 transPos(matrix);
                 detectCoveredRect();
                 fixTheSuperimposed(grid);
+                detectCoveredRect();
                 // std::cout <<collin.y + collin.h << std::endl;
             }
         }
