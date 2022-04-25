@@ -74,7 +74,7 @@ class Grid{
                     }
                 }
             }
-            return ROWS+HIDDEN_ROWS-1;
+            return ROWS+HIDDEN_ROWS;
         }
         
 };

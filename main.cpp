@@ -24,6 +24,7 @@ int main( int argc, char* args[] ){
         game->update();
         
         game->render();
+
     }
     game->clean();
     
