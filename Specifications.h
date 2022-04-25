@@ -73,6 +73,7 @@ class LButton
         }
         void handleEvents(SDL_Event* e){
             motionMouse = 0;
+            pressed = 0;
         	if( e->type == SDL_MOUSEMOTION || e->type == SDL_MOUSEBUTTONDOWN || e->type == SDL_MOUSEBUTTONUP ){
                 int x, y;
 		        SDL_GetMouseState( &x, &y );

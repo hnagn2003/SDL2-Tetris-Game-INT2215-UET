@@ -122,23 +122,18 @@ void Game::handleEvents()
 						break;
 					case InGame_SoloMode:
 						//SDL_Delay...
-						gameState.setPlaying(1);
 						gameState.handleEvent(event);
-											
-
 						break;
 					default:
 						break;
 					}
 					break;
 			}
-			
 		}
-}
+} 
 
 void Game::update()
 {
-	
 	//if currentTetrads tiep dat, chuyen trang thai khoi, cho khoi moi tiep dat
 	gFPS_Processor->cappingFrame();
 
@@ -151,6 +146,7 @@ void Game::update()
 
 	//Render text
 	if (tabs == InGame_SoloMode){
+		gameState.setPlaying(1);
 		gameState.newTetradsFalling();
 		// std::cout << "YPos2" << gameState.getNextTetrads()->getYPos() << std::endl;
 		gameState.updateFallingTetrads();

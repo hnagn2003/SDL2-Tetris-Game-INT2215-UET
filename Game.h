@@ -46,7 +46,9 @@ class Game_State {
             next2Tetrads = getRandomTetrads();
             currentTetrads = getRandomTetrads();
         }
-
+        bool getPlaying(){
+            return playing;
+        }
         void setPlaying(bool _playing){
             playing = _playing;
         }
