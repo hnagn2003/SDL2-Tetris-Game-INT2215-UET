@@ -76,7 +76,6 @@ class Grid{
             }
             return ROWS+HIDDEN_ROWS;
         }
-        
 };
 
 #endif

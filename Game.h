@@ -198,7 +198,7 @@ class Game_State {
         }
         bool gameOver(){
             if (playing){
-                if (grid.getHighestRow(0, 0, COLS)<=delimitedLine+HIDDEN_ROWS){
+                if (grid.getHighestRow(0, 0, COLS-1)<=delimitedLine+HIDDEN_ROWS){
                     playing = 0;
                     return true;
                 }
