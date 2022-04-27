@@ -11,7 +11,7 @@
 #include <iostream>
 #include "Structure.h"
 
-void renderText(long long text, SDL_Renderer* renderer, int xCenter, int yCenter);
+void renderText(long long text, SDL_Renderer* renderer, TTF_Font* gFont, int xCenter, int yCenter, SDL_Color textColor = WHITE_COLOR);
 
 class Game_State {
     private:
@@ -71,7 +71,7 @@ class Game_State {
         //
         void render (SDL_Renderer *renderer){
             grid->render(renderer);
-            renderText(score, renderer, 628.5, 693.5);
+            renderText(score, renderer, gFont1, 693.5+grid->getX(), 628.5+grid->getY());
             currentTetrads->render(renderer);
         }
 
@@ -238,7 +238,6 @@ private:
     bool isRunning;
     SDL_Window *window;
     SDL_Renderer *renderer;
-    TTF_Font* gFont;
     FPS_Processor* gFPS_Processor;
     Game_State *gameState;
     int tabs;

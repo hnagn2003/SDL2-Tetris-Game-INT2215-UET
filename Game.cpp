@@ -3,16 +3,14 @@
 #include "Specifications.h"
 #include <iostream>
 #include <sstream>
-void renderText(long long text, SDL_Renderer* renderer, int xCenter, int yCenter){
-		// gFont = TTF_OpenFont( "font/Northstar3D-4D3x.otf", 28 );
-
+void renderText(long long text, SDL_Renderer* renderer, TTF_Font* gFont, int xPos, int yPos, SDL_Color textColor){
     LTexture textTexture;
     std::stringstream ssText;
     ssText.str( "" );
     ssText << text;
-    SDL_Color textColor = { 255, 0, 0, 255 };
-    textTexture.loadFromRenderedText(ssText.str().c_str(), textColor, gFont1, renderer);
-    textTexture.render(renderer, xCenter-textTexture.getWidth()/2, yCenter-textTexture.getHeight()/2);
+    textTexture.loadFromRenderedText(ssText.str().c_str(), textColor, gFont, renderer);
+	// std::cout << textTexture.getWidth() << ' ' << textTexture.getHeight() << std::endl;
+    textTexture.render(renderer, xPos-textTexture.getWidth()/2, yPos-textTexture.getHeight()/2);
 }
 Game::Game()
 {
@@ -97,12 +95,6 @@ void Game::init(const char* title, int xPos, int yPos, int SCREEN_WIDTH, int SCR
 }
 void Game::loadmedia()
 {
-	
-	gFont = TTF_OpenFont( rFont.c_str(), 28 );
-	if( gFont == NULL )
-	{
-		printf( "Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError() );
-	}
 	gFont1 = TTF_OpenFont( "font/Northstar3D-4D3x.otf", 24 );
 	gameState->getGrid()->loadMedia(renderer);
 }
@@ -207,8 +199,8 @@ void Game::render()
 
 void Game::clean()
 {
-	TTF_CloseFont( gFont );
-	gFont = NULL;
+	TTF_CloseFont( gFont1 );
+	gFont1 = NULL;
 
     SDL_DestroyRenderer( renderer );
 	SDL_DestroyWindow( window );

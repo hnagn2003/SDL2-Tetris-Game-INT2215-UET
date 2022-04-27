@@ -57,11 +57,11 @@ bool LTexture::loadFromFile( std::string path, SDL_Renderer* gRenderer)
 }
 
 // #if defined(SDL_TTF_MAJOR_VERSION)
-bool LTexture::loadFromRenderedText( std::string textureText, SDL_Color textColor, TTF_Font* gFont1, SDL_Renderer* gRenderer )
+bool LTexture::loadFromRenderedText( std::string textureText, SDL_Color textColor, TTF_Font* gFont, SDL_Renderer* gRenderer )
 {
 	free();
-	// gFont1 = TTF_OpenFont( "font/Northstar3D-4D3x.otf", 28 );
-	SDL_Surface* textSurface = TTF_RenderText_Solid( gFont1, textureText.c_str(), textColor );
+	// gFont = TTF_OpenFont( "font/Northstar3D-4D3x.otf", 28 );
+	SDL_Surface* textSurface = TTF_RenderText_Solid( gFont, textureText.c_str(), textColor );
 	if( textSurface != NULL )
 	{
         mTexture = SDL_CreateTextureFromSurface( gRenderer, textSurface );

@@ -32,6 +32,12 @@ class Grid{
         block (*(getGrid)())[COLS]{
             return matrix;
         }
+        int getX(){
+            return xPos;
+        }
+        int getY(){
+            return yPos;
+        }
         void loadMedia(SDL_Renderer *renderer){
             if (gridFrame->mTexture == NULL){
                 gridFrame->loadFromFile(grid_frame, renderer);
