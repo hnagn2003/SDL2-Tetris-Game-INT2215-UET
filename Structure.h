@@ -19,9 +19,9 @@ class LTexture
 
 		bool loadFromFile( std::string path, SDL_Renderer* gRenderer );
 		
-		#if defined(SDL_TTF_MAJOR_VERSION)
-		bool loadFromRenderedText( std::string textureText, SDL_Color textColor, TTF_Font* gFont, SDL_Renderer* gRenderer );
-		#endif
+		// #if defined(SDL_TTF_MAJOR_VERSION)
+		bool loadFromRenderedText( std::string textureText, SDL_Color textColor, TTF_Font* gFont1, SDL_Renderer* gRenderer );
+		// #endif
 
 		void free();
 

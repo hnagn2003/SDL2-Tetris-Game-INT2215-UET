@@ -11,6 +11,7 @@
 #include <iostream>
 #include "Structure.h"
 
+void renderText(long long text, SDL_Renderer* renderer, int xCenter, int yCenter);
 
 class Game_State {
     private:
@@ -70,6 +71,7 @@ class Game_State {
         //
         void render (SDL_Renderer *renderer){
             grid->render(renderer);
+            renderText(score, renderer, 628.5, 693.5);
             currentTetrads->render(renderer);
         }
 

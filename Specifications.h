@@ -19,6 +19,7 @@ const std::string rFont = "MTO Grunge Sans Shadow.ttf";
 const std::string menuPicturePath = "assets/Pictures/tabs_menu.png";
 const std::string menuButton[] = {"assets/Pictures/menu_button0.png","assets/Pictures/menu_button1.png","assets/Pictures/menu_button2.png","assets/Pictures/menu_button3.png"};
 const std::string grid_frame = "assets/Pictures/GridFrame.png";
+static TTF_Font* gFont1;
 enum Tabs {
     Menu = -1,
     InGame_SoloMode,

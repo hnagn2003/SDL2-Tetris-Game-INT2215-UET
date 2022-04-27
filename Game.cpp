@@ -3,6 +3,17 @@
 #include "Specifications.h"
 #include <iostream>
 #include <sstream>
+void renderText(long long text, SDL_Renderer* renderer, int xCenter, int yCenter){
+		// gFont = TTF_OpenFont( "font/Northstar3D-4D3x.otf", 28 );
+
+    LTexture textTexture;
+    std::stringstream ssText;
+    ssText.str( "" );
+    ssText << text;
+    SDL_Color textColor = { 255, 0, 0, 255 };
+    textTexture.loadFromRenderedText(ssText.str().c_str(), textColor, gFont1, renderer);
+    textTexture.render(renderer, xCenter-textTexture.getWidth()/2, yCenter-textTexture.getHeight()/2);
+}
 Game::Game()
 {
 	gameState = new Game_State;
@@ -92,6 +103,7 @@ void Game::loadmedia()
 	{
 		printf( "Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError() );
 	}
+	gFont1 = TTF_OpenFont( "font/Northstar3D-4D3x.otf", 24 );
 	gameState->getGrid()->loadMedia(renderer);
 }
 void Game::handleEvents()
