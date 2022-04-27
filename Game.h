@@ -71,7 +71,9 @@ class Game_State {
         //
         void render (SDL_Renderer *renderer){
             grid->render(renderer);
-            renderText(score, renderer, gFont1, 693.5+grid->getX(), 628.5+grid->getY());
+            renderText(lineCount, renderer, gFont1, 693.5+grid->getX(), 628.5+grid->getY());
+            renderText(score, renderer, gFont1, 693.5+grid->getX(), 736+grid->getY());
+            renderText(level, renderer, gFont1, 693.5+grid->getX(), 842+grid->getY());
             currentTetrads->render(renderer);
         }
 
@@ -125,23 +127,22 @@ class Game_State {
                             case SDLK_c:
                                 if (holding == NULL){
                                     holding = new Tetromino;
-                                    holding = currentTetrads;
+                                    // holding = currentTetrads;
+                                    // currentTetrads = next0Tetrads;
+                                    // currentTetrads->setXPos(holding->getXPos());
+                                    // currentTetrads->setYPos(holding->getYPos());
+                                    // currentTetrads->detectCoveredRect();
+                                    // currentTetrads->fixTheSuperimposed(grid);
+                                    *holding = Tetrads[currentTetrads->getType()];
                                     currentTetrads = next0Tetrads;
-                                    currentTetrads->setXPos(holding->getXPos());
-                                    currentTetrads->setYPos(holding->getYPos());
-                                    currentTetrads->detectCoveredRect();
                                     next0Tetrads = next1Tetrads;
                                     next1Tetrads = next2Tetrads;
                                     next2Tetrads = getRandomTetrads();
                                 }else{
                                     if (!switchHold){
-                                        Tetromino* tmp = holding;
-                                        holding = currentTetrads;
-                                        currentTetrads = tmp;
-                                        // delete tmp;
-                                        currentTetrads->setXPos(holding->getXPos());
-                                        currentTetrads->setYPos(holding->getYPos());
-                                        currentTetrads->detectCoveredRect();
+                                        int tmp = holding->getType();
+                                        *holding = Tetrads[currentTetrads->getType()];
+                                        *currentTetrads = Tetrads[tmp];
                                     }
                                 }
                                 switchHold = 1;
@@ -186,12 +187,14 @@ class Game_State {
                     // std::cout << "higest row " << highestRow << std::endl;
                     if (highestRow<=(HIDDEN_ROWS+2)){ //ch
                         next0Tetrads->setCollinYInitTetrads(highestRow);
+                        holding->setCollinYInitTetrads(highestRow);
                         // std::cout << "y " << next0Tetrads->getYPos();
                     }
                     
                     // std::cout << next0Tetrads->getYPos() << ' ' << next0Tetrads->getYCol() << std::endl;
                     // std::cout<<'2' << nextTetrads.getYPos() <<std::endl;
                     int filledRow = grid->update(currentTetrads->getYPos()+HIDDEN_ROWS, currentTetrads->getYPos()+currentTetrads->getHCol()+HIDDEN_ROWS);
+                    lineCount+=filledRow;
                     updateGameState(filledRow);
                     switchHold = 0;
                     currentTetrads = next0Tetrads;

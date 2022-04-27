@@ -17,6 +17,7 @@ void transPos(bool matrix[sizeOfTetradsSide][sizeOfTetradsSide]);
 
 class Tetromino{
     private:
+        int type;
         SDL_Color color;
         // xPos, yPos tọa độ x, y chiếu trong bảng grid
         int xPos, yPos;
@@ -32,8 +33,9 @@ class Tetromino{
             active = true;
             falling = false;
         }
-        Tetromino (SDL_Color _color, bool _matrix[sizeOfTetradsSide][sizeOfTetradsSide], int _w, int _h, int _x, int _y, int _xPos = xTetradsInit, int _yPos = yTetradsInit)
+        Tetromino (int _type, SDL_Color _color, bool _matrix[sizeOfTetradsSide][sizeOfTetradsSide], int _w, int _h, int _x, int _y, int _xPos = xTetradsInit, int _yPos = yTetradsInit)
         {
+            type = _type;
             active = true;
             falling = false;
             color = _color;
@@ -59,6 +61,9 @@ class Tetromino{
                 exit(1);
             }
             detectCoveredRect();
+        }
+        int getType(){
+            return type;
         }
         bool getStatus(){
             return active;
@@ -449,6 +454,7 @@ static bool matrixStructure_Z[sizeOfTetradsSide][sizeOfTetradsSide] = {
 const Tetromino Tetrads[TOTAL_OF_TETRADS] =
     {
         {
+            I_BLOCK,
             TetroColor[I_BLOCK],
             matrixStructure_I,
             4, 1,
@@ -456,6 +462,7 @@ const Tetromino Tetrads[TOTAL_OF_TETRADS] =
         },
 
         {
+            L_BLOCK,
             TetroColor[L_BLOCK],
             matrixStructure_L,
             3, 2,
@@ -463,6 +470,7 @@ const Tetromino Tetrads[TOTAL_OF_TETRADS] =
         },
 
         {
+            J_BLOCK,
             TetroColor[J_BLOCK],
             matrixStructure_J,
             3, 2,
@@ -470,6 +478,7 @@ const Tetromino Tetrads[TOTAL_OF_TETRADS] =
         },
 
         {
+            O_BLOCK,
             TetroColor[O_BLOCK],
             matrixStructure_O,
             2, 2,
@@ -477,6 +486,7 @@ const Tetromino Tetrads[TOTAL_OF_TETRADS] =
         },
 
         {
+            S_BLOCK,
             TetroColor[S_BLOCK],
             matrixStructure_S,
             3, 2,
@@ -484,6 +494,7 @@ const Tetromino Tetrads[TOTAL_OF_TETRADS] =
         },
 
         {
+            T_BLOCK,
             TetroColor[T_BLOCK],
             matrixStructure_T,
             3, 2,
@@ -491,6 +502,7 @@ const Tetromino Tetrads[TOTAL_OF_TETRADS] =
         },
 
         {
+            Z_BLOCK,
             TetroColor[Z_BLOCK],
             matrixStructure_Z,
             3, 2,
