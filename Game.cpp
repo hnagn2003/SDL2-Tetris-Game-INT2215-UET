@@ -5,6 +5,7 @@
 #include <sstream>
 Game::Game()
 {
+	gameState = new Game_State;
 	gFPS_Processor = new FPS_Processor;
 	tabs = -1;
 }
@@ -91,7 +92,7 @@ void Game::loadmedia()
 	{
 		printf( "Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError() );
 	}
-	LTexture gridFrame(grid_frame, renderer);
+	gameState->getGrid()->loadMedia(renderer);
 }
 void Game::handleEvents()
 {
@@ -123,7 +124,7 @@ void Game::handleEvents()
 						break;
 					case InGame_SoloMode:
 						//SDL_Delay...
-						gameState.handleEvent(event);
+						gameState->handleEvent(event);
 						break;
 					default:
 						break;
@@ -147,14 +148,15 @@ void Game::update()
 
 	//Render text
 	if (tabs == InGame_SoloMode){
-		gameState.setPlaying(1);
-		gameState.newTetradsFalling();
-		// std::cout << "YPos2" << gameState.getNextTetrads()->getYPos() << std::endl;
-		gameState.updateFallingTetrads();
-		// std::cout << "YPos3" << gameState.getNextTetrads()->getYPos() << std::endl;
-		if (gameState.gameOver()){
+		gameState->setPlaying(1);
+		gameState->newTetradsFalling();
+		// std::cout << "YPos2" << gameState->getNextTetrads()->getYPos() << std::endl;
+		gameState->updateFallingTetrads();
+		// std::cout << "YPos3" << gameState->getNextTetrads()->getYPos() << std::endl;
+		if (gameState->gameOver()){
 			tabs = -1; //...
-			gameState = Game_State();
+			*gameState = Game_State();
+			gameState->getGrid()->loadMedia(renderer);
 			// khi game over ...
 		}
 	}
@@ -172,7 +174,7 @@ void Game::render()
 		tabs_menu.render(renderer);
 		break;
 	case InGame_SoloMode:
-		gameState.render(renderer);
+		gameState->render(renderer);
 		break;
 	default:
 		break;

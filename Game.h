@@ -26,7 +26,7 @@ class Game_State {
         Tetromino* next2Tetrads;
         Tetromino* currentTetrads;
         Tetromino* holding;
-        Grid grid;
+        Grid* grid;
 
     public: 
         Game_State(){
@@ -45,6 +45,7 @@ class Game_State {
             next1Tetrads = getRandomTetrads();
             next2Tetrads = getRandomTetrads();
             currentTetrads = getRandomTetrads();
+            grid = new Grid;
         }
         bool getPlaying(){
             return playing;
@@ -52,7 +53,7 @@ class Game_State {
         void setPlaying(bool _playing){
             playing = _playing;
         }
-        Grid getGrid(){
+        Grid* getGrid(){
             return grid;
         }
         Tetromino* getCurTetrads(){
@@ -68,7 +69,7 @@ class Game_State {
         }
         //
         void render (SDL_Renderer *renderer){
-            grid.render(renderer);
+            grid->render(renderer);
             currentTetrads->render(renderer);
         }
 
@@ -76,7 +77,7 @@ class Game_State {
             if (playing){
             // if (currentTetrads.getXPos() <= 0){
                 currentTetrads->setFall(true);
-                currentTetrads->fall(moveVel, &grid);
+                currentTetrads->fall(moveVel, grid);
             // }
             }
         }
@@ -93,29 +94,29 @@ class Game_State {
                             
                             case SDLK_UP: 
                                 if ( !event.key.repeat ){
-                                    currentTetrads->rotate(&grid); 
+                                    currentTetrads->rotate(grid); 
                                     break;
                                 }
                             break;
                             case SDLK_DOWN:
                                  
                                 if (currentTetrads->getStatus()){
-                                    currentTetrads->moveDown(&grid); 
+                                    currentTetrads->moveDown(grid); 
                                 }
                                 
                                 break;
                             case SDLK_LEFT: 
                             
-                                currentTetrads->moveLeft(&grid); 
+                                currentTetrads->moveLeft(grid); 
                                 
                                 break;
                             case SDLK_RIGHT: 
-                                currentTetrads->moveRight(&grid); 
+                                currentTetrads->moveRight(grid); 
                                 break;
                             case SDLK_SPACE:
                                 
                                 // std::cout << "e1 "<<currentTetrads->getYPos()<<' ' << nextTetrads->getYPos() << std::endl;
-                                currentTetrads->dropDown(&grid);
+                                currentTetrads->dropDown(grid);
                                 
                                 // std::cout << "e2 "<<currentTetrads->getYPos()<<' ' << nextTetrads->getYPos() << std::endl;
                                 break;
@@ -179,14 +180,14 @@ class Game_State {
                 // std::cout << "b2"<<currentTetrads.getYPos()<<' ' << nextTetrads.getYPos() << std::endl;
                 if (!currentTetrads->getStatus()){
                     // std::cout<<'1' << nextTetrads.getYPos() <<std::endl;
-                    int highestRow = grid.getHighestRow(0, 0, COLS-1);
+                    int highestRow = grid->getHighestRow(0, 0, COLS-1);
                     if (highestRow<=(HIDDEN_ROWS)){ //ch
                         next0Tetrads->setCollinYInitTetrads(highestRow);
                     }
                     
                     // std::cout << next0Tetrads->getYPos() << ' ' << next0Tetrads->getYCol() << std::endl;
                     // std::cout<<'2' << nextTetrads.getYPos() <<std::endl;
-                    int filledRow = grid.update(currentTetrads->getYPos()+HIDDEN_ROWS, currentTetrads->getYPos()+currentTetrads->getHCol()+HIDDEN_ROWS);
+                    int filledRow = grid->update(currentTetrads->getYPos()+HIDDEN_ROWS, currentTetrads->getYPos()+currentTetrads->getHCol()+HIDDEN_ROWS);
                     updateGameState(filledRow);
                     switchHold = 0;
                     currentTetrads = next0Tetrads;
@@ -196,9 +197,10 @@ class Game_State {
                 }
             }     
         }
+
         bool gameOver(){
             if (playing){
-                if (grid.getHighestRow(0, 0, COLS-1)<=delimitedLine+HIDDEN_ROWS){
+                if (grid->getHighestRow(0, 0, COLS-1)<=delimitedLine+HIDDEN_ROWS){
                     playing = 0;
                     return true;
                 }
@@ -234,7 +236,7 @@ private:
     SDL_Renderer *renderer;
     TTF_Font* gFont;
     FPS_Processor* gFPS_Processor;
-    Game_State gameState;
+    Game_State *gameState;
     int tabs;
     Tabs_Menu tabs_menu;
 };
