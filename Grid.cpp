@@ -16,7 +16,6 @@ Grid::~Grid(){
 
 }
 void Grid::render(SDL_Renderer *renderer, int gameMode){
-
     if (gameMode == 0){
     //         for (int i = 0; i <= ROWS; i++){
     //     SDL_SetRenderDrawColor(renderer, 100, 100, 0, 0);
@@ -26,12 +25,17 @@ void Grid::render(SDL_Renderer *renderer, int gameMode){
     //     SDL_SetRenderDrawColor(renderer, 100, 100, 0, 0);
     //     SDL_RenderDrawLine(renderer, i*TILE_SIZE + xPos, yPos, i*TILE_SIZE + xPos, yPos + TILE_SIZE*ROWS);
     // }
-        gridFrame->render(renderer, 0, 0);
-    }else if (gameMode == 1)
-        gridFrame->render(renderer, (SCREEN_WIDTH/2-width)/2, (SCREEN_HEIGHT-height)/2);
-    else{
-        gridFrame->render(renderer, (SCREEN_WIDTH*3/2-width)/2, (SCREEN_HEIGHT-height)/2);
+        xPos = 0;
+        yPos = 0;
+        
+    }else if (gameMode == 1){
+        xPos = -SCREEN_WIDTH/4;
+        yPos = 0;
+    }else if (gameMode == -1){
+        xPos = SCREEN_WIDTH/4;
+        yPos = 0;
     }
+    gridFrame->render(renderer, xPos, yPos);
     for (int i = -4; i < ROWS; i++){
         for (int j = 0; j < COLS; j++){
             if (matrix[i+HIDDEN_ROWS][j].exist){

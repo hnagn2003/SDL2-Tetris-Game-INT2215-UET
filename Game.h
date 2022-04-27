@@ -121,28 +121,28 @@ class Game_State {
                                 // std::cout << "e2 "<<currentTetrads->getYPos()<<' ' << nextTetrads->getYPos() << std::endl;
                                 break;
                             case SDLK_c:
-                                // if (holding == NULL){
-                                //     holding = new Tetromino;
-                                //     holding = currentTetrads;
-                                //     currentTetrads = next0Tetrads;
-                                //     currentTetrads->setXPos(holding->getXPos());
-                                //     currentTetrads->setYPos(holding->getYPos());
-                                //     currentTetrads->detectCoveredRect();
-                                //     next0Tetrads = next1Tetrads;
-                                //     next1Tetrads = next2Tetrads;
-                                //     next2Tetrads = getRandomTetrads();
-                                // }else{
-                                //     if (!switchHold){
-                                //         Tetromino* tmp = holding;
-                                //         holding = currentTetrads;
-                                //         currentTetrads = tmp;
-                                //         // delete tmp;
-                                //         currentTetrads->setXPos(holding->getXPos());
-                                //         currentTetrads->setYPos(holding->getYPos());
-                                //         currentTetrads->detectCoveredRect();
-                                //     }
-                                // }
-                                // switchHold = 1;
+                                if (holding == NULL){
+                                    holding = new Tetromino;
+                                    holding = currentTetrads;
+                                    currentTetrads = next0Tetrads;
+                                    currentTetrads->setXPos(holding->getXPos());
+                                    currentTetrads->setYPos(holding->getYPos());
+                                    currentTetrads->detectCoveredRect();
+                                    next0Tetrads = next1Tetrads;
+                                    next1Tetrads = next2Tetrads;
+                                    next2Tetrads = getRandomTetrads();
+                                }else{
+                                    if (!switchHold){
+                                        Tetromino* tmp = holding;
+                                        holding = currentTetrads;
+                                        currentTetrads = tmp;
+                                        // delete tmp;
+                                        currentTetrads->setXPos(holding->getXPos());
+                                        currentTetrads->setYPos(holding->getYPos());
+                                        currentTetrads->detectCoveredRect();
+                                    }
+                                }
+                                switchHold = 1;
                                 break;
                             default: break;
                             
@@ -181,10 +181,10 @@ class Game_State {
                 if (!currentTetrads->getStatus()){
                     // std::cout<<'1' << nextTetrads.getYPos() <<std::endl;
                     int highestRow = grid->getHighestRow(0, 0, COLS-1);
-                    std::cout << "higest row " << highestRow << std::endl;
+                    // std::cout << "higest row " << highestRow << std::endl;
                     if (highestRow<=(HIDDEN_ROWS+2)){ //ch
                         next0Tetrads->setCollinYInitTetrads(highestRow);
-                        std::cout << "y " << next0Tetrads->getYPos();
+                        // std::cout << "y " << next0Tetrads->getYPos();
                     }
                     
                     // std::cout << next0Tetrads->getYPos() << ' ' << next0Tetrads->getYCol() << std::endl;
