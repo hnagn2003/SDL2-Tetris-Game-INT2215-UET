@@ -91,6 +91,7 @@ void Game::loadmedia()
 	{
 		printf( "Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError() );
 	}
+	LTexture gridFrame(grid_frame, renderer);
 }
 void Game::handleEvents()
 {

@@ -8,8 +8,8 @@ const int TILE_SIZE = 40;
 const int ROWS = 20;
 const int HIDDEN_ROWS = 10;
 const int COLS = 10;
-const int SCREEN_WIDTH = 800;
-const int SCREEN_HEIGHT = 1000;
+const int SCREEN_WIDTH = 1920;
+const int SCREEN_HEIGHT = 1080;
 const int SCREEN_FPS = 60;
 const int SCREEN_TICK_PER_FRAME = 1000 / SCREEN_FPS;
 const int initVelocity = 1000;
@@ -18,6 +18,7 @@ const int delayBeforeDied = 3;
 const std::string rFont = "MTO Grunge Sans Shadow.ttf";
 const std::string menuPicturePath = "assets/Pictures/tabs_menu.png";
 const std::string menuButton[] = {"assets/Pictures/menu_button0.png","assets/Pictures/menu_button1.png","assets/Pictures/menu_button2.png","assets/Pictures/menu_button3.png"};
+const std::string grid_frame = "assets/Pictures/GridFrame.png";
 enum Tabs {
     Menu = -1,
     InGame_SoloMode,

@@ -126,14 +126,7 @@ class Tetromino{
             }
         }
         // kiểm tra va chạm dưới
-        bool testt(){
-            std::cout << "b" << std::endl;
-            return 1;
-        }
-        bool test2(){
-            std::cout << "e" << std::endl;
-            return 1;
-        }
+
         bool collision(Grid *grid, bool disabled = 1){ // ...
 
             if (active){
@@ -333,15 +326,12 @@ class Tetromino{
         // rơi thẳng xuống nếu phím enter is pressed
         void dropDown(Grid *grid){
             
-            // std::cout << collin.x << ' ' << collin.y<<' ' << collin.w << ' ' <<collin.h<<std::endl;
-            // if (active && testt() && ((collin.y + collin.h - 1) < grid->getHighestRow(0, collin.x, collin.x+collin.w-1))&&test2()){
-                // std::cout << "begin "  <<std::endl;
-            //     while(!collision(grid)){ //bughere
-            //         moveDown(grid);
-            //     }
-                // std::cout<<"end "  << std::endl;
-            // }
-            // disableFromActivate();
+            if (active && ((collin.y + collin.h - 1) < grid->getHighestRow(0, collin.x, collin.x+collin.w-1))){
+                while(!collision(grid)){ //bughere
+                    moveDown(grid);
+                }
+            }
+            disableFromActivate();
             
         }
         void fixTheSuperimposed(Grid *grid){

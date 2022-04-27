@@ -12,7 +12,13 @@ LTexture::LTexture()
 	mWidth = 0;
 	mHeight = 0;
 }
-
+LTexture::LTexture(std::string path, SDL_Renderer* gRenderer)
+{
+	mTexture = NULL;
+	mWidth = 0;
+	mHeight = 0;
+	loadFromFile(path, gRenderer);
+}
 LTexture::~LTexture()
 {
 	free();

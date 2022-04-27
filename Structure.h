@@ -13,6 +13,8 @@ class LTexture
 	public:
 		LTexture();
 
+		LTexture(std::string path, SDL_Renderer* gRenderer);
+
 		~LTexture();
 
 		bool loadFromFile( std::string path, SDL_Renderer* gRenderer );
