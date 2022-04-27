@@ -119,8 +119,12 @@ void Game::handleEvents()
 					switch (tabs)
 					{
 					case Menu:
+						// std::cout <<"1 "<< tabs << std::endl;
+						// std::cout <<"1 "<< tabs_menu.getDirect() << std::endl;
 						tabs_menu.handleEvents(&event);
 						tabs = tabs_menu.getDirect();
+						// std::cout <<"2 "<< tabs_menu.getDirect() << std::endl;
+						// std::cout <<"2 "<< tabs << std::endl;
 						break;
 					case InGame_SoloMode:
 						//SDL_Delay...
@@ -164,7 +168,6 @@ void Game::update()
 
 void Game::render()
 {
-	
     SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0 );
     SDL_RenderClear(renderer);
 
@@ -183,7 +186,7 @@ void Game::render()
 	
 	
 	
-	gFPS_Processor->printFPS(renderer, gFont);
+	// gFPS_Processor->printFPS(renderer, gFont);
 	
 	// SDL_SetRenderDrawColor( renderer, 32, 64, 0, 0 );
     SDL_RenderPresent(renderer);

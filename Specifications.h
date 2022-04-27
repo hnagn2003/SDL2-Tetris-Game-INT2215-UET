@@ -9,7 +9,7 @@ const int ROWS = 20;
 const int HIDDEN_ROWS = 10;
 const int COLS = 10;
 const int SCREEN_WIDTH = 1920;
-const int SCREEN_HEIGHT = 1080;
+const int SCREEN_HEIGHT = 800;
 const int SCREEN_FPS = 60;
 const int SCREEN_TICK_PER_FRAME = 1000 / SCREEN_FPS;
 const int initVelocity = 1000;
@@ -145,13 +145,20 @@ class Tabs_Menu{
             direct = -1;
         }
         void handleEvents(SDL_Event* e){
+            bool flag = 0;
             for (int i=0; i<allButtonsOfMenu; i++){
                 button[i].handleEvents(e);
                 if (button[i].getPressed()){
                     button[i].setPressed(0);
                     direct=i;
+                    flag = 1;
+                    break;
                 }
             }
+            if (flag){
+                return;
+            }
+            direct = -1; 
         }
         void setUpMenu(SDL_Renderer* renderer){
             for (int i=0; i<4; i++){
