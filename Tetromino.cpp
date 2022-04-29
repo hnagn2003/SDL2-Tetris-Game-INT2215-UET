@@ -6,11 +6,24 @@
 #include "Grid.h"
 #include "Specifications.h"
 #include <cstdlib>
-
+#include <set>
 // hàm random tetrads, làm giảm xác suất giống nhau của 2 khối liên tiếp
 Tetromino* getRandomTetrads(){ //...
+    
     Tetromino* res = new Tetromino;
-    *res = Tetrads[rand() % TOTAL_OF_TETRADS];
+    static std::set<int> tetradsBag;
+    if (tetradsBag.begin() == tetradsBag.end()){
+        for (int i=0; i<7; i++){
+            tetradsBag.insert(i);
+        }
+    }
+    auto it = tetradsBag.begin();
+    std::advance (it, rand()%tetradsBag.size());
+    int pickRandOne = *it;
+    *res = Tetrads[pickRandOne];
+    std::cout << tetradsBag.size() << ' ' << pickRandOne << std::endl;
+    tetradsBag.erase(tetradsBag.find(pickRandOne));
+    
     return res;
 }
 // hàm chuyển vị ma trận (xoay khối tetrads)
