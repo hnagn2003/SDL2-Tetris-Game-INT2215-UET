@@ -21,7 +21,6 @@ Tetromino* getRandomTetrads(){ //...
     std::advance (it, rand()%tetradsBag.size());
     int pickRandOne = *it;
     *res = Tetrads[pickRandOne];
-    std::cout << tetradsBag.size() << ' ' << pickRandOne << std::endl;
     tetradsBag.erase(tetradsBag.find(pickRandOne));
     
     return res;

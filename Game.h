@@ -22,6 +22,7 @@ class Game_State {
         int velocity;
         int hardLevel;
         bool switchHold;
+        bool pause;
         Tetromino* next0Tetrads;
         Tetromino* next1Tetrads;
         Tetromino* next2Tetrads;
@@ -36,6 +37,7 @@ class Game_State {
             score = 0;
             level = 1;
             switchHold = 0;
+            pause = 0;
             velocity = initVelocity;
             next0Tetrads = new Tetromino;
             next1Tetrads = new Tetromino;
@@ -103,66 +105,64 @@ class Game_State {
                         switch( event.key.keysym.sym )
                         {   
                             case SDLK_UP: 
-                                if ( !event.key.repeat ){
+                                if ( !event.key.repeat && !pause ){
                                     currentTetrads->rotate(grid); 
                                     break;
                                 }
                             break;
                             case SDLK_DOWN:
                                  
-                                if (currentTetrads->getStatus()){
+                                if (currentTetrads->getStatus() && !pause){
                                     currentTetrads->moveDown(grid); 
                                 }
                                 
                                 break;
                             case SDLK_LEFT: 
-                            
-                                currentTetrads->moveLeft(grid); 
+                                if (!pause)
+                                    currentTetrads->moveLeft(grid); 
                                 
                                 break;
                             case SDLK_RIGHT: 
-                                currentTetrads->moveRight(grid); 
+                                if (!pause)
+                                    currentTetrads->moveRight(grid); 
                                 break;
                             case SDLK_SPACE:
-                                
+                                if (!pause)
                                 // std::cout << "e1 "<<currentTetrads->getYPos()<<' ' << nextTetrads->getYPos() << std::endl;
-                                currentTetrads->dropDown(grid);
+                                    currentTetrads->dropDown(grid);
                                 
                                 // std::cout << "e2 "<<currentTetrads->getYPos()<<' ' << nextTetrads->getYPos() << std::endl;
                                 break;
                             case SDLK_c:
-                                if (holding == NULL){
-                                    holding = new Tetromino;
-                                    // holding = currentTetrads;
-                                    // currentTetrads = next0Tetrads;
-                                    // currentTetrads->setXPos(holding->getXPos());
-                                    // currentTetrads->setYPos(holding->getYPos());
-                                    // currentTetrads->detectCoveredRect();
-                                    // currentTetrads->fixTheSuperimposed(grid);
-                                    *holding = Tetrads[currentTetrads->getType()];
-                                    currentTetrads = next0Tetrads;
-                                    next0Tetrads = next1Tetrads;
-                                    next1Tetrads = next2Tetrads;
-                                    next2Tetrads = getRandomTetrads();
-                                }else{
-                                    if (!switchHold){
-                                        int tmp = holding->getType();
+                                if (!pause){
+                                    if (holding == NULL){
+                                        holding = new Tetromino;
+                                        // holding = currentTetrads;
+                                        // currentTetrads = next0Tetrads;
+                                        // currentTetrads->setXPos(holding->getXPos());
+                                        // currentTetrads->setYPos(holding->getYPos());
+                                        // currentTetrads->detectCoveredRect();
+                                        // currentTetrads->fixTheSuperimposed(grid);
                                         *holding = Tetrads[currentTetrads->getType()];
-                                        *currentTetrads = Tetrads[tmp];
+                                        currentTetrads = next0Tetrads;
+                                        next0Tetrads = next1Tetrads;
+                                        next1Tetrads = next2Tetrads;
+                                        next2Tetrads = getRandomTetrads();
+                                    }else{
+                                        if (!switchHold){
+                                            int tmp = holding->getType();
+                                            *holding = Tetrads[currentTetrads->getType()];
+                                            *currentTetrads = Tetrads[tmp];
+                                        }
                                     }
+                                    switchHold = 1;
                                 }
-                                switchHold = 1;
                                 break;
                             case SDLK_p:
-                            if (velocity!=9999999){
-                                velocity = 9999999;
-                                disableKeyboard = 1;
-                            }
-                            else{
-                                velocity = 1000;
-                            }
-                            break;
-                                default: break;
+                                currentTetrads->setPause(1);
+                                pause = 1;
+                                break;
+                            default: break;
                                 
                             }
                         
@@ -171,7 +171,8 @@ class Game_State {
                         switch( event.key.keysym.sym )
                         {
                             // case SDLK_DOWN: moveVel = velocity; break;
-                            case SDLK_DOWN: currentTetrads->moveDown(grid); //...
+                            // if (!pause)
+                                // case SDLK_DOWN: currentTetrads->moveDown(grid); //...
                             // case SDLK_LEFT: 
                             //     break;
                             // case SDLK_RIGHT: 
