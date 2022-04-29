@@ -101,12 +101,7 @@ class Tetromino{
         int getHCol(){
             return collin.h;
         }
-        int getRealWidth(){
-            return collin.w*TILE_SIZE;
-        }
-        int getRealHeight(){
-            return collin.h*TILE_SIZE;
-        }
+
         void render(SDL_Renderer* renderer, int gridXPos){
             if (active){
                 for (int i=0; i<sizeOfTetradsSide; i++){
@@ -118,6 +113,16 @@ class Tetromino{
                     }
                 }
             }
+        }
+        void render(SDL_Renderer* renderer, int gridXPos, int x, int y){
+            for (int i=0; i<sizeOfTetradsSide; i++){
+                    for (int j=0; j<sizeOfTetradsSide; j++){
+                        if (matrix[i][j] == true){
+                            block aBlock{x+j*TILE_SIZE, y+i*TILE_SIZE, type, 1};
+                            aBlock.render(renderer, gridXPos, 1);
+                        }
+                    }
+                }
         }
         // tắt active
         void disableFromActivate(){

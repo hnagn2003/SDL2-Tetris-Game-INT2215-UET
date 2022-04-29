@@ -231,15 +231,21 @@ int gridYPosToRendererPos(int y);
 
 class block{
     public:
+        int xReal, yReal;
         int xGrid, yGrid, wGrid = 1, hGrid = 1;
         int type;  
         bool exist;
         block(){
             exist = false;
         }
-        block(int x, int y, int _type){
-            xGrid = x;
-            yGrid = y;
+        block(int x, int y, int _type, int realCoordinates = 0){
+            if (realCoordinates){
+                xReal = x;
+                yReal = y;
+            }else{
+                xGrid = x;
+                yGrid = y;
+            }
             type = _type;
             exist = false;
         }
@@ -256,12 +262,16 @@ class block{
             return hGrid;
         }
 
-        void render(SDL_Renderer* renderer, int gridXPos){
+        void render(SDL_Renderer* renderer, int gridXPos, int realCoordinates = 0){
             // SDL_Rect rectBlock{gridXPosToRendererPos(xGrid)+gridXPos, gridYPosToRendererPos(yGrid), gridSizeToRendererSize(wGrid), gridSizeToRendererSize(hGrid)};
             // SDL_SetRenderDrawColor( renderer, color.r, color.g, color.b, 0 );
             static LTexture blockTemp("assets/Pictures/7block.png", renderer);
             SDL_Rect clip{type*TILE_SIZE, 0, TILE_SIZE, TILE_SIZE};
-            blockTemp.render(renderer, gridXPosToRendererPos(xGrid)+gridXPos, gridYPosToRendererPos(yGrid), &clip);
+            if (realCoordinates){
+                blockTemp.render(renderer, xReal+gridXPos, yReal, &clip);
+            }else{
+                blockTemp.render(renderer, gridXPosToRendererPos(xGrid)+gridXPos, gridYPosToRendererPos(yGrid), &clip);
+            }
         }
 };  
 // xử lý fps: print, capping

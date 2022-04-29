@@ -27,4 +27,3 @@ void transPos(bool matrix[sizeOfTetradsSide][sizeOfTetradsSide]){
         }
     }
 }
-

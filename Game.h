@@ -74,7 +74,9 @@ class Game_State {
             renderText(lineCount, renderer, gFont1, 693.5+grid->getX(), 628.5+grid->getY());
             renderText(score, renderer, gFont1, 693.5+grid->getX(), 736+grid->getY());
             renderText(level, renderer, gFont1, 693.5+grid->getX(), 842+grid->getY());
-
+            if (holding!=NULL){
+                holding->render(renderer, grid->getX(), 637, 167);
+            }
             currentTetrads->render(renderer, grid->getX());
         }
 
