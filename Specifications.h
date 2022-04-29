@@ -21,6 +21,8 @@ const std::string rFont = "MTO Grunge Sans Shadow.ttf";
 const std::string backGroundPicture = "assets/Pictures/cyber_background.png";
 const std::string menuPicturePath = "assets/Pictures/tabs_menu.png";
 const std::string menuButton[] = {"assets/Pictures/menu_button0.png","assets/Pictures/menu_button1.png","assets/Pictures/menu_button2.png","assets/Pictures/menu_button3.png"};
+const std::string menuButton_[] = {"assets/Pictures/menu_button0_.png","assets/Pictures/menu_button1_.png","assets/Pictures/menu_button2_.png","assets/Pictures/menu_button3_.png"};
+
 const std::string grid_frame = "assets/Pictures/GridFrame.png";
 static TTF_Font* gFont1;
 enum Tabs {
@@ -42,7 +44,7 @@ class LButton
         bool inside;
         bool motionMouse;
         bool pressed;
-        int xPos, yPos, width, height;
+        int xCen, yCen, width, height;
         
 	public:
 		LButton(){
@@ -62,8 +64,10 @@ class LButton
         bool getInside(){
             return inside;
         }
-        int getXPos(){return xPos;}
-        int getYPos(){return yPos;}
+        int getXCen(){return xCen;}
+        int getYCen(){return yCen;}
+        int getWidth(){return width;}
+        int getHeight(){return height;}
         void setPressed(bool _pressed){
             pressed = _pressed;
         }
@@ -73,10 +77,11 @@ class LButton
             width = keyUp.getWidth();
             height = keyUp.getHeight();
         }
-		void setPosition( int x, int y ){
-            xPos = x; yPos = y;
+		void setCenterPosition( int x, int y ){
+            xCen = x; yCen = y;
         }
         void handleEvents(SDL_Event* e){
+            int xPos = xCen - width/2, yPos = yCen - height/2;
             motionMouse = 0;
             pressed = 0;
         	if( e->type == SDL_MOUSEMOTION || e->type == SDL_MOUSEBUTTONDOWN || e->type == SDL_MOUSEBUTTONUP ){
@@ -115,7 +120,7 @@ class LButton
         }
 		void render(SDL_Renderer* renderer, int x = 0, int y = 0){
             if (x==0&&y==0){
-                x=xPos; y = yPos;
+                x=xCen; y = yCen;
             }
             if (motionMouse){
                 keyDown.render(renderer, x, y);
@@ -134,10 +139,10 @@ class Tabs_Menu{
     public:
         Tabs_Menu(){
             direct = -1;
-            button[InGame_SoloMode].setPosition(569, 501);//...
-            button[HighestScoreTable].setPosition(1049, 501);
-            button[InGame_BattleMode].setPosition(569, 680);
-            button[Settings].setPosition(1049, 680);
+            button[InGame_SoloMode].setCenterPosition(703, 549);//...
+            button[HighestScoreTable].setCenterPosition(1208, 549);
+            button[InGame_BattleMode].setCenterPosition(703, 736);
+            button[Settings].setCenterPosition(1208, 736);
         }
         ~Tabs_Menu(){
 
@@ -167,6 +172,7 @@ class Tabs_Menu{
         void setUpMenu(SDL_Renderer* renderer){
             for (int i=0; i<4; i++){
                 keyUp[i].loadFromFile(menuButton[i], renderer);
+                keyDown[i].loadFromFile(menuButton_[i], renderer);
                 button[i].setTexture(keyUp[i], keyDown[i]);
             }
         }
@@ -174,7 +180,7 @@ class Tabs_Menu{
             static LTexture tabMenuBg(menuPicturePath, renderer);
             tabMenuBg.render(renderer, 0, 0);
             for (int i=0; i<4; i++){
-                button[i].render(renderer, button[i].getXPos(), button[i].getYPos());
+                button[i].render(renderer, button[i].getXCen()-button[i].getWidth()/2, button[i].getYCen()-button[i].getHeight()/2);
             }
 
         }
