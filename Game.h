@@ -75,8 +75,11 @@ class Game_State {
             renderText(score, renderer, gFont1, 693.5+grid->getX(), 736+grid->getY());
             renderText(level, renderer, gFont1, 693.5+grid->getX(), 842+grid->getY());
             if (holding!=NULL){
-                holding->render(renderer, grid->getX(), 637, 167);
+                holding->render(renderer, grid->getX(), 663-2*TILE_SIZE, 242-2*TILE_SIZE);
             }
+            next0Tetrads->render(renderer, grid->getX(), 1259-2*TILE_SIZE, 244-2*TILE_SIZE);
+            next1Tetrads->render(renderer, grid->getX(), 1259-2*TILE_SIZE, 400-2*TILE_SIZE);
+            next2Tetrads->render(renderer, grid->getX(), 1259-2*TILE_SIZE, 556-2*TILE_SIZE);
             currentTetrads->render(renderer, grid->getX());
         }
 
