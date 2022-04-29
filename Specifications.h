@@ -134,10 +134,10 @@ class Tabs_Menu{
     public:
         Tabs_Menu(){
             direct = -1;
-            button[InGame_SoloMode].setPosition(560, 439);//...
-            button[HighestScoreTable].setPosition(986, 439);
-            button[InGame_BattleMode].setPosition(560, 557);
-            button[Settings].setPosition(986, 557);
+            button[InGame_SoloMode].setPosition(569, 501);//...
+            button[HighestScoreTable].setPosition(1049, 501);
+            button[InGame_BattleMode].setPosition(569, 680);
+            button[Settings].setPosition(1049, 680);
         }
         ~Tabs_Menu(){
 
