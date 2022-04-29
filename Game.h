@@ -93,15 +93,15 @@ class Game_State {
         }
 
         void handleEvent(SDL_Event& event){
+            static bool disableKeyboard = 0;
             if (playing){
-                
+                if (disableKeyboard){}
                 switch (event.type)
-                {
+                {   
                     case SDL_KEYDOWN:
                         
                         switch( event.key.keysym.sym )
                         {   
-                            
                             case SDLK_UP: 
                                 if ( !event.key.repeat ){
                                     currentTetrads->rotate(grid); 
@@ -153,9 +153,18 @@ class Game_State {
                                 }
                                 switchHold = 1;
                                 break;
-                            default: break;
-                            
-                        }
+                            case SDLK_p:
+                            if (velocity!=9999999){
+                                velocity = 9999999;
+                                disableKeyboard = 1;
+                            }
+                            else{
+                                velocity = 1000;
+                            }
+                            break;
+                                default: break;
+                                
+                            }
                         
                         break;
                     case SDL_KEYUP:

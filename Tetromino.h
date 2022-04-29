@@ -101,7 +101,6 @@ class Tetromino{
         int getHCol(){
             return collin.h;
         }
-
         void render(SDL_Renderer* renderer, int gridXPos){
             if (active){
                 for (int i=0; i<sizeOfTetradsSide; i++){
