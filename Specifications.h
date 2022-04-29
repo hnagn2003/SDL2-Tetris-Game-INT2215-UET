@@ -128,7 +128,6 @@ class LButton
 class Tabs_Menu{
     public:
         LButton button[allButtonsOfMenu];
-        LTexture keyUp[4], keyDown[4];
         int direct;
     public:
         Tabs_Menu(){
