@@ -20,7 +20,7 @@ class Game_State {
         long long score;
         int level;
         int velocity;
-        int moveVel;
+        int hardLevel;
         bool switchHold;
         Tetromino* next0Tetrads;
         Tetromino* next1Tetrads;
@@ -37,7 +37,6 @@ class Game_State {
             level = 1;
             switchHold = 0;
             velocity = initVelocity;
-            moveVel = velocity;
             next0Tetrads = new Tetromino;
             next1Tetrads = new Tetromino;
             next2Tetrads = new Tetromino;
@@ -47,6 +46,7 @@ class Game_State {
             next2Tetrads = getRandomTetrads();
             currentTetrads = getRandomTetrads();
             grid = new Grid;
+            hardLevel = easy; //...
         }
         bool getPlaying(){
             return playing;
@@ -65,8 +65,8 @@ class Game_State {
         }
         void updateGameState(short int updateLines){
             score += updateLines * level;
-            level = lineCount/10+1;
-            velocity = -500*(level-1) + 1000;
+            level = lineCount/hardLevel+1;
+            velocity = 1000/level;
         }
         //
         void render (SDL_Renderer *renderer){
@@ -81,7 +81,7 @@ class Game_State {
             if (playing){
             // if (currentTetrads.getXPos() <= 0){
                 currentTetrads->setFall(true);
-                currentTetrads->fall(moveVel, grid);
+                currentTetrads->fall(velocity, grid);
             // }
             }
         }
@@ -155,7 +155,8 @@ class Game_State {
                     case SDL_KEYUP:
                         switch( event.key.keysym.sym )
                         {
-                            case SDLK_DOWN: moveVel = velocity; break;
+                            // case SDLK_DOWN: moveVel = velocity; break;
+                            case SDLK_DOWN: currentTetrads->moveDown(grid); //...
                             // case SDLK_LEFT: 
                             //     break;
                             // case SDLK_RIGHT: 
@@ -187,7 +188,9 @@ class Game_State {
                     // std::cout << "higest row " << highestRow << std::endl;
                     if (highestRow<=(HIDDEN_ROWS+2)){ //ch
                         next0Tetrads->setCollinYInitTetrads(highestRow);
-                        holding->setCollinYInitTetrads(highestRow);
+                        if (holding!=NULL){
+                            holding->setCollinYInitTetrads(highestRow);
+                        }
                         // std::cout << "y " << next0Tetrads->getYPos();
                     }
                     

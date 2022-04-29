@@ -128,6 +128,7 @@ class LButton
 class Tabs_Menu{
     public:
         LButton button[allButtonsOfMenu];
+        LTexture keyUp[4], keyDown[4];
         int direct;
     public:
         Tabs_Menu(){
@@ -199,11 +200,11 @@ const SDL_Color TetroColor[] = {
 const SDL_Color backgroundColor = {0, 0, 0};
 
 enum LEVEL{
-    easy = 1000,
-    hard = 600,
-    extremely_hard = 300,
-    super_ultra_hard = 100,
-    asian = 30
+    easy = 20,
+    hard = 13,
+    extremely_hard = 9,
+    super_ultra_hard = 5,
+    asian = 1
 };
 
 struct Point{
