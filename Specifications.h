@@ -171,6 +171,8 @@ class Tabs_Menu{
             }
         }
         void render(SDL_Renderer* renderer){
+            static LTexture tabMenuBg(menuPicturePath, renderer);
+            tabMenuBg.render(renderer, 0, 0);
             for (int i=0; i<4; i++){
                 button[i].render(renderer, button[i].getXPos(), button[i].getYPos());
             }
