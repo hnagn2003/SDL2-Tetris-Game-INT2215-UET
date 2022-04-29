@@ -232,15 +232,15 @@ int gridYPosToRendererPos(int y);
 class block{
     public:
         int xGrid, yGrid, wGrid = 1, hGrid = 1;
-        SDL_Color color;  
+        int type;  
         bool exist;
         block(){
             exist = false;
         }
-        block(int x, int y, SDL_Color _color){
+        block(int x, int y, int _type){
             xGrid = x;
             yGrid = y;
-            color = _color;
+            type = _type;
             exist = false;
         }
         int getXGrid(){
@@ -256,10 +256,12 @@ class block{
             return hGrid;
         }
 
-        void render(SDL_Renderer* renderer){
-            SDL_Rect rectBlock{gridXPosToRendererPos(xGrid), gridYPosToRendererPos(yGrid), gridSizeToRendererSize(wGrid), gridSizeToRendererSize(hGrid)};
-            SDL_SetRenderDrawColor( renderer, color.r, color.g, color.b, 0 );
-            SDL_RenderFillRect(renderer, &rectBlock);
+        void render(SDL_Renderer* renderer, int gridXPos){
+            // SDL_Rect rectBlock{gridXPosToRendererPos(xGrid)+gridXPos, gridYPosToRendererPos(yGrid), gridSizeToRendererSize(wGrid), gridSizeToRendererSize(hGrid)};
+            // SDL_SetRenderDrawColor( renderer, color.r, color.g, color.b, 0 );
+            static LTexture blockTemp("assets/Pictures/7block.png", renderer);
+            SDL_Rect clip{type*TILE_SIZE, 0, TILE_SIZE, TILE_SIZE};
+            blockTemp.render(renderer, gridXPosToRendererPos(xGrid)+gridXPos, gridYPosToRendererPos(yGrid), &clip);
         }
 };  
 // xử lý fps: print, capping

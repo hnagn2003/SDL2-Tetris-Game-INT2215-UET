@@ -8,7 +8,7 @@ Grid::Grid(){
     gridFrame = new LTexture;
     for (int i=0; i<ROWS+HIDDEN_ROWS; i++){
         for (int j=0; j<COLS; j++){
-            matrix[i][j] = {j, i-HIDDEN_ROWS, backgroundColor};
+            matrix[i][j] = {j, i-HIDDEN_ROWS, -1};
         }
     }
 }
@@ -39,7 +39,7 @@ void Grid::render(SDL_Renderer *renderer, int gameMode){
     for (int i = -4; i < ROWS; i++){
         for (int j = 0; j < COLS; j++){
             if (matrix[i+HIDDEN_ROWS][j].exist){
-                matrix[i+HIDDEN_ROWS][j].render(renderer);
+                matrix[i+HIDDEN_ROWS][j].render(renderer, xPos);
             }
         }
     }

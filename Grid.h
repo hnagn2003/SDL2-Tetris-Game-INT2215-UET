@@ -61,7 +61,7 @@ class Grid{
             for (int i=indexOfDeletedRow; i>delimitedLine+HIDDEN_ROWS-2; i--){
                 for (int j=0; j<COLS; j++){
                     matrix[i][j].exist = matrix[i-1][j].exist;
-                    matrix[i][j].color = matrix[i-1][j].color; //...
+                    matrix[i][j].type = matrix[i-1][j].type; //...
                 }
             }
             // for (int j=0; j<COLS; j++){

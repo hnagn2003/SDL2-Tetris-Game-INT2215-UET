@@ -74,7 +74,8 @@ class Game_State {
             renderText(lineCount, renderer, gFont1, 693.5+grid->getX(), 628.5+grid->getY());
             renderText(score, renderer, gFont1, 693.5+grid->getX(), 736+grid->getY());
             renderText(level, renderer, gFont1, 693.5+grid->getX(), 842+grid->getY());
-            currentTetrads->render(renderer);
+
+            currentTetrads->render(renderer, grid->getX());
         }
 
         void newTetradsFalling(){
