@@ -174,7 +174,8 @@ void Game::render()
 {
     SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0 );
     SDL_RenderClear(renderer);
-
+	static LTexture backGround {backGroundPicture, renderer};
+	backGround.render(renderer, 0, 0);
 	switch (tabs)
 	{
 	case Menu:

@@ -7,7 +7,7 @@
 #include "Specifications.h"
 #include <time.h>
 #include <math.h>
-
+// press ESC to escape from the game
 bool fullScreen = false;
 
 int main( int argc, char* args[] ){

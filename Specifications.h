@@ -18,6 +18,7 @@ const int delayBeforeDied = 3;
 const SDL_Color WHITE_COLOR = {255, 255, 255};
 const SDL_Color BLACK_COLOR = {0, 0, 0};
 const std::string rFont = "MTO Grunge Sans Shadow.ttf";
+const std::string backGroundPicture = "assets/Pictures/cyber_background.png";
 const std::string menuPicturePath = "assets/Pictures/tabs_menu.png";
 const std::string menuButton[] = {"assets/Pictures/menu_button0.png","assets/Pictures/menu_button1.png","assets/Pictures/menu_button2.png","assets/Pictures/menu_button3.png"};
 const std::string grid_frame = "assets/Pictures/GridFrame.png";
