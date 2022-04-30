@@ -16,6 +16,7 @@ Game::Game()
 {
 	gameState = new Game_State;
 	gFPS_Processor = new FPS_Processor;
+	gameOver = new GameOverAnnouncement;
 	tabs = -1;
 }
 
@@ -134,12 +135,16 @@ void Game::handleEvents()
 						//SDL_Delay...
 						gameState->handleEvent(event);
 						break;
+					case GameOver:
+						gameOver->handleEvents(&event);
+						break;
 					default:
 						break;
 					}
 					break;
 			}
 		}
+		
 } 
 
 void Game::update()
@@ -162,7 +167,7 @@ void Game::update()
 		gameState->updateFallingTetrads();
 		// std::cout << "YPos3" << gameState->getNextTetrads()->getYPos() << std::endl;
 		if (gameState->gameOver()){
-			tabs = -1; //...
+			tabs = GameOver; //...
 			*gameState = Game_State();
 			gameState->getGrid()->loadMedia(renderer);
 			// khi game over ...
@@ -176,6 +181,7 @@ void Game::render()
     SDL_RenderClear(renderer);
 	static LTexture backGround {backGroundPicture, renderer};
 	backGround.render(renderer, 0, 0);
+	
 	switch (tabs)
 	{
 	case Menu:
@@ -184,10 +190,12 @@ void Game::render()
 	case InGame_SoloMode:
 		gameState->render(renderer);
 		break;
+	case GameOver:
+		gameOver->render(renderer);
+		break;
 	default:
 		break;
 	}
-	
 	
 	
 	

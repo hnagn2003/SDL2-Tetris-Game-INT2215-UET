@@ -264,6 +264,7 @@ private:
     Game_State *gameState;
     int tabs;
     Tabs_Menu tabs_menu;
+    GameOverAnnouncement* gameOver;
 };
 
 

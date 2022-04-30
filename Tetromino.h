@@ -119,7 +119,7 @@ class Tetromino{
                 }
             }
         }
-        void render(SDL_Renderer* renderer, int gridXPos, int x, int y){
+        void render(SDL_Renderer* renderer, int gridXPos, int x, int y){ 
             for (int i=0; i<sizeOfTetradsSide; i++){
                     for (int j=0; j<sizeOfTetradsSide; j++){
                         if (matrix[i][j] == true){

@@ -20,6 +20,9 @@ const SDL_Color BLACK_COLOR = {0, 0, 0};
 const std::string rFont = "MTO Grunge Sans Shadow.ttf";
 const std::string backGroundPicture = "assets/Pictures/cyber_background.png";
 const std::string menuPicturePath = "assets/Pictures/tabs_menu.png";
+const std::string gameOverBgPath = "assets/Pictures/game_over_path.png";
+const std::string play_again_button = "assets/Pictures/play_again_button.png";
+const std::string back_button = "assets/Pictures/return_button.png";
 const std::string menuButton[] = {"assets/Pictures/menu_button0.png","assets/Pictures/menu_button1.png","assets/Pictures/menu_button2.png","assets/Pictures/menu_button3.png"};
 const std::string menuButton_[] = {"assets/Pictures/menu_button0_.png","assets/Pictures/menu_button1_.png","assets/Pictures/menu_button2_.png","assets/Pictures/menu_button3_.png"};
 
@@ -28,12 +31,12 @@ static TTF_Font* gFont1;
 enum Tabs {
     Menu = -1,
     InGame_SoloMode,
-    HighestScoreTable,
     InGame_BattleMode,
     Settings,
-    ExitGame,
     Helps,
+    ExitGame,
     About,
+    GameOver,
     allButtonsOfMenu
 };
 class LButton
@@ -45,11 +48,12 @@ class LButton
         bool motionMouse;
         bool pressed;
         int xCen, yCen, width, height;
-        
+        int xPos, yPos;
 	public:
 		LButton(){
             inside = 0;
             pressed = 0;
+            xPos = 0; yPos = 0; xCen = 0; yCen = 0;
         }
         LButton(LTexture _keyUp, LTexture _keyDown){
             motionMouse = 0;
@@ -57,6 +61,7 @@ class LButton
             keyDown = _keyDown;
             width = keyUp.getWidth();
             height = keyUp.getHeight();
+            xPos = 0; yPos = 0; xCen = 0; yCen = 0;
         }
         bool getPressed(){
             return pressed;
@@ -77,27 +82,39 @@ class LButton
             width = keyUp.getWidth();
             height = keyUp.getHeight();
         }
+        void setPosition( int x, int y ){
+            xPos = x; yPos = y;
+        }
 		void setCenterPosition( int x, int y ){
             xCen = x; yCen = y;
         }
-        void handleEvents(SDL_Event* e){
-            int xPos = xCen - width/2, yPos = yCen - height/2;
+        void handleEvents(SDL_Event* e, bool circleButton = 0){
+            if (xPos == 0 && yPos == 0){
+                xPos = xCen - width/2, yPos = yCen - height/2;
+            }
             motionMouse = 0;
             pressed = 0;
         	if( e->type == SDL_MOUSEMOTION || e->type == SDL_MOUSEBUTTONDOWN || e->type == SDL_MOUSEBUTTONUP ){
                 int x, y;
 		        SDL_GetMouseState( &x, &y );
                 bool inside = true;
-                if (x<xPos){
-                    inside = false;
-                }else if (x>xPos+width){
-                    inside = false;
-                }else if (y<yPos){
-                    inside = false;
-                }else if (y>yPos + height){
-                    inside = false;
+                if (!circleButton){
+                    if (x<xPos){
+                        inside = false;
+                    }else if (x>xPos+width){
+                        inside = false;
+                    }else if (y<yPos){
+                        inside = false;
+                    }else if (y>yPos + height){
+                        inside = false;
+                    }
+                }else{
+                    if ( (x-xCen)*(x-xCen) + (y-yCen)*(y-yCen) <= width*width/4 ){
+                        inside = true;
+                    }else{
+                        inside = false;
+                    }
                 }
-
                 if (inside){
                     switch (e->type)
                     {
@@ -140,9 +157,9 @@ class Tabs_Menu{
         Tabs_Menu(){
             direct = Menu;
             button[InGame_SoloMode].setCenterPosition(703, 549);//...
-            button[HighestScoreTable].setCenterPosition(1208, 549);
-            button[InGame_BattleMode].setCenterPosition(703, 736);
-            button[Settings].setCenterPosition(1208, 736);
+            button[InGame_BattleMode].setCenterPosition(1208, 549);
+            button[Settings].setCenterPosition(703, 736);
+            button[Helps].setCenterPosition(1208, 736);
         }
         ~Tabs_Menu(){
 
@@ -151,7 +168,7 @@ class Tabs_Menu{
             return direct;
         }
         void resetDirect(){
-            direct = -1;
+            direct = Menu;
         }
         void handleEvents(SDL_Event* e){
             bool flag = 0;
@@ -184,6 +201,52 @@ class Tabs_Menu{
             }
 
         }
+};
+
+class GameOverAnnouncement{
+    private:
+        LButton backButton, replayButton;
+        int direct;
+    public:
+        GameOverAnnouncement(){
+            direct = GameOver;
+            backButton.setCenterPosition(1289, 569);
+            replayButton.setCenterPosition(1137, 569);
+
+        }
+        int getDirect(){
+            return direct;
+        }
+        void resetDirect(){
+            direct = GameOver;
+        }
+        void handleEvents(SDL_Event* e){
+            bool flag = 0;
+            backButton.handleEvents(e);
+            if (backButton.getPressed()){
+                backButton.setPressed(0);
+                direct=Menu;
+                flag = 1;
+                return;
+            }
+            if (replayButton.getPressed()){
+                replayButton.setPressed(0);
+                direct=InGame_SoloMode;
+                flag = 1;
+                return;
+            }
+            if (flag){
+                return;
+            }
+            direct = GameOver; 
+        }
+        void render(SDL_Renderer* renderer){
+            static LTexture gameOverBg(gameOverBgPath, renderer), backButtonTex(back_button, renderer), replayButtonTex(play_again_button, renderer);
+            gameOverBg.render(renderer, 0, 0);
+            backButtonTex.render(renderer, backButton.getXCen()-backButtonTex.getWidth()/2, backButton.getYCen()-backButtonTex.getHeight()/2);
+            replayButtonTex.render(renderer, replayButton.getXCen()-replayButtonTex.getWidth()/2, replayButton.getYCen()-replayButtonTex.getHeight()/2);
+        }
+
 };
 
 enum Shapes{
