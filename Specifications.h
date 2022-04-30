@@ -144,9 +144,9 @@ class LButton
     
         }
 		void render(SDL_Renderer* renderer, int x = 0, int y = 0){
-            if (x==0&&y==0){
-                x=xCen; y = yCen;
-            }
+            // if (x==0&&y==0){
+            //     x=xCen; y = yCen;
+            // }
             if (motionMouse){
                 keyDown.render(renderer, x, y);
             }else{
@@ -255,10 +255,11 @@ class GameOverAnnouncement{
             direct = GameOver; 
         }
         void render(SDL_Renderer* renderer){
+            // std::cout << backButton.motionMouse << std::endl;
             static LTexture gameOverBg(gameOverBgPath, renderer);
             gameOverBg.render(renderer, 0, 0);
-            backButtonTex.render(renderer, backButton.getXCen()-backButtonTex.getWidth()/2, backButton.getYCen()-backButtonTex.getHeight()/2);
-            replayButtonTex.render(renderer, replayButton.getXCen()-replayButtonTex.getWidth()/2, replayButton.getYCen()-replayButtonTex.getHeight()/2);
+            backButton.render(renderer, backButton.getXCen()-backButtonTex.getWidth()/2, backButton.getYCen()-backButtonTex.getHeight()/2);
+            replayButton.render(renderer, replayButton.getXCen()-replayButtonTex.getWidth()/2, replayButton.getYCen()-replayButtonTex.getHeight()/2);
         }
 
 };
