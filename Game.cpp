@@ -133,7 +133,7 @@ void Game::handleEvents()
 						break;
 					case InGame_SoloMode:
 						//SDL_Delay...
-						gameState->handleEvent(event);
+						gameState->handleEvent(event, renderer);
 						break;
 					case GameOver:
 						gameOver->handleEvents(&event);
@@ -166,6 +166,7 @@ void Game::update()
 		gameState->newTetradsFalling();
 		// std::cout << "YPos2" << gameState->getNextTetrads()->getYPos() << std::endl;
 		gameState->updateFallingTetrads();
+		gameState->countDownHandle();
 		// std::cout << "YPos3" << gameState->getNextTetrads()->getYPos() << std::endl;
 		if (gameState->gameOver()){
 			tabs = GameOver; //...

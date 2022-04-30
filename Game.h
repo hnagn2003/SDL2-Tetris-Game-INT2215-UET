@@ -23,6 +23,8 @@ class Game_State {
         int hardLevel;
         bool switchHold;
         bool pause;
+        int countDownTime;
+        bool inCountDown;
         Tetromino* next0Tetrads;
         Tetromino* next1Tetrads;
         Tetromino* next2Tetrads;
@@ -38,6 +40,8 @@ class Game_State {
             level = 1;
             switchHold = 0;
             pause = 0;
+            countDownTime = 0;
+            inCountDown = 0;
             velocity = initVelocity;
             next0Tetrads = new Tetromino;
             next1Tetrads = new Tetromino;
@@ -83,6 +87,9 @@ class Game_State {
             next1Tetrads->render(renderer, grid->getX(), 1259-2*TILE_SIZE, 400-2*TILE_SIZE);
             next2Tetrads->render(renderer, grid->getX(), 1259-2*TILE_SIZE, 556-2*TILE_SIZE);
             currentTetrads->render(renderer, grid->getX());
+            if (countDownTime > 0){
+                    renderText(countDownTime, renderer, gFont1, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, WHITE_COLOR);
+            }
         }
 
         void newTetradsFalling(){
@@ -94,7 +101,7 @@ class Game_State {
             }
         }
 
-        void handleEvent(SDL_Event& event){
+        void handleEvent(SDL_Event& event, SDL_Renderer* renderer = NULL){
             static bool disableKeyboard = 0;
             if (playing){
                 if (disableKeyboard){}
@@ -159,9 +166,15 @@ class Game_State {
                                 }
                                 break;
                             case SDLK_p:
-                                currentTetrads->setPause(1);
-                                pause = 1;
+                                if(!pause){
+                                    currentTetrads->setPause(1);
+                                    pause = 1;
+                                }else{
+                                    countDownTime = 3;
+                                    inCountDown = true;
+                                }
                                 break;
+                        
                             default: break;
                                 
                             }
@@ -184,7 +197,6 @@ class Game_State {
                         
                         break;
                     }
-                
             }
         //     const Uint8* keystates = SDL_GetKeyboardState(NULL);
 
@@ -194,6 +206,21 @@ class Game_State {
         //     if(keystates[SDL_SCANCODE_RIGHT]) {
         //         currentTetrads.moveRight(grid); 
         //     }
+        }
+        void countDownHandle(){
+            if (inCountDown){
+                if (countDownTime > 0){
+                    static Uint32 timeC = SDL_GetTicks();
+                    if (SDL_GetTicks() - timeC > 1000){
+                        timeC = SDL_GetTicks();
+                        countDownTime --;
+                    }
+                }else{
+                    currentTetrads->setPause(0);
+                    pause = 0;
+                    inCountDown = false;
+                }
+            }
         }
         void updateFallingTetrads(){
             if (playing){
