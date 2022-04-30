@@ -92,7 +92,7 @@ void Game::init(const char* title, int xPos, int yPos, int SCREEN_WIDTH, int SCR
 	gFPS_Processor->initTimeCounting();
 	// tabs_menu.setRenderer(renderer);
 	tabs_menu.setUpMenu(renderer);
-	
+	gameOver->setUp(renderer);
 }
 void Game::loadmedia()
 {
@@ -137,6 +137,7 @@ void Game::handleEvents()
 						break;
 					case GameOver:
 						gameOver->handleEvents(&event);
+						tabs = gameOver->getDirect();
 						break;
 					default:
 						break;

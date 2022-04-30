@@ -9,7 +9,7 @@ const int ROWS = 20;
 const int HIDDEN_ROWS = 10;
 const int COLS = 10;
 const int SCREEN_WIDTH = 1920;
-const int SCREEN_HEIGHT = 1080;
+const int SCREEN_HEIGHT = 800;
 const int SCREEN_FPS = 60;
 const int SCREEN_TICK_PER_FRAME = 1000 / SCREEN_FPS;
 const int initVelocity = 1000;
@@ -22,7 +22,11 @@ const std::string backGroundPicture = "assets/Pictures/cyber_background.png";
 const std::string menuPicturePath = "assets/Pictures/tabs_menu.png";
 const std::string gameOverBgPath = "assets/Pictures/game_over_path.png";
 const std::string play_again_button = "assets/Pictures/play_again_button.png";
+const std::string play_again_button_ = "assets/Pictures/play_again_button_.png";
+
 const std::string back_button = "assets/Pictures/return_button.png";
+const std::string back_button_ = "assets/Pictures/return_button_.png";
+
 const std::string menuButton[] = {"assets/Pictures/menu_button0.png","assets/Pictures/menu_button1.png","assets/Pictures/menu_button2.png","assets/Pictures/menu_button3.png"};
 const std::string menuButton_[] = {"assets/Pictures/menu_button0_.png","assets/Pictures/menu_button1_.png","assets/Pictures/menu_button2_.png","assets/Pictures/menu_button3_.png"};
 
@@ -73,6 +77,9 @@ class LButton
         int getYCen(){return yCen;}
         int getWidth(){return width;}
         int getHeight(){return height;}
+        void setSize(int w, int h){
+            width = w; height = h;
+        }
         void setPressed(bool _pressed){
             pressed = _pressed;
         }
@@ -110,6 +117,7 @@ class LButton
                     }
                 }else{
                     if ( (x-xCen)*(x-xCen) + (y-yCen)*(y-yCen) <= width*width/4 ){
+                        
                         inside = true;
                     }else{
                         inside = false;
@@ -178,12 +186,10 @@ class Tabs_Menu{
                     button[i].setPressed(0);
                     direct=i;
                     flag = 1;
-                    break;
+                    return;
                 }
             }
-            if (flag){
-                return;
-            }
+
             direct = -1; 
         }
         void setUpMenu(SDL_Renderer* renderer){
@@ -206,6 +212,7 @@ class Tabs_Menu{
 class GameOverAnnouncement{
     private:
         LButton backButton, replayButton;
+        LTexture backButtonTex, backButtonTex_, replayButtonTex, replayButtonTex_;
         int direct;
     public:
         GameOverAnnouncement(){
@@ -220,28 +227,35 @@ class GameOverAnnouncement{
         void resetDirect(){
             direct = GameOver;
         }
+        void setUp(SDL_Renderer* renderer){
+            backButtonTex.loadFromFile(back_button, renderer);
+            backButtonTex_.loadFromFile(back_button_, renderer);
+            replayButtonTex.loadFromFile(play_again_button, renderer);
+            replayButtonTex_.loadFromFile(play_again_button_, renderer);
+            backButton.setTexture(backButtonTex, backButtonTex_);
+            replayButton.setTexture(replayButtonTex, replayButtonTex_);
+        }
         void handleEvents(SDL_Event* e){
             bool flag = 0;
-            backButton.handleEvents(e);
+            backButton.handleEvents(e, 1);
             if (backButton.getPressed()){
                 backButton.setPressed(0);
                 direct=Menu;
                 flag = 1;
                 return;
             }
+            replayButton.handleEvents(e, 1);
             if (replayButton.getPressed()){
                 replayButton.setPressed(0);
                 direct=InGame_SoloMode;
                 flag = 1;
                 return;
             }
-            if (flag){
-                return;
-            }
+
             direct = GameOver; 
         }
         void render(SDL_Renderer* renderer){
-            static LTexture gameOverBg(gameOverBgPath, renderer), backButtonTex(back_button, renderer), replayButtonTex(play_again_button, renderer);
+            static LTexture gameOverBg(gameOverBgPath, renderer);
             gameOverBg.render(renderer, 0, 0);
             backButtonTex.render(renderer, backButton.getXCen()-backButtonTex.getWidth()/2, backButton.getYCen()-backButtonTex.getHeight()/2);
             replayButtonTex.render(renderer, replayButton.getXCen()-replayButtonTex.getWidth()/2, replayButton.getYCen()-replayButtonTex.getHeight()/2);
