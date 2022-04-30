@@ -69,6 +69,12 @@ class Game_State {
         Tetromino* getNext0Tetrads(){
             return next0Tetrads;
         }
+        void setCountDownTime(int c){
+            countDownTime = c;
+        }
+        void setInCountDown(bool iC){
+            inCountDown = iC;
+        }
         void updateGameState(short int updateLines){
             score += updateLines * level;
             level = lineCount/hardLevel+1;
@@ -167,11 +173,9 @@ class Game_State {
                                 break;
                             case SDLK_p:
                                 if(!pause){
-                                    currentTetrads->setPause(1);
-                                    pause = 1;
+                                    pauseGame();
                                 }else{
-                                    countDownTime = 3;
-                                    inCountDown = true;
+                                    startCD();
                                 }
                                 break;
                         
@@ -206,6 +210,14 @@ class Game_State {
         //     if(keystates[SDL_SCANCODE_RIGHT]) {
         //         currentTetrads.moveRight(grid); 
         //     }
+        }
+        void pauseGame(){
+            currentTetrads->setPause(1);
+            pause = 1;
+        }
+        void startCD(){
+            countDownTime = 3;
+            inCountDown = true;
         }
         void countDownHandle(){
             if (inCountDown){

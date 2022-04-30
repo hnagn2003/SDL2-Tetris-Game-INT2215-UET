@@ -162,6 +162,11 @@ void Game::update()
 
 	//Render text
 	if (tabs == InGame_SoloMode){
+		if (!gameState->getPlaying()){
+			gameState->startCD();
+			gameState->pauseGame();
+		}
+		gameState->countDownHandle();
 		gameState->setPlaying(1);
 		gameState->newTetradsFalling();
 		// std::cout << "YPos2" << gameState->getNextTetrads()->getYPos() << std::endl;
