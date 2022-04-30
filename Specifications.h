@@ -138,7 +138,7 @@ class Tabs_Menu{
         int direct;
     public:
         Tabs_Menu(){
-            direct = -1;
+            direct = Menu;
             button[InGame_SoloMode].setCenterPosition(703, 549);//...
             button[HighestScoreTable].setCenterPosition(1208, 549);
             button[InGame_BattleMode].setCenterPosition(703, 736);
