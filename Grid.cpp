@@ -5,7 +5,6 @@
 #include <iostream>
 
 Grid::Grid(){
-    gridFrame = new LTexture;
     for (int i=0; i<ROWS+HIDDEN_ROWS; i++){
         for (int j=0; j<COLS; j++){
             matrix[i][j] = {j, i-HIDDEN_ROWS, -1};
@@ -35,7 +34,8 @@ void Grid::render(SDL_Renderer *renderer, int gameMode){
         xPos = SCREEN_WIDTH/4;
         yPos = 0;
     }
-    gridFrame->render(renderer, xPos, yPos);
+    static LTexture gridFrame(grid_frame, renderer);
+    gridFrame.render(renderer, xPos, yPos);
     for (int i = -4; i < ROWS; i++){
         for (int j = 0; j < COLS; j++){
             if (matrix[i+HIDDEN_ROWS][j].exist){

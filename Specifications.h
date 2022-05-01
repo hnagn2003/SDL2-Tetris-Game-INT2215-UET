@@ -31,9 +31,9 @@ const std::string menuButton[] = {"assets/Pictures/menu_button0.png","assets/Pic
 const std::string menuButton_[] = {"assets/Pictures/menu_button0_.png","assets/Pictures/menu_button1_.png","assets/Pictures/menu_button2_.png","assets/Pictures/menu_button3_.png"};
 
 const std::string grid_frame = "assets/Pictures/GridFrame.png";
-static LButton backButton;
 
 static TTF_Font* gFont1;
+
 enum Tabs {
     Menu = -1,
     InGame_SoloMode,
@@ -157,6 +157,7 @@ class LButton
         }
 
 };
+static LButton backButton;
 
 class Tabs_Menu{
     public:

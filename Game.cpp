@@ -15,6 +15,8 @@ void renderText(long long text, SDL_Renderer* renderer, TTF_Font* gFont, int xPo
 Game::Game()
 {
 	gameState = new Game_State;
+	gameStatePlayer1 = new Game_State;
+	gameStatePlayer2 = new Game_State;
 	gFPS_Processor = new FPS_Processor;
 	gameOver = new GameOverAnnouncement;
 	tabs = -1;
@@ -97,7 +99,6 @@ void Game::init(const char* title, int xPos, int yPos, int SCREEN_WIDTH, int SCR
 void Game::loadmedia()
 {
 	gFont1 = TTF_OpenFont( "font/Northstar3D-4D3x.otf", 24 );
-	gameState->getGrid()->loadMedia(renderer);
 }
 void Game::handleEvents()
 {
@@ -176,7 +177,7 @@ void Game::update()
 		if (gameState->gameOver()){
 			tabs = GameOver; //...
 			*gameState = Game_State();
-			gameState->getGrid()->loadMedia(renderer);
+			// gameState->getGrid()->loadMedia(renderer);
 			// khi game over ...
 		}
 	}

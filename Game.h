@@ -301,6 +301,8 @@ private:
     SDL_Renderer *renderer;
     FPS_Processor* gFPS_Processor;
     Game_State *gameState;
+    Game_State *gameStatePlayer1;
+    Game_State *gameStatePlayer2;
     int tabs;
     Tabs_Menu tabs_menu;
     GameOverAnnouncement* gameOver;

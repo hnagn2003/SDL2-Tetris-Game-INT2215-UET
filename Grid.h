@@ -25,7 +25,6 @@ class Grid{
         // Point center{xPos + width, yPos + height};
         // mỗi 1 ô trên grid define = 1 block
         block matrix[ROWS+HIDDEN_ROWS][COLS];
-        LTexture* gridFrame;
     public:
         Grid();
         ~Grid();
@@ -38,15 +37,7 @@ class Grid{
         int getY(){
             return yPos;
         }
-        void loadMedia(SDL_Renderer *renderer){
-            if (gridFrame->mTexture == NULL){
-                gridFrame->loadFromFile(grid_frame, renderer);
-                if (gridFrame->mTexture == NULL){
-                    std::cout << "fail to load grid frame";
-                }
-            }
-            
-        }
+
         void render(SDL_Renderer *renderer, int gameMode=0);
         //kiểm tra 1 hàng có filled hay ko
         bool filledRow(int i){
