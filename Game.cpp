@@ -15,8 +15,7 @@ void renderText(long long text, SDL_Renderer* renderer, TTF_Font* gFont, int xPo
 Game::Game()
 {
 	gameState = new Game_State;
-	gameStatePlayer1 = new Game_State;
-	gameStatePlayer2 = new Game_State;
+	battleProcessor = new BallteProcessor;
 	gFPS_Processor = new FPS_Processor;
 	gameOver = new GameOverAnnouncement;
 	tabs = -1;
@@ -134,7 +133,11 @@ void Game::handleEvents()
 						break;
 					case InGame_SoloMode:
 						//SDL_Delay...
-						gameState->handleEvent(event, renderer);
+						gameState->handleEvent(event);
+						break;
+					case InGame_BattleMode:
+						//SDL_Delay...
+						
 						break;
 					case GameOver:
 						gameOver->handleEvents(&event);
@@ -153,34 +156,31 @@ void Game::update()
 {
 	//if currentTetrads tiep dat, chuyen trang thai khoi, cho khoi moi tiep dat
 	gFPS_Processor->cappingFrame();
-
-	if (tabs == Menu){
-		// std::cout << tabs << std::endl;
-		
-		tabs_menu.render(renderer);
-		// Tabs_Menu.handle
+	switch (tabs){
+		case Menu:
+			break;
+		case InGame_SoloMode:
+			gameState->update();
+			if (gameState->gameOver()){
+				tabs = GameOver; //...
+				*gameState = Game_State();
+				// gameState->getGrid()->loadMedia(renderer);
+				// khi game over ...
+			}
+			break;
+		case InGame_BattleMode:
+			battleProcessor->update();
+			// if (gameState->gameOver()){
+			// 	tabs = GameOver; //...
+			// 	*gameState = Game_State();
+			// 	// gameState->getGrid()->loadMedia(renderer);
+			// 	// khi game over ...
+			// }
+			break;
+		default:
+			break;
 	}
 
-	//Render text
-	if (tabs == InGame_SoloMode){
-		if (!gameState->getPlaying()){
-			gameState->startCD();
-			gameState->pauseGame();
-		}
-		gameState->countDownHandle();
-		gameState->setPlaying(1);
-		gameState->newTetradsFalling();
-		// std::cout << "YPos2" << gameState->getNextTetrads()->getYPos() << std::endl;
-		gameState->updateFallingTetrads();
-		gameState->countDownHandle();
-		// std::cout << "YPos3" << gameState->getNextTetrads()->getYPos() << std::endl;
-		if (gameState->gameOver()){
-			tabs = GameOver; //...
-			*gameState = Game_State();
-			// gameState->getGrid()->loadMedia(renderer);
-			// khi game over ...
-		}
-	}
 }
 
 void Game::render()
@@ -197,6 +197,9 @@ void Game::render()
 		break;
 	case InGame_SoloMode:
 		gameState->render(renderer);
+		break;
+	case InGame_BattleMode:
+		battleProcessor->render(renderer);
 		break;
 	case GameOver:
 		gameOver->render(renderer);

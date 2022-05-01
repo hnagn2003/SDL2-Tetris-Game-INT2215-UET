@@ -38,7 +38,7 @@ class Grid{
             return yPos;
         }
 
-        void render(SDL_Renderer *renderer, int gameMode=0);
+        void render(SDL_Renderer *renderer, int gameMode);
         //kiểm tra 1 hàng có filled hay ko
         bool filledRow(int i){
             for (int j = 0; j<COLS; j++){

@@ -10,7 +10,9 @@
 #include "Specifications.h"
 #include <iostream>
 #include "Structure.h"
-
+#include <thread>
+#include <cstdint>
+#include <functional>
 void renderText(long long text, SDL_Renderer* renderer, TTF_Font* gFont, int xCenter, int yCenter, SDL_Color textColor = WHITE_COLOR);
 
 class Game_State {
@@ -81,8 +83,8 @@ class Game_State {
             velocity = 1000/level;
         }
         //
-        void render (SDL_Renderer *renderer){
-            grid->render(renderer);
+        void render (SDL_Renderer *renderer, int gameMode = 0){
+            grid->render(renderer, gameMode);
             renderText(lineCount, renderer, gFont1, 693.5+grid->getX(), 628.5+grid->getY());
             renderText(score, renderer, gFont1, 693.5+grid->getX(), 736+grid->getY());
             renderText(level, renderer, gFont1, 693.5+grid->getX(), 842+grid->getY());
@@ -107,7 +109,7 @@ class Game_State {
             }
         }
 
-        void handleEvent(SDL_Event& event, SDL_Renderer* renderer = NULL){
+        void handleEvent(SDL_Event& event){
             static bool disableKeyboard = 0;
             if (playing){
                 if (disableKeyboard){}
@@ -273,9 +275,71 @@ class Game_State {
             }
             return true;
         }
-        
+        void update(){
+            if (!playing){
+				startCD();
+				pauseGame();
+			}
+			countDownHandle();
+			playing = 1;
+			newTetradsFalling();
+			// std::cout << "YPos2" << getNextTetrads()->getYPos() << std::endl;
+			updateFallingTetrads();
+			// countDownHandle();
+			// std::cout << "YPos3" << getNextTetrads()->getYPos() << std::endl;
+			
+        }
 };
+class BallteProcessor{
+    private:
+        Game_State *gameStatePlayer1;
+        Game_State *gameStatePlayer2;
 
+    public:
+        BallteProcessor(){
+            gameStatePlayer1 = new Game_State;
+            gameStatePlayer2 = new Game_State;
+        }
+        void handleEvent(SDL_Event e){
+            // gameStatePlayer1->handleEvent(e);
+            // gameStatePlayer2->handleEvent(e);
+        }
+        void update(){
+            // gameStatePlayer1->update();
+            // gameStatePlayer2->update();
+            // std::thread x(std::bind(&Game_State::update, gameStatePlayer1));
+            // std::thread y(std::bind(&Game_State::update, gameStatePlayer2));
+            // x.join();
+            // y.join();
+            // if (!gameStatePlayer1->getPlaying() && !gameStatePlayer2->getPlaying()){
+            //     gameStatePlayer1->startCD(); gameStatePlayer2->startCD();
+            //     gameStatePlayer1->pauseGame(); gameStatePlayer2->pauseGame();
+            // }
+			// gameStatePlayer1->countDownHandle();
+            // gameStatePlayer2->countDownHandle();
+
+            gameStatePlayer2->setPlaying(1);
+			gameStatePlayer1->setPlaying(1);
+            
+            // std::cout << gameStatePlayer2->getPlaying();
+            std::thread xx(std::bind(&Game_State::newTetradsFalling, gameStatePlayer1));
+            std::thread yy(std::bind(&Game_State::newTetradsFalling, gameStatePlayer2));
+            xx.join();
+            yy.join();
+            // std::cout << "end" <<std::endl;
+			// gameStatePlayer1->newTetradsFalling();
+            std::thread xxx(std::bind(&Game_State::updateFallingTetrads, gameStatePlayer1));
+            std::thread yyy(std::bind(&Game_State::updateFallingTetrads, gameStatePlayer2));
+            xxx.join();
+            yyy.join();
+			// gameStatePlayer1->updateFallingTetrads();
+            // gameStatePlayer2->updateFallingTetrads();
+        }
+        void render(SDL_Renderer* renderer){
+            gameStatePlayer1->render(renderer, 1);
+            gameStatePlayer2->render(renderer, -1);
+        }
+};
 class Game {
 
 public:
@@ -301,8 +365,7 @@ private:
     SDL_Renderer *renderer;
     FPS_Processor* gFPS_Processor;
     Game_State *gameState;
-    Game_State *gameStatePlayer1;
-    Game_State *gameStatePlayer2;
+    BallteProcessor* battleProcessor;
     int tabs;
     Tabs_Menu tabs_menu;
     GameOverAnnouncement* gameOver;
