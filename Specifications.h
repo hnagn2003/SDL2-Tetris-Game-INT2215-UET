@@ -37,9 +37,12 @@ const std::string help_help_buttonP = "assets/Pictures/help_help_button.png";
 const std::string help_help_buttonP_ = "assets/Pictures/help_help_button_.png";
 const std::string help_about_buttonP = "assets/Pictures/help_about_button.png";
 const std::string help_about_buttonP_ = "assets/Pictures/help_about_button_.png";
-const std::string help_copyright_buttonP = "assets/Pictures/help_copyright_button.png";
+
+const std::string help_copyright_buttonP = "assets/Pictures/helpCB.png";
+
 const std::string help_copyright_buttonP_ = "assets/Pictures/help_copyright_button_.png";
 const std::string help_help_textP = "assets/Pictures/helps_help_tex.png";
+
 const std::string help_about_textP = "assets/Pictures/helps_about_tex.png";
 const std::string help_copyright_textP = "assets/Pictures/helps_copyright_tex.png";
 static TTF_Font* gFont1;
