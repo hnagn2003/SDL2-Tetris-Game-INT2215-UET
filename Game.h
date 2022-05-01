@@ -404,6 +404,7 @@ private:
     int tabs;
     Tabs_Menu tabs_menu;
     GameOverAnnouncement* gameOver;
+    HelpsAndCredit* helpsAndCredit;
 };
 
 

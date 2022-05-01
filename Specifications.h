@@ -32,6 +32,16 @@ const std::string menuButton_[] = {"assets/Pictures/menu_button0_.png","assets/P
 
 const std::string grid_frame = "assets/Pictures/GridFrame.png";
 
+const std::string helpsBgP = "assets/Pictures/help_credits.png";
+const std::string help_help_buttonP = "assets/Pictures/help_help_button.png";
+const std::string help_help_buttonP_ = "assets/Pictures/help_help_button_.png";
+const std::string help_about_buttonP = "assets/Pictures/help_about_button.png";
+const std::string help_about_buttonP_ = "assets/Pictures/help_about_button_.png";
+const std::string help_copyright_buttonP = "assets/Pictures/help_copyright_button.png";
+const std::string help_copyright_buttonP_ = "assets/Pictures/help_copyright_button_.png";
+const std::string help_help_textP = "assets/Pictures/helps_help_tex.png";
+const std::string help_about_textP = "assets/Pictures/helps_about_tex.png";
+const std::string help_copyright_textP = "assets/Pictures/helps_copyright_tex.png";
 static TTF_Font* gFont1;
 
 enum Tabs {
@@ -41,7 +51,6 @@ enum Tabs {
     Settings,
     Helps,
     ExitGame,
-    About,
     GameOver,
     allButtonsOfMenu
 };
@@ -146,9 +155,9 @@ class LButton
     
         }
 		void render(SDL_Renderer* renderer, int x = 0, int y = 0){
-            // if (x==0&&y==0){
-            //     x=xCen; y = yCen;
-            // }
+            if (x==0&&y==0){
+                x=xPos; y = yPos;
+            }
             if (motionMouse){
                 keyDown.render(renderer, x, y);
             }else{
@@ -215,7 +224,7 @@ class Tabs_Menu{
 class GameOverAnnouncement{
     private:
         LButton replayButton;
-        LTexture replayButtonTex, replayButtonTex_;
+        
         int direct;
     public:
         GameOverAnnouncement(){
@@ -231,9 +240,11 @@ class GameOverAnnouncement{
             direct = GameOver;
         }
         void setUp(SDL_Renderer* renderer){
-            replayButtonTex.loadFromFile(play_again_button, renderer);
-            replayButtonTex_.loadFromFile(play_again_button_, renderer);
-            replayButton.setTexture(replayButtonTex, replayButtonTex_);
+            LTexture* replayButtonTex = new LTexture;
+            LTexture* replayButtonTex_ = new LTexture;
+            replayButtonTex->loadFromFile(play_again_button, renderer);
+            replayButtonTex_->loadFromFile(play_again_button_, renderer);
+            replayButton.setTexture(*replayButtonTex, *replayButtonTex_);
         }
         void handleEvents(SDL_Event* e){
             bool flag = 0;
@@ -260,8 +271,93 @@ class GameOverAnnouncement{
             gameOverBg.render(renderer, 0, 0);
             // std::cout << replayButton.keyUp.getHeight() << std::endl;
             backButton.render(renderer, backButton.getXCen()-backButton.getWidth()/2, backButton.getYCen()-backButton.getHeight()/2);
-            replayButton.render(renderer, replayButton.getXCen()-replayButtonTex.getWidth()/2, replayButton.getYCen()-replayButtonTex.getHeight()/2);
+            replayButton.render(renderer, replayButton.getXCen()-replayButton.getWidth()/2, replayButton.getYCen()-replayButton.getHeight()/2);
         }
+};
+enum HelpsInlineTabs{
+    H_Helps,
+    H_About,
+    H_Copyright
+};
+class HelpsAndCredit{
+    private: 
+        int inlineTab;
+        int direct;
+        LButton helpsButton, aboutButton, copyrightButton;
+    public:
+        HelpsAndCredit(){
+            inlineTab = H_Helps;
+            direct = Helps;
+            helpsButton.setPosition(411, 473);
+            aboutButton.setPosition(411, 557);
+            copyrightButton.setPosition(411, 642);
+        }
+        int getDirect(){
+            return direct;
+        }
+        void setUp(SDL_Renderer* renderer){
+            LTexture* helpButtonTex = new LTexture(help_help_buttonP, renderer);
+            LTexture* aboutButtonTex = new LTexture(help_about_buttonP, renderer);
+            LTexture* copyrightButtonTex = new LTexture(help_copyright_buttonP, renderer);
+            LTexture* helpButtonTex_ = new LTexture(help_help_buttonP_, renderer);
+            LTexture* aboutButtonTex_ = new LTexture(help_about_buttonP_, renderer);
+            LTexture* copyrightButtonTex_ = new LTexture(help_copyright_buttonP_, renderer);
+            helpsButton.setTexture(*helpButtonTex, *helpButtonTex_);
+            aboutButton.setTexture(*aboutButtonTex, *aboutButtonTex_);
+            copyrightButton.setTexture(*copyrightButtonTex, *copyrightButtonTex_);
+        }
+        void handleEvent(SDL_Event* e){
+            bool flag = 0;
+            backButton.handleEvents(e, 1);
+            if (backButton.getPressed()){
+                backButton.setPressed(0);
+                direct=Menu;
+                flag = 1;
+                return;
+            }
+            direct = Helps;
+            helpsButton.handleEvents(e);
+            if (helpsButton.getPressed()){
+                helpsButton.setPressed(0);
+                inlineTab = H_Helps;
+            }
+            aboutButton.handleEvents(e);
+            if (aboutButton.getPressed()){
+                aboutButton.setPressed(0);
+                inlineTab = H_About;
+            }
+
+            copyrightButton.handleEvents(e);
+            if (copyrightButton.getPressed()){
+                copyrightButton.setPressed(0);
+                inlineTab = H_Copyright;
+            }
+        }
+        void render(SDL_Renderer* renderer){
+            static LTexture helpsBg (helpsBgP, renderer);
+            helpsBg.render(renderer, 0, 0);
+            backButton.render(renderer, backButton.getXCen()-backButton.getWidth()/2, backButton.getYCen()-backButton.getHeight()/2);
+            helpsButton.render(renderer);
+            aboutButton.render(renderer);
+            copyrightButton.render(renderer);
+            static LTexture helpTextTex(help_help_textP, renderer);
+            static LTexture aboutTextTex(help_about_textP, renderer);
+            static LTexture cpyrightTextTex(help_copyright_textP, renderer);
+            switch (inlineTab)
+            {
+                case H_Helps:
+                    helpTextTex.render(renderer, 0, 0);
+                    break;
+                case H_About:
+                    aboutTextTex.render(renderer, 0, 0);
+                    break;
+                case H_Copyright:
+                    cpyrightTextTex.render(renderer, 0, 0);
+                    break;
+                default:
+                    break;
+                }
+            }
 };
 
 enum Shapes{
