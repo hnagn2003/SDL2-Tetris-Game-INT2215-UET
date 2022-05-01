@@ -9,7 +9,7 @@ const int ROWS = 20;
 const int HIDDEN_ROWS = 10;
 const int COLS = 10;
 const int SCREEN_WIDTH = 1920;
-const int SCREEN_HEIGHT = 800;
+const int SCREEN_HEIGHT = 1080;
 const int SCREEN_FPS = 60;
 const int SCREEN_TICK_PER_FRAME = 1000 / SCREEN_FPS;
 const int initVelocity = 1000;
@@ -214,13 +214,13 @@ class Tabs_Menu{
 
 class GameOverAnnouncement{
     private:
-        LButton backButton, replayButton;
-        LTexture backButtonTex, backButtonTex_, replayButtonTex, replayButtonTex_;
+        LButton replayButton;
+        LTexture replayButtonTex, replayButtonTex_;
         int direct;
     public:
         GameOverAnnouncement(){
             direct = GameOver;
-            backButton.setCenterPosition(1289, 569);
+            // backButton.setCenterPosition(1289, 569);
             replayButton.setCenterPosition(1137, 569);
 
         }
@@ -231,11 +231,8 @@ class GameOverAnnouncement{
             direct = GameOver;
         }
         void setUp(SDL_Renderer* renderer){
-            backButtonTex.loadFromFile(back_button, renderer);
-            backButtonTex_.loadFromFile(back_button_, renderer);
             replayButtonTex.loadFromFile(play_again_button, renderer);
             replayButtonTex_.loadFromFile(play_again_button_, renderer);
-            backButton.setTexture(backButtonTex, backButtonTex_);
             replayButton.setTexture(replayButtonTex, replayButtonTex_);
         }
         void handleEvents(SDL_Event* e){
@@ -258,13 +255,13 @@ class GameOverAnnouncement{
             direct = GameOver; 
         }
         void render(SDL_Renderer* renderer){
-            // std::cout << backButton.motionMouse << std::endl;
+            // std::cout << backButton.getXCen() << std::endl;
             static LTexture gameOverBg(gameOverBgPath, renderer);
             gameOverBg.render(renderer, 0, 0);
-            backButton.render(renderer, backButton.getXCen()-backButtonTex.getWidth()/2, backButton.getYCen()-backButtonTex.getHeight()/2);
+            // std::cout << replayButton.keyUp.getHeight() << std::endl;
+            backButton.render(renderer, backButton.getXCen()-backButton.getWidth()/2, backButton.getYCen()-backButton.getHeight()/2);
             replayButton.render(renderer, replayButton.getXCen()-replayButtonTex.getWidth()/2, replayButton.getYCen()-replayButtonTex.getHeight()/2);
         }
-
 };
 
 enum Shapes{

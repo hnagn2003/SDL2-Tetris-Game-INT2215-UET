@@ -14,7 +14,6 @@
 #include <cstdint>
 #include <functional>
 void renderText(long long text, SDL_Renderer* renderer, TTF_Font* gFont, int xCenter, int yCenter, SDL_Color textColor = WHITE_COLOR);
-
 class Game_State {
     private:
         bool playing;
@@ -27,6 +26,7 @@ class Game_State {
         bool pause;
         int countDownTime;
         bool inCountDown;
+        int direct;
         Tetromino* next0Tetrads;
         Tetromino* next1Tetrads;
         Tetromino* next2Tetrads;
@@ -44,6 +44,7 @@ class Game_State {
             pause = 0;
             countDownTime = 0;
             inCountDown = 0;
+            direct = InGame_SoloMode;
             velocity = initVelocity;
             next0Tetrads = new Tetromino;
             next1Tetrads = new Tetromino;
@@ -55,6 +56,9 @@ class Game_State {
             currentTetrads = getRandomTetrads();
             grid = new Grid;
             hardLevel = easy; //...
+        }
+        int getDirect(){
+            return direct;
         }
         bool getPlaying(){
             return playing;
@@ -98,6 +102,7 @@ class Game_State {
             if (countDownTime > 0){
                     renderText(countDownTime, renderer, gFont1, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, WHITE_COLOR);
             }
+            backButton.render(renderer, backButton.getXCen()-backButton.getWidth()/2, backButton.getYCen()-backButton.getHeight()/2);
         }
 
         void newTetradsFalling(){
@@ -108,8 +113,38 @@ class Game_State {
             // }
             }
         }
-
+        void reset(){
+            // *this = Game_State();
+            playing = 0;
+            lineCount = 0;
+            score = 0;
+            level = 1;
+            switchHold = 0;
+            pause = 0;
+            countDownTime = 0;
+            inCountDown = 0;
+            direct = InGame_SoloMode;
+            velocity = initVelocity;
+            next0Tetrads = new Tetromino;
+            next1Tetrads = new Tetromino;
+            next2Tetrads = new Tetromino;
+            currentTetrads = new Tetromino;
+            next0Tetrads = getRandomTetrads();
+            next1Tetrads = getRandomTetrads();
+            next2Tetrads = getRandomTetrads();
+            currentTetrads = getRandomTetrads();
+            grid = new Grid;
+            hardLevel = easy; //...
+        }
         void handleEvent(SDL_Event& event){
+            backButton.handleEvents(&event, 1);
+            if (backButton.getPressed()){
+                backButton.setPressed(0);
+                reset();
+                direct=Menu;
+                return;
+            }
+            direct = InGame_SoloMode;
             static bool disableKeyboard = 0;
             if (playing){
                 if (disableKeyboard){}

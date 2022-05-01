@@ -92,12 +92,19 @@ void Game::init(const char* title, int xPos, int yPos, int SCREEN_WIDTH, int SCR
 	
 	gFPS_Processor->initTimeCounting();
 	// tabs_menu.setRenderer(renderer);
-	tabs_menu.setUpMenu(renderer);
-	gameOver->setUp(renderer);
+	
 }
 void Game::loadmedia()
 {
+	tabs_menu.setUpMenu(renderer);
+	gameOver->setUp(renderer);
 	gFont1 = TTF_OpenFont( "font/Northstar3D-4D3x.otf", 24 );
+	LTexture* backButtonTex = new LTexture;
+	LTexture* backButtonTex_ = new LTexture;
+	backButtonTex->loadFromFile(back_button, renderer);
+    backButtonTex_->loadFromFile(back_button_, renderer);
+
+	backButton.setTexture(*backButtonTex, *backButtonTex_);
 }
 void Game::handleEvents()
 {
@@ -134,6 +141,7 @@ void Game::handleEvents()
 					case InGame_SoloMode:
 						//SDL_Delay...
 						gameState->handleEvent(event);
+						tabs = gameState->getDirect();
 						break;
 					case InGame_BattleMode:
 						//SDL_Delay...
@@ -143,6 +151,7 @@ void Game::handleEvents()
 						gameOver->handleEvents(&event);
 						tabs = gameOver->getDirect();
 						break;
+
 					default:
 						break;
 					}
@@ -154,12 +163,14 @@ void Game::handleEvents()
 
 void Game::update()
 {
+	// std::cout << tabs ;
 	//if currentTetrads tiep dat, chuyen trang thai khoi, cho khoi moi tiep dat
 	gFPS_Processor->cappingFrame();
 	switch (tabs){
 		case Menu:
 			break;
 		case InGame_SoloMode:
+			backButton.setCenterPosition(100, 100);
 			gameState->update();
 			if (gameState->gameOver()){
 				tabs = GameOver; //...
@@ -170,12 +181,17 @@ void Game::update()
 			break;
 		case InGame_BattleMode:
 			battleProcessor->update();
+			backButton.setCenterPosition(100, 100);
+
 			// if (gameState->gameOver()){
 			// 	tabs = GameOver; //...
 			// 	*gameState = Game_State();
 			// 	// gameState->getGrid()->loadMedia(renderer);
 			// 	// khi game over ...
 			// }
+			break;
+		case GameOver:
+			backButton.setCenterPosition(1289, 569);
 			break;
 		default:
 			break;
@@ -207,8 +223,6 @@ void Game::render()
 	default:
 		break;
 	}
-	
-	
 	
 	// gFPS_Processor->printFPS(renderer, gFont);
 	
