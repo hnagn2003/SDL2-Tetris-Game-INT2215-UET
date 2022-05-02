@@ -148,7 +148,7 @@ class Game_State {
             grid = new Grid;
             hardLevel = easy; //...
         }
-        void handleEvent(SDL_Event event, bool player2 = 0){
+        void handleEvent(SDL_Event event, bool battleMode = 0, bool player2 = 0){
             if (!player2){
                 backButton.handleEvents(&event, 1);
                 if (backButton.getPressed()){
@@ -164,75 +164,210 @@ class Game_State {
                 switch (event.type)
                 {   
                     case SDL_KEYDOWN:
-                        
-                        switch( event.key.keysym.sym )
-                        {   
-                            case SDLK_UP: 
-                                if ( !event.key.repeat && !pause ){
-                                    currentTetrads->rotate(grid); 
-                                    break;
-                                }
-                            break;
-                            case SDLK_DOWN:
-                                 
-                                if (currentTetrads->getStatus() && !pause){
-                                    currentTetrads->moveDown(grid); 
-                                }
-                                
-                                break;
-                            case SDLK_LEFT: 
-                                if (!pause)
-                                    currentTetrads->moveLeft(grid); 
-                                
-                                break;
-                            case SDLK_RIGHT: 
-                                if (!pause)
-                                    currentTetrads->moveRight(grid); 
-                                break;
-                            case SDLK_SPACE:
-                                if (!pause)
-                                // std::cout << "e1 "<<currentTetrads->getYPos()<<' ' << nextTetrads->getYPos() << std::endl;
-                                    currentTetrads->dropDown(grid);
-                                
-                                // std::cout << "e2 "<<currentTetrads->getYPos()<<' ' << nextTetrads->getYPos() << std::endl;
-                                break;
-                            case SDLK_c:
-                                if (!pause){
-                                    if (holding == NULL){
-                                        holding = new Tetromino;
-                                        // holding = currentTetrads;
-                                        // currentTetrads = next0Tetrads;
-                                        // currentTetrads->setXPos(holding->getXPos());
-                                        // currentTetrads->setYPos(holding->getYPos());
-                                        // currentTetrads->detectCoveredRect();
-                                        // currentTetrads->fixTheSuperimposed(grid);
-                                        *holding = Tetrads[currentTetrads->getType()];
-                                        currentTetrads = next0Tetrads;
-                                        next0Tetrads = next1Tetrads;
-                                        next1Tetrads = next2Tetrads;
-                                        next2Tetrads = getRandomTetrads();
-                                    }else{
-                                        if (!switchHold){
-                                            int tmp = holding->getType();
-                                            *holding = Tetrads[currentTetrads->getType()];
-                                            *currentTetrads = Tetrads[tmp];
-                                        }
+                        if (!battleMode){
+                            switch( event.key.keysym.sym )
+                            {   
+                                case SDLK_UP: 
+                                    if ( !event.key.repeat && !pause ){
+                                        currentTetrads->rotate(grid); 
+                                        break;
                                     }
-                                    switchHold = 1;
-                                }
                                 break;
-                            case SDLK_p:
-                                if(!pause){
-                                    pauseGame();
-                                }else{
-                                    startCD();
-                                }
-                                break;
-                        
-                            default: break;
+                                case SDLK_DOWN:
+                                    
+                                    if (currentTetrads->getStatus() && !pause){
+                                        currentTetrads->moveDown(grid); 
+                                    }
+                                    
+                                    break;
+                                case SDLK_LEFT: 
+                                    if (!pause)
+                                        currentTetrads->moveLeft(grid); 
+                                    
+                                    break;
+                                case SDLK_RIGHT: 
+                                    if (!pause)
+                                        currentTetrads->moveRight(grid); 
+                                    break;
+                                case SDLK_SPACE:
+                                    if (!pause)
+                                    // std::cout << "e1 "<<currentTetrads->getYPos()<<' ' << nextTetrads->getYPos() << std::endl;
+                                        currentTetrads->dropDown(grid);
+                                    
+                                    // std::cout << "e2 "<<currentTetrads->getYPos()<<' ' << nextTetrads->getYPos() << std::endl;
+                                    break;
+                                case SDLK_c:
+                                    if (!pause){
+                                        if (holding == NULL){
+                                            holding = new Tetromino;
+                                            // holding = currentTetrads;
+                                            // currentTetrads = next0Tetrads;
+                                            // currentTetrads->setXPos(holding->getXPos());
+                                            // currentTetrads->setYPos(holding->getYPos());
+                                            // currentTetrads->detectCoveredRect();
+                                            // currentTetrads->fixTheSuperimposed(grid);
+                                            *holding = Tetrads[currentTetrads->getType()];
+                                            currentTetrads = next0Tetrads;
+                                            next0Tetrads = next1Tetrads;
+                                            next1Tetrads = next2Tetrads;
+                                            next2Tetrads = getRandomTetrads();
+                                        }else{
+                                            if (!switchHold){
+                                                int tmp = holding->getType();
+                                                *holding = Tetrads[currentTetrads->getType()];
+                                                *currentTetrads = Tetrads[tmp];
+                                            }
+                                        }
+                                        switchHold = 1;
+                                    }
+                                    break;
+                                case SDLK_p:
+                                    if(!pause){
+                                        pauseGame();
+                                    }else{
+                                        startCD();
+                                    }
+                                    break;
+                            
+                                default: break;
+                            }    
+                        }else{
+                            if (!player2){
+                                switch( event.key.keysym.sym )
+                                {   
+                                    case SDLK_w: 
+                                        if ( !event.key.repeat && !pause ){
+                                            currentTetrads->rotate(grid); 
+                                            break;
+                                        }
+                                    break;
+                                    case SDLK_s:
+                                        
+                                        if (currentTetrads->getStatus() && !pause){
+                                            currentTetrads->moveDown(grid); 
+                                        }
+                                        
+                                        break;
+                                    case SDLK_a: 
+                                        if (!pause)
+                                            currentTetrads->moveLeft(grid); 
+                                        
+                                        break;
+                                    case SDLK_d: 
+                                        if (!pause)
+                                            currentTetrads->moveRight(grid); 
+                                        break;
+                                    case SDLK_SPACE:
+                                        if (!pause)
+                                        // std::cout << "e1 "<<currentTetrads->getYPos()<<' ' << nextTetrads->getYPos() << std::endl;
+                                            currentTetrads->dropDown(grid);
+                                        
+                                        // std::cout << "e2 "<<currentTetrads->getYPos()<<' ' << nextTetrads->getYPos() << std::endl;
+                                        break;
+                                    case SDLK_c:
+                                        if (!pause){
+                                            if (holding == NULL){
+                                                holding = new Tetromino;
+                                                // holding = currentTetrads;
+                                                // currentTetrads = next0Tetrads;
+                                                // currentTetrads->setXPos(holding->getXPos());
+                                                // currentTetrads->setYPos(holding->getYPos());
+                                                // currentTetrads->detectCoveredRect();
+                                                // currentTetrads->fixTheSuperimposed(grid);
+                                                *holding = Tetrads[currentTetrads->getType()];
+                                                currentTetrads = next0Tetrads;
+                                                next0Tetrads = next1Tetrads;
+                                                next1Tetrads = next2Tetrads;
+                                                next2Tetrads = getRandomTetrads();
+                                            }else{
+                                                if (!switchHold){
+                                                    int tmp = holding->getType();
+                                                    *holding = Tetrads[currentTetrads->getType()];
+                                                    *currentTetrads = Tetrads[tmp];
+                                                }
+                                            }
+                                            switchHold = 1;
+                                        }
+                                        break;
+                                    case SDLK_p:
+                                        if(!pause){
+                                            pauseGame();
+                                        }else{
+                                            startCD();
+                                        }
+                                        break;
                                 
+                                    default: break;
+                                }
+                            }else{
+                                switch( event.key.keysym.sym )
+                                {   
+                                    case SDLK_UP: 
+                                        if ( !event.key.repeat && !pause ){
+                                            currentTetrads->rotate(grid); 
+                                            break;
+                                        }
+                                    break;
+                                    case SDLK_DOWN:
+                                        
+                                        if (currentTetrads->getStatus() && !pause){
+                                            currentTetrads->moveDown(grid); 
+                                        }
+                                        
+                                        break;
+                                    case SDLK_LEFT: 
+                                        if (!pause)
+                                            currentTetrads->moveLeft(grid); 
+                                        
+                                        break;
+                                    case SDLK_RIGHT: 
+                                        if (!pause)
+                                            currentTetrads->moveRight(grid); 
+                                        break;
+                                    case SDLK_KP_ENTER:
+                                        if (!pause)
+                                        // std::cout << "e1 "<<currentTetrads->getYPos()<<' ' << nextTetrads->getYPos() << std::endl;
+                                            currentTetrads->dropDown(grid);
+                                        
+                                        // std::cout << "e2 "<<currentTetrads->getYPos()<<' ' << nextTetrads->getYPos() << std::endl;
+                                        break;
+                                    case SDLK_KP_PLUS:
+                                        if (!pause){
+                                            if (holding == NULL){
+                                                holding = new Tetromino;
+                                                // holding = currentTetrads;
+                                                // currentTetrads = next0Tetrads;
+                                                // currentTetrads->setXPos(holding->getXPos());
+                                                // currentTetrads->setYPos(holding->getYPos());
+                                                // currentTetrads->detectCoveredRect();
+                                                // currentTetrads->fixTheSuperimposed(grid);
+                                                *holding = Tetrads[currentTetrads->getType()];
+                                                currentTetrads = next0Tetrads;
+                                                next0Tetrads = next1Tetrads;
+                                                next1Tetrads = next2Tetrads;
+                                                next2Tetrads = getRandomTetrads();
+                                            }else{
+                                                if (!switchHold){
+                                                    int tmp = holding->getType();
+                                                    *holding = Tetrads[currentTetrads->getType()];
+                                                    *currentTetrads = Tetrads[tmp];
+                                                }
+                                            }
+                                            switchHold = 1;
+                                        }
+                                        break;
+                                    case SDLK_p:
+                                        if(!pause){
+                                            pauseGame();
+                                        }else{
+                                            startCD();
+                                        }
+                                        break;
+                                
+                                    default: break;
+                                }    
                             }
-                        
+                        }
                         break;
                     case SDL_KEYUP:
                         switch( event.key.keysym.sym )
@@ -250,7 +385,7 @@ class Game_State {
                     default:
                         
                         break;
-                    }
+                }
             }
 
         }
@@ -373,7 +508,7 @@ class BallteProcessor{
                     }
                 default: break;
             }
-            gameStatePlayer1->handleEvent(event);
+            gameStatePlayer1->handleEvent(event, 1);
             direct = gameStatePlayer1->getDirect();
             if (direct == InGame_SoloMode){
                 direct = InGame_BattleMode;
@@ -381,7 +516,7 @@ class BallteProcessor{
                 *gameStatePlayer1 = Game_State();
                 *gameStatePlayer2 = Game_State();
             }
-            gameStatePlayer2->handleEvent(event, 1);
+            gameStatePlayer2->handleEvent(event, 1, 1);
         }
         void update(){
             
