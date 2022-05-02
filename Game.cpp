@@ -107,12 +107,15 @@ void Game::loadmedia()
 	gameOver->setUp(renderer);
 	helpsAndCredit->setUp(renderer);
 	gFont1 = TTF_OpenFont( "font/Northstar3D-4D3x.otf", 24 );
+
 	LTexture* backButtonTex = new LTexture;
 	LTexture* backButtonTex_ = new LTexture;
 	backButtonTex->loadFromFile(back_button, renderer);
     backButtonTex_->loadFromFile(back_button_, renderer);
-
 	backButton.setTexture(*backButtonTex, *backButtonTex_);
+
+	playingSoundtrack = Mix_LoadMUS( "assets/Musics/playing.mp3" );
+	themeSoundtrack = Mix_LoadMUS( "assets/Musics/backgroundMusic.mp3" );
 }
 void Game::handleEvents()							
 {
@@ -170,10 +173,25 @@ void Game::handleEvents()
 			}
 		}
 } 
+void Game::playMusic()
+{
+	switch (tabs)
+	{
+	case InGame_SoloMode:
 
+		break;
+	
+	default:
+		if( Mix_PlayingMusic() == 0 ){
+			Mix_PlayMusic( themeSoundtrack, -1 );
+		}
+		break;
+	}
+}
 void Game::update()
 {
 	//if currentTetrads tiep dat, chuyen trang thai khoi, cho khoi moi tiep dat
+
 	gFPS_Processor->cappingFrame();
 	switch (tabs){
 		case Menu:
@@ -182,6 +200,7 @@ void Game::update()
 			backButton.setCenterPosition(100, 100);
 			gameState->update();
 			if (gameState->gameOver()){
+				Mix_HaltMusic();
 				tabs = GameOver; //...
 				*gameState = Game_State();
 				// gameState->getGrid()->loadMedia(renderer);

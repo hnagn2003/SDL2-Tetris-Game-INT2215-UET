@@ -20,7 +20,7 @@ int main( int argc, char* args[] ){
     while (game->running())
     {
         game->handleEvents();
-        
+        game->playMusic();
         game->update();
         
         game->render();

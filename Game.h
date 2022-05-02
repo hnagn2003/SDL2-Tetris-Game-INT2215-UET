@@ -146,6 +146,7 @@ class Game_State {
         void handleEvent(SDL_Event& event){
             backButton.handleEvents(&event, 1);
             if (backButton.getPressed()){
+                Mix_HaltMusic();
                 backButton.setPressed(0);
                 reset();
                 direct=Menu;
@@ -257,6 +258,7 @@ class Game_State {
         }
         void pauseGame(){
             currentTetrads->setPause(1);
+
             pause = 1;
         }
         void startCD(){
@@ -275,15 +277,15 @@ class Game_State {
                     currentTetrads->setPause(0);
                     pause = 0;
                     inCountDown = false;
+                    if( Mix_PlayingMusic() == 0 ){
+                        Mix_PlayMusic( playingSoundtrack, -1 );
+                    }
                 }
             }
         }
         void updateFallingTetrads(){
             if (playing){
-                static Mix_Music* playingSoundtrack = Mix_LoadMUS( "assets/Musics/playing.mp3" );
-                if( Mix_PlayingMusic() == 0 ){
-                    Mix_PlayMusic( playingSoundtrack, -1 );
-                }
+                
                 // std::cout << "b2"<<currentTetrads.getYPos()<<' ' << nextTetrads.getYPos() << std::endl;
                 if (!currentTetrads->getStatus()){
                     // std::cout<<'1' << nextTetrads.getYPos() <<std::endl;
@@ -328,6 +330,7 @@ class Game_State {
 			}
 			countDownHandle();
 			playing = 1;
+
 			newTetradsFalling();
 			// std::cout << "YPos2" << getNextTetrads()->getYPos() << std::endl;
 			updateFallingTetrads();
@@ -395,6 +398,7 @@ public:
     void init(const char* title, int xPos, int yPos, int SCREEN_WIDTH, int SCREEN_HEIGHT, bool fullscreen);
     void loadmedia();
     void handleEvents();
+    void playMusic();
     void update();
     void render();
     void clean();

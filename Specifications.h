@@ -45,6 +45,9 @@ const std::string help_help_textP = "assets/Pictures/helps_help_tex.png";
 
 const std::string help_about_textP = "assets/Pictures/helps_about_tex.png";
 const std::string help_copyright_textP = "assets/Pictures/helps_copyright_tex.png";
+
+static Mix_Music* playingSoundtrack;
+static Mix_Music* themeSoundtrack;
 static TTF_Font* gFont1;
 
 enum Tabs {
@@ -200,6 +203,9 @@ class Tabs_Menu{
                 if (button[i].getPressed()){
                     button[i].setPressed(0);
                     direct=i;
+                    if (direct == InGame_SoloMode){
+                        Mix_HaltMusic();
+                    }
                     flag = 1;
                     return;
                 }
