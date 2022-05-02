@@ -58,6 +58,7 @@ enum Tabs {
     Helps,
     ExitGame,
     GameOver,
+    BattleEnded,
     allButtonsOfMenu
 };
 class LButton

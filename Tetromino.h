@@ -64,7 +64,7 @@ class Tetromino{
             
             if (yPos+HIDDEN_ROWS<=0){
                 std::cout << "out of range" << std::endl;
-                exit(1);
+                // exit(1);
             }
             detectCoveredRect();
         }

@@ -156,7 +156,7 @@ void Game::handleEvents()
 						break;
 					case InGame_BattleMode:
 						battleProcessor->handleEvent(event);
-						// tabs = gameState->getDirect();
+						tabs = battleProcessor->getDirect();
 						break;
 					case GameOver:
 						gameOver->handleEvents(&event);
@@ -178,9 +178,9 @@ void Game::playMusic()
 	switch (tabs)
 	{
 	case InGame_SoloMode:
-
 		break;
-	
+	case InGame_BattleMode:
+		break;
 	default:
 		if( Mix_PlayingMusic() == 0 ){
 			Mix_PlayMusic( themeSoundtrack, -1 );
@@ -203,19 +203,21 @@ void Game::update()
 				Mix_HaltMusic();
 				tabs = GameOver; //...
 				*gameState = Game_State();
-				// gameState->getGrid()->loadMedia(renderer);
-				// khi game over ...
+
 			}
 			break;
 		case InGame_BattleMode:
 			battleProcessor->update();
 			backButton.setCenterPosition(100, 100);
-
+			if (battleProcessor->gameOver()){
+				tabs = BattleEnded;
+				*battleProcessor = BallteProcessor();
+			}
+			
 			// if (gameState->gameOver()){
 			// 	tabs = GameOver; //...
 			// 	*gameState = Game_State();
-			// 	// gameState->getGrid()->loadMedia(renderer);
-			// 	// khi game over ...
+
 			// }
 			break;
 		case GameOver:

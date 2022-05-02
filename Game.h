@@ -149,13 +149,15 @@ class Game_State {
             hardLevel = easy; //...
         }
         void handleEvent(SDL_Event event, bool player2 = 0){
-            backButton.handleEvents(&event, 1);
-            if (backButton.getPressed()){
-                Mix_HaltMusic();
-                backButton.setPressed(0);
-                reset();
-                direct=Menu;
-                return;
+            if (!player2){
+                backButton.handleEvents(&event, 1);
+                if (backButton.getPressed()){
+                    Mix_HaltMusic();
+                    backButton.setPressed(0);
+                    reset();
+                    direct=Menu;
+                    return;
+                }
             }
             direct = InGame_SoloMode;
             if (playing){
@@ -250,14 +252,7 @@ class Game_State {
                         break;
                     }
             }
-        //     const Uint8* keystates = SDL_GetKeyboardState(NULL);
 
-        //     if(keystates[SDL_SCANCODE_LEFT]) {
-        //         currentTetrads.moveLeft(grid);
-        //     }
-        //     if(keystates[SDL_SCANCODE_RIGHT]) {
-        //         currentTetrads.moveRight(grid); 
-        //     }
         }
         void pauseGame(){
             currentTetrads->setPause(1);
@@ -348,11 +343,15 @@ class BallteProcessor{
     private:
         Game_State *gameStatePlayer1;
         Game_State *gameStatePlayer2;
-
+        int direct;
     public:
         BallteProcessor(){
+            direct = InGame_BattleMode;
             gameStatePlayer1 = new Game_State;
             gameStatePlayer2 = new Game_State;
+        }
+        int getDirect(){
+            return direct;
         }
         void handleEvent(SDL_Event event){
             switch (event.type)
@@ -367,17 +366,25 @@ class BallteProcessor{
                                 gameStatePlayer1->startCD();
                                 gameStatePlayer2->startCD();
                             }
-                            break;
+                            return;
                     
                         default: break;
                             
                     }
                 default: break;
             }
-            // gameStatePlayer1->handleEvent(e);
-            // gameStatePlayer2->handleEvent(e, 1);
+            gameStatePlayer1->handleEvent(event);
+            direct = gameStatePlayer1->getDirect();
+            if (direct == InGame_SoloMode){
+                direct = InGame_BattleMode;
+            }else{
+                *gameStatePlayer1 = Game_State();
+                *gameStatePlayer2 = Game_State();
+            }
+            gameStatePlayer2->handleEvent(event, 1);
         }
         void update(){
+            
             std::thread x(std::bind(&Game_State::update, gameStatePlayer1));
             std::thread y(std::bind(&Game_State::update, gameStatePlayer2));
             x.join();
@@ -386,6 +393,9 @@ class BallteProcessor{
         void render(SDL_Renderer* renderer){
             gameStatePlayer1->render(renderer, 1);
             gameStatePlayer2->render(renderer, -1);
+        }
+        bool gameOver(){
+            return (gameStatePlayer1->gameOver() || gameStatePlayer2->gameOver());
         }
 };
 class Game {
