@@ -155,8 +155,8 @@ void Game::handleEvents()
 						tabs = gameState->getDirect();
 						break;
 					case InGame_BattleMode:
-						//SDL_Delay...
-						
+						battleProcessor->handleEvent(event);
+						// tabs = gameState->getDirect();
 						break;
 					case GameOver:
 						gameOver->handleEvents(&event);

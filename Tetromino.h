@@ -28,12 +28,15 @@ class Tetromino{
         bool active;
         bool falling;
         bool pause;
+        Uint32 startTime;
     public:
         Tetromino()
         {
             active = true;
             falling = false;
             pause = 0;
+            startTime = 0;
+
         }
         Tetromino (int _type, SDL_Color _color, bool _matrix[sizeOfTetradsSide][sizeOfTetradsSide], int _w, int _h, int _x, int _y, int _xPos = xTetradsInit, int _yPos = yTetradsInit)
         {
@@ -307,7 +310,9 @@ class Tetromino{
         // rơi khối tetrads
         void fall(int velocity, Grid *grid){
             if (active && falling && !pause){
-                static Uint32 startTime = SDL_GetTicks();
+                if (startTime == 0){
+                    startTime = SDL_GetTicks();
+                }
                 if (SDL_GetTicks() - startTime >= velocity){ // cứ mỗi velocity/1000 giây khối tetrads sẽ rơi xuống
                     moveDown(grid);
                     startTime = SDL_GetTicks();

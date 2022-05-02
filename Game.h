@@ -28,6 +28,7 @@ class Game_State {
         int countDownTime;
         bool inCountDown;
         int direct;
+        Uint32 timeC;
         Tetromino* next0Tetrads;
         Tetromino* next1Tetrads;
         Tetromino* next2Tetrads;
@@ -45,6 +46,7 @@ class Game_State {
             pause = 0;
             countDownTime = 0;
             inCountDown = 0;
+            timeC = 0;
             direct = InGame_SoloMode;
             velocity = initVelocity;
             next0Tetrads = new Tetromino;
@@ -66,6 +68,9 @@ class Game_State {
         }
         void setPlaying(bool _playing){
             playing = _playing;
+        }
+        bool getPause(){
+            return pause;
         }
         Grid* getGrid(){
             return grid;
@@ -143,7 +148,7 @@ class Game_State {
             grid = new Grid;
             hardLevel = easy; //...
         }
-        void handleEvent(SDL_Event& event){
+        void handleEvent(SDL_Event event, bool player2 = 0){
             backButton.handleEvents(&event, 1);
             if (backButton.getPressed()){
                 Mix_HaltMusic();
@@ -153,9 +158,7 @@ class Game_State {
                 return;
             }
             direct = InGame_SoloMode;
-            static bool disableKeyboard = 0;
             if (playing){
-                if (disableKeyboard){}
                 switch (event.type)
                 {   
                     case SDL_KEYDOWN:
@@ -268,7 +271,9 @@ class Game_State {
         void countDownHandle(){
             if (inCountDown){
                 if (countDownTime > 0){
-                    static Uint32 timeC = SDL_GetTicks();
+                    if (timeC == 0){
+                        timeC = SDL_GetTicks();
+                    }
                     if (SDL_GetTicks() - timeC > 1000){
                         timeC = SDL_GetTicks();
                         countDownTime --;
@@ -349,40 +354,34 @@ class BallteProcessor{
             gameStatePlayer1 = new Game_State;
             gameStatePlayer2 = new Game_State;
         }
-        void handleEvent(SDL_Event e){
+        void handleEvent(SDL_Event event){
+            switch (event.type)
+            {   
+                case SDL_KEYDOWN:
+                    switch( event.key.keysym.sym ){ 
+                        case SDLK_p: 
+                            if(!gameStatePlayer1->getPause() && !gameStatePlayer2->getPause()){
+                                gameStatePlayer1->pauseGame();
+                                gameStatePlayer2->pauseGame();
+                            }else{
+                                gameStatePlayer1->startCD();
+                                gameStatePlayer2->startCD();
+                            }
+                            break;
+                    
+                        default: break;
+                            
+                    }
+                default: break;
+            }
             // gameStatePlayer1->handleEvent(e);
-            // gameStatePlayer2->handleEvent(e);
+            // gameStatePlayer2->handleEvent(e, 1);
         }
         void update(){
-            // gameStatePlayer1->update();
-            // gameStatePlayer2->update();
-            // std::thread x(std::bind(&Game_State::update, gameStatePlayer1));
-            // std::thread y(std::bind(&Game_State::update, gameStatePlayer2));
-            // x.join();
-            // y.join();
-            // if (!gameStatePlayer1->getPlaying() && !gameStatePlayer2->getPlaying()){
-            //     gameStatePlayer1->startCD(); gameStatePlayer2->startCD();
-            //     gameStatePlayer1->pauseGame(); gameStatePlayer2->pauseGame();
-            // }
-			// gameStatePlayer1->countDownHandle();
-            // gameStatePlayer2->countDownHandle();
-
-            gameStatePlayer2->setPlaying(1);
-			gameStatePlayer1->setPlaying(1);
-            
-            // std::cout << gameStatePlayer2->getPlaying();
-            std::thread xx(std::bind(&Game_State::newTetradsFalling, gameStatePlayer1));
-            std::thread yy(std::bind(&Game_State::newTetradsFalling, gameStatePlayer2));
-            xx.join();
-            yy.join();
-            // std::cout << "end" <<std::endl;
-			// gameStatePlayer1->newTetradsFalling();
-            std::thread xxx(std::bind(&Game_State::updateFallingTetrads, gameStatePlayer1));
-            std::thread yyy(std::bind(&Game_State::updateFallingTetrads, gameStatePlayer2));
-            xxx.join();
-            yyy.join();
-			// gameStatePlayer1->updateFallingTetrads();
-            // gameStatePlayer2->updateFallingTetrads();
+            std::thread x(std::bind(&Game_State::update, gameStatePlayer1));
+            std::thread y(std::bind(&Game_State::update, gameStatePlayer2));
+            x.join();
+            y.join();
         }
         void render(SDL_Renderer* renderer){
             gameStatePlayer1->render(renderer, 1);
