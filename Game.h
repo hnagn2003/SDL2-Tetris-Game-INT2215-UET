@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+#include <SDL_mixer.h>
 #include "Tetromino.h"
 #include "Grid.h"
 #include "Specifications.h"
@@ -88,6 +89,12 @@ class Game_State {
         }
         //
         void render (SDL_Renderer *renderer, int gameMode = 0){
+            // fix bug crash when init mix channel
+            static Tetromino* tmp = holding;
+            if (holding == tmp){
+                holding = NULL;
+            }
+
             grid->render(renderer, gameMode);
             renderText(lineCount, renderer, gFont1, 693.5+grid->getX(), 628.5+grid->getY());
             renderText(score, renderer, gFont1, 693.5+grid->getX(), 736+grid->getY());
@@ -273,6 +280,10 @@ class Game_State {
         }
         void updateFallingTetrads(){
             if (playing){
+                static Mix_Music* playingSoundtrack = Mix_LoadMUS( "assets/Musics/playing.mp3" );
+                if( Mix_PlayingMusic() == 0 ){
+                    Mix_PlayMusic( playingSoundtrack, -1 );
+                }
                 // std::cout << "b2"<<currentTetrads.getYPos()<<' ' << nextTetrads.getYPos() << std::endl;
                 if (!currentTetrads->getStatus()){
                     // std::cout<<'1' << nextTetrads.getYPos() <<std::endl;
@@ -297,7 +308,7 @@ class Game_State {
                     next1Tetrads = next2Tetrads;
                     next2Tetrads = getRandomTetrads();
                 }
-            }     
+            }
         }
 
         bool gameOver(){

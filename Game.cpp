@@ -33,7 +33,7 @@ void Game::init(const char* title, int xPos, int yPos, int SCREEN_WIDTH, int SCR
 	bool success = true;
 
 	//Initialize SDL
-	if( SDL_Init( SDL_INIT_EVERYTHING ) < 0 )
+	if( SDL_Init( SDL_INIT_VIDEO | SDL_INIT_AUDIO ) < 0 )
 	{
 		printf( "SDL could not initialize! SDL Error: %s\n", SDL_GetError() );
 		success = false;
@@ -80,6 +80,12 @@ void Game::init(const char* title, int xPos, int yPos, int SCREEN_WIDTH, int SCR
 					printf( "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError() );
 					success = false;
 				}
+				SDL_SetHint (SDL_HINT_WINDOWS_DISABLE_THREAD_NAMING, "1");
+				if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 )
+                {
+                    printf( "SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError() );
+                    success = false;
+                }
 			}
 		}
 
@@ -108,7 +114,7 @@ void Game::loadmedia()
 
 	backButton.setTexture(*backButtonTex, *backButtonTex_);
 }
-void Game::handleEvents()
+void Game::handleEvents()							
 {
         SDL_Event event; 
 		while(SDL_PollEvent(&event)){
@@ -163,12 +169,10 @@ void Game::handleEvents()
 					break;
 			}
 		}
-		
 } 
 
 void Game::update()
 {
-	// std::cout << tabs ;
 	//if currentTetrads tiep dat, chuyen trang thai khoi, cho khoi moi tiep dat
 	gFPS_Processor->cappingFrame();
 	switch (tabs){
@@ -204,11 +208,12 @@ void Game::update()
 		default:
 			break;
 	}
-
+	
 }
 
 void Game::render()
 {
+
     SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0 );
     SDL_RenderClear(renderer);
 	static LTexture backGround {backGroundPicture, renderer};
