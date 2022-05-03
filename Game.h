@@ -79,6 +79,9 @@ class Game_State {
         bool getPause(){
             return pause;
         }
+        long long getScore(){
+            return score;
+        }
 
         Grid* getGrid(){
             return grid;
@@ -481,6 +484,7 @@ class BallteProcessor{
         BattleEnded* battleEnded;
         int direct;
         bool isOver;
+        int result; // 0 la draw, 1 la player 1 win, 2 la player 2 win
     public:
         BallteProcessor(){
             direct = InGame_BattleMode;
@@ -488,11 +492,13 @@ class BallteProcessor{
             gameStatePlayer2 = new Game_State;
             battleEnded = new BattleEnded;
             isOver = 0;
+            result = -1;
         }
         void reset(){
             gameStatePlayer1->reset();
             gameStatePlayer2->reset();
             isOver = 0;
+            result = -1;
         }
         bool getOver(){
             return isOver;
@@ -554,8 +560,24 @@ class BallteProcessor{
             }
         }
         bool gameOver(){
-            // std:: cout << gameStatePlayer1->gameOver() << ' ' << gameStatePlayer2->gameOver();
-            return (gameStatePlayer1->gameOver() || gameStatePlayer2->gameOver());
+            bool P1Over = gameStatePlayer1->gameOver(), P2Over = gameStatePlayer2->gameOver();
+            long long P1Score = gameStatePlayer1->getScore(), P2Score = gameStatePlayer2->getScore();
+            if (P1Over && P2Over){
+                if (P1Score > P2Score){
+                    result = 1;
+                }else if (P1Score < P2Score){
+                    result = 2;
+                }else{
+                    result = 0;
+                }
+            }
+            if (P1Over && !P2Over){
+                result = 2;
+            }
+            if (!P1Over && P2Over){
+                result = 1;
+            }
+            return (result != -1);
         }
 };
 class Game {
