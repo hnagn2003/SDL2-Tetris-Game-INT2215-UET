@@ -79,9 +79,7 @@ class Game_State {
         bool getPause(){
             return pause;
         }
-        void setUp(SDL_Renderer* renderer){
-            gameOverAnnouncement->setUp(renderer);
-        }
+
         Grid* getGrid(){
             return grid;
         }

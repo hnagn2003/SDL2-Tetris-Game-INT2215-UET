@@ -17,7 +17,6 @@ const int delimitedLine = -2;
 const int delayBeforeDied = 3;
 const SDL_Color WHITE_COLOR = {255, 255, 255};
 const SDL_Color BLACK_COLOR = {0, 0, 0};
-const std::string rFont = "MTO Grunge Sans Shadow.ttf";
 const std::string backGroundPicture = "assets/Pictures/cyber_background.png";
 const std::string menuPicturePath = "assets/Pictures/tabs_menu.png";
 const std::string gameOverBgPath = "assets/Pictures/game_over_path.png";
@@ -175,6 +174,7 @@ class LButton
 
 };
 static LButton* backButton = new LButton;
+static LButton* replayButton = new LButton;
 
 class Tabs_Menu{
     public:
@@ -234,18 +234,12 @@ class Tabs_Menu{
 
 class GameOverAnnouncement{
     public:
-        LButton* replayButton;
-        LTexture* replayButtonTex;
-        LTexture* replayButtonTex_;
         int direct;
     public:
         GameOverAnnouncement(){
-            replayButton = new LButton;
-            replayButtonTex = new LTexture;
-            replayButtonTex_ = new LTexture;
             direct = InGame_SoloMode;
             // backButton->setCenterPosition(1289, 569);
-            replayButton->setCenterPosition(1137, 569);
+            // replayButton->setCenterPosition(1137, 569);
 
         }
         int getDirect(){
@@ -254,14 +248,7 @@ class GameOverAnnouncement{
         void resetDirect(){
             direct = InGame_SoloMode;
         }
-        void setUp(SDL_Renderer* renderer){
-            
-            replayButtonTex->loadFromFile(play_again_button, renderer);
-            replayButtonTex_->loadFromFile(play_again_button_, renderer);
-            replayButton->setTexture(replayButtonTex, replayButtonTex_);
-            // std::cout << replayButton->keyDown->mTexture << std::endl;
 
-        }
         bool handleEvents(SDL_Event* e){
             bool flag = 0;
             backButton->handleEvents(e, 1);
@@ -283,9 +270,7 @@ class GameOverAnnouncement{
             return false;
         }
         void render(SDL_Renderer* renderer){
-            // std::cout << replayButton->keyDown->mTexture << std::endl;
             static LTexture gameOverBg(gameOverBgPath, renderer);
-                        // std::cout << replayButton->keyDown->getHeight();
             gameOverBg.render(renderer, 0, 0);
             backButton->render(renderer, backButton->getXCen()-backButton->getWidth()/2, backButton->getYCen()-backButton->getHeight()/2);
             replayButton->render(renderer, replayButton->getXCen()-replayButton->getWidth()/2, replayButton->getYCen()-replayButton->getHeight()/2);

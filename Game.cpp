@@ -103,7 +103,6 @@ void Game::init(const char* title, int xPos, int yPos, int SCREEN_WIDTH, int SCR
 void Game::loadmedia()
 {
 	tabs_menu.setUpMenu(renderer);
-	gameState->gameOverAnnouncement->setUp(renderer);
 	helpsAndCredit->setUp(renderer);
 	gFont1 = TTF_OpenFont( "font/Northstar3D-4D3x.otf", 24 );
 
@@ -112,8 +111,15 @@ void Game::loadmedia()
 	backButtonTex->loadFromFile(back_button, renderer);
     backButtonTex_->loadFromFile(back_button_, renderer);
 	backButton->setTexture(backButtonTex, backButtonTex_);
+
+	LTexture* replayButtonTex = new LTexture;
+    LTexture* replayButtonTex_ = new LTexture;
+	replayButtonTex->loadFromFile(play_again_button, renderer);
+	replayButtonTex_->loadFromFile(play_again_button_, renderer);
+	replayButton->setTexture(replayButtonTex, replayButtonTex_);
 	playingSoundtrack = Mix_LoadMUS( "assets/Musics/playing.mp3" );
 	themeSoundtrack = Mix_LoadMUS( "assets/Musics/backgroundMusic.mp3" );
+
 
 }
 void Game::handleEvents()							
@@ -197,6 +203,7 @@ void Game::update()
 			if (!gameState->getOver()){
 				backButton->setCenterPosition(100, 100);
 			}else{
+				replayButton->setCenterPosition(1137, 569);
 				backButton->setCenterPosition(1289, 569);
 				Mix_HaltMusic();
 			}
