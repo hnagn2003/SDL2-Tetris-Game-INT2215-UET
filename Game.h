@@ -53,6 +53,7 @@ class Game_State {
             next1Tetrads = new Tetromino;
             next2Tetrads = new Tetromino;
             currentTetrads = new Tetromino;
+            holding = NULL;
             next0Tetrads = getRandomTetrads();
             next1Tetrads = getRandomTetrads();
             next2Tetrads = getRandomTetrads();
@@ -95,15 +96,12 @@ class Game_State {
         //
         void render (SDL_Renderer *renderer, int gameMode = 0){
             // fix bug crash when init mix channel
-            static Tetromino* tmp = holding;
-            if (holding == tmp){
-                holding = NULL;
-            }
 
             grid->render(renderer, gameMode);
             renderText(lineCount, renderer, gFont1, 693.5+grid->getX(), 628.5+grid->getY());
             renderText(score, renderer, gFont1, 693.5+grid->getX(), 736+grid->getY());
             renderText(level, renderer, gFont1, 693.5+grid->getX(), 842+grid->getY());
+
             if (holding!=NULL){
                 holding->render(renderer, grid->getX(), 663-2*TILE_SIZE, 242-2*TILE_SIZE);
             }

@@ -234,7 +234,7 @@ void Game::update()
 
 void Game::render()
 {
-
+	
     SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0 );
     SDL_RenderClear(renderer);
 	static LTexture backGround {backGroundPicture, renderer};
@@ -265,7 +265,6 @@ void Game::render()
 	
 	// SDL_SetRenderDrawColor( renderer, 32, 64, 0, 0 );
     SDL_RenderPresent(renderer);
-	
 }
 
 void Game::clean()
