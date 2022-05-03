@@ -17,7 +17,6 @@ Game::Game()
 	gameState = new Game_State;
 	battleProcessor = new BallteProcessor;
 	gFPS_Processor = new FPS_Processor;
-	gameOver = new GameOverAnnouncement;
 	helpsAndCredit = new HelpsAndCredit;
 	tabs = -1;
 }
@@ -104,7 +103,7 @@ void Game::init(const char* title, int xPos, int yPos, int SCREEN_WIDTH, int SCR
 void Game::loadmedia()
 {
 	tabs_menu.setUpMenu(renderer);
-	gameOver->setUp(renderer);
+	gameState->gameOverAnnouncement->setUp(renderer);
 	helpsAndCredit->setUp(renderer);
 	gFont1 = TTF_OpenFont( "font/Northstar3D-4D3x.otf", 24 );
 
@@ -112,10 +111,10 @@ void Game::loadmedia()
 	LTexture* backButtonTex_ = new LTexture;
 	backButtonTex->loadFromFile(back_button, renderer);
     backButtonTex_->loadFromFile(back_button_, renderer);
-	backButton.setTexture(*backButtonTex, *backButtonTex_);
-
+	backButton->setTexture(backButtonTex, backButtonTex_);
 	playingSoundtrack = Mix_LoadMUS( "assets/Musics/playing.mp3" );
 	themeSoundtrack = Mix_LoadMUS( "assets/Musics/backgroundMusic.mp3" );
+
 }
 void Game::handleEvents()							
 {
@@ -158,10 +157,6 @@ void Game::handleEvents()
 						battleProcessor->handleEvent(event);
 						tabs = battleProcessor->getDirect();
 						break;
-					case GameOver:
-						gameOver->handleEvents(&event);
-						tabs = gameOver->getDirect();
-						break;
 					case Helps:
 						helpsAndCredit->handleEvent(&event);
 						tabs = helpsAndCredit->getDirect();
@@ -175,6 +170,7 @@ void Game::handleEvents()
 } 
 void Game::playMusic()
 {
+
 	switch (tabs)
 	{
 	case InGame_SoloMode:
@@ -195,20 +191,21 @@ void Game::update()
 	gFPS_Processor->cappingFrame();
 	switch (tabs){
 		case Menu:
+			gameState->reset();
 			break;
 		case InGame_SoloMode:
-			backButton.setCenterPosition(100, 100);
-			gameState->update();
-			if (gameState->gameOver()){
+			if (!gameState->getOver()){
+				backButton->setCenterPosition(100, 100);
+			}else{
+				backButton->setCenterPosition(1289, 569);
 				Mix_HaltMusic();
-				tabs = GameOver; //...
-				*gameState = Game_State();
-
 			}
+			gameState->update();
+
 			break;
 		case InGame_BattleMode:
 			battleProcessor->update();
-			backButton.setCenterPosition(100, 100);
+			backButton->setCenterPosition(100, 100);
 			if (battleProcessor->gameOver()){
 				tabs = BattleEnded;
 				*battleProcessor = BallteProcessor();
@@ -220,21 +217,19 @@ void Game::update()
 
 			// }
 			break;
-		case GameOver:
-			backButton.setCenterPosition(1289, 569);
-			break;
+
 		case Helps:
-			backButton.setCenterPosition(100, 100);
+			backButton->setCenterPosition(100, 100);
 			break;
 		default:
 			break;
 	}
-	
+
 }
 
 void Game::render()
 {
-	
+
     SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0 );
     SDL_RenderClear(renderer);
 	static LTexture backGround {backGroundPicture, renderer};
@@ -251,9 +246,7 @@ void Game::render()
 	case InGame_BattleMode:
 		battleProcessor->render(renderer);
 		break;
-	case GameOver:
-		gameOver->render(renderer);
-		break;
+
 	case Helps:
 		helpsAndCredit->render(renderer);
 		break;

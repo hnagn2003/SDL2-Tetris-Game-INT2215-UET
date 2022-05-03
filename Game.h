@@ -16,7 +16,7 @@
 #include <functional>
 void renderText(long long text, SDL_Renderer* renderer, TTF_Font* gFont, int xCenter, int yCenter, SDL_Color textColor = WHITE_COLOR);
 class Game_State {
-    private:
+    public:
         bool playing;
         int lineCount;
         long long score;
@@ -35,7 +35,8 @@ class Game_State {
         Tetromino* currentTetrads;
         Tetromino* holding;
         Grid* grid;
-
+        GameOverAnnouncement* gameOverAnnouncement;
+        bool isOver;
     public: 
         Game_State(){
             playing = 0;
@@ -49,20 +50,25 @@ class Game_State {
             timeC = 0;
             direct = InGame_SoloMode;
             velocity = initVelocity;
-            next0Tetrads = new Tetromino;
-            next1Tetrads = new Tetromino;
-            next2Tetrads = new Tetromino;
-            currentTetrads = new Tetromino;
+            isOver = 0;
+            // next0Tetrads = new Tetromino;
+            // next1Tetrads = new Tetromino;
+            // next2Tetrads = new Tetromino;
+            // currentTetrads = new Tetromino;
             holding = NULL;
             next0Tetrads = getRandomTetrads();
             next1Tetrads = getRandomTetrads();
             next2Tetrads = getRandomTetrads();
             currentTetrads = getRandomTetrads();
+            gameOverAnnouncement = new GameOverAnnouncement;
             grid = new Grid;
             hardLevel = easy; //...
         }
         int getDirect(){
             return direct;
+        }
+        bool getOver(){
+            return isOver;
         }
         bool getPlaying(){
             return playing;
@@ -72,6 +78,9 @@ class Game_State {
         }
         bool getPause(){
             return pause;
+        }
+        void setUp(SDL_Renderer* renderer){
+            gameOverAnnouncement->setUp(renderer);
         }
         Grid* getGrid(){
             return grid;
@@ -95,8 +104,6 @@ class Game_State {
         }
         //
         void render (SDL_Renderer *renderer, int gameMode = 0){
-            // fix bug crash when init mix channel
-
             grid->render(renderer, gameMode);
             renderText(lineCount, renderer, gFont1, 693.5+grid->getX(), 628.5+grid->getY());
             renderText(score, renderer, gFont1, 693.5+grid->getX(), 736+grid->getY());
@@ -112,7 +119,10 @@ class Game_State {
             if (countDownTime > 0){
                     renderText(countDownTime, renderer, gFont1, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, WHITE_COLOR);
             }
-            backButton.render(renderer, backButton.getXCen()-backButton.getWidth()/2, backButton.getYCen()-backButton.getHeight()/2);
+            backButton->render(renderer, backButton->getXCen()-backButton->getWidth()/2, backButton->getYCen()-backButton->getHeight()/2);
+            if (isOver){
+                gameOverAnnouncement->render(renderer);
+            }
         }
 
         void newTetradsFalling(){
@@ -133,12 +143,9 @@ class Game_State {
             pause = 0;
             countDownTime = 0;
             inCountDown = 0;
+            isOver = 0;
             direct = InGame_SoloMode;
             velocity = initVelocity;
-            next0Tetrads = new Tetromino;
-            next1Tetrads = new Tetromino;
-            next2Tetrads = new Tetromino;
-            currentTetrads = new Tetromino;
             next0Tetrads = getRandomTetrads();
             next1Tetrads = getRandomTetrads();
             next2Tetrads = getRandomTetrads();
@@ -147,11 +154,18 @@ class Game_State {
             hardLevel = easy; //...
         }
         void handleEvent(SDL_Event event, bool battleMode = 0, bool player2 = 0){
+            if (isOver){
+                if (gameOverAnnouncement->handleEvents(&event)){
+                    reset();
+                }
+                direct = gameOverAnnouncement->getDirect();
+
+                return;
+            }
             if (!player2){
-                backButton.handleEvents(&event, 1);
-                if (backButton.getPressed()){
+                backButton->handleEvents(&event, 1);
+                if (backButton->getPressed()){
                     Mix_HaltMusic();
-                    backButton.setPressed(0);
                     reset();
                     direct=Menu;
                     return;
@@ -370,13 +384,6 @@ class Game_State {
                     case SDL_KEYUP:
                         switch( event.key.keysym.sym )
                         {
-                            // case SDLK_DOWN: moveVel = velocity; break;
-                            // if (!pause)
-                                // case SDLK_DOWN: currentTetrads->moveDown(grid); //...
-                            // case SDLK_LEFT: 
-                            //     break;
-                            // case SDLK_RIGHT: 
-                            //     break;
                             default: break;
                         }
                         break;
@@ -389,7 +396,6 @@ class Game_State {
         }
         void pauseGame(){
             currentTetrads->setPause(1);
-
             pause = 1;
         }
         void startCD(){
@@ -447,16 +453,18 @@ class Game_State {
         }
 
         bool gameOver(){
-            if (playing){
                 if (grid->getHighestRow(0, 0, COLS-1)<=delimitedLine+HIDDEN_ROWS){
                     playing = 0;
                     return true;
                 }
-                return false;
-            }
-            return true;
+            return false;
         }
         void update(){
+            isOver = gameOver();
+            if (isOver){
+                backButton->setPosition(1289, 569);
+                return;
+            }
             if (!playing){
 				startCD();
 				pauseGame();
@@ -465,11 +473,7 @@ class Game_State {
 			playing = 1;
 
 			newTetradsFalling();
-			// std::cout << "YPos2" << getNextTetrads()->getYPos() << std::endl;
 			updateFallingTetrads();
-			// countDownHandle();
-			// std::cout << "YPos3" << getNextTetrads()->getYPos() << std::endl;
-			
         }
 };
 class BallteProcessor{
@@ -560,7 +564,6 @@ private:
     BallteProcessor* battleProcessor;
     int tabs;
     Tabs_Menu tabs_menu;
-    GameOverAnnouncement* gameOver;
     HelpsAndCredit* helpsAndCredit;
 };
 

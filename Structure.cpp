@@ -19,10 +19,10 @@ LTexture::LTexture(std::string path, SDL_Renderer* gRenderer)
 	mHeight = 0;
 	loadFromFile(path, gRenderer);
 }
-LTexture::~LTexture()
-{
-	free();
-}
+// LTexture::~LTexture()
+// {
+// 	free();
+// }
 
 bool LTexture::loadFromFile( std::string path, SDL_Renderer* gRenderer)
 {
@@ -89,13 +89,13 @@ bool LTexture::loadFromRenderedText( std::string textureText, SDL_Color textColo
 
 void LTexture::free()
 {
-	if( mTexture != NULL )
-	{
-		SDL_DestroyTexture( mTexture );
-		mTexture = NULL;
-		mWidth = 0;
-		mHeight = 0;
-	}
+	// if( mTexture != NULL )
+	// {
+	// 	SDL_DestroyTexture( mTexture );
+	// 	mTexture = NULL;
+	// 	mWidth = 0;
+	// 	mHeight = 0;
+	// }
 }
 
 void LTexture::setColor( Uint8 red, Uint8 green, Uint8 blue )

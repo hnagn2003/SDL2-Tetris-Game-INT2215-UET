@@ -57,15 +57,14 @@ enum Tabs {
     Settings,
     Helps,
     ExitGame,
-    GameOver,
     BattleEnded,
     allButtonsOfMenu
 };
 class LButton
 {
     public:
-		LTexture keyUp;
-        LTexture keyDown;
+		LTexture* keyUp;
+        LTexture* keyDown;
         bool inside;
         bool motionMouse;
         bool pressed;
@@ -73,16 +72,18 @@ class LButton
         int xPos, yPos;
 	public:
 		LButton(){
+            keyDown = new LTexture;
+            keyUp = new LTexture;
             inside = 0;
             pressed = 0;
             xPos = 0; yPos = 0; xCen = 0; yCen = 0;
         }
-        LButton(LTexture _keyUp, LTexture _keyDown){
+        LButton(LTexture* _keyUp, LTexture* _keyDown){
             motionMouse = 0;
             keyUp = _keyUp;
             keyDown = _keyDown;
-            width = keyUp.getWidth();
-            height = keyUp.getHeight();
+            width = keyUp->getWidth();
+            height = keyUp->getHeight();
             xPos = 0; yPos = 0; xCen = 0; yCen = 0;
         }
         bool getPressed(){
@@ -101,11 +102,11 @@ class LButton
         void setPressed(bool _pressed){
             pressed = _pressed;
         }
-        void setTexture(const LTexture& _keyUp, const LTexture& _keyDown){
+        void setTexture(LTexture* _keyUp, LTexture* _keyDown){
             keyUp = _keyUp;
             keyDown = _keyDown;
-            width = keyUp.getWidth();
-            height = keyUp.getHeight();
+            width = keyUp->getWidth();
+            height = keyUp->getHeight();
         }
         void setPosition( int x, int y ){
             xPos = x; yPos = y;
@@ -166,14 +167,14 @@ class LButton
                 x=xPos; y = yPos;
             }
             if (motionMouse){
-                keyDown.render(renderer, x, y);
+                keyDown->render(renderer, x, y);
             }else{
-                keyUp.render(renderer, x, y);
+                keyUp->render(renderer, x, y);
             }
         }
 
 };
-static LButton backButton;
+static LButton* backButton = new LButton;
 
 class Tabs_Menu{
     public:
@@ -218,7 +219,7 @@ class Tabs_Menu{
             for (int i=0; i<4; i++){
                 keyUp[i].loadFromFile(menuButton[i], renderer);
                 keyDown[i].loadFromFile(menuButton_[i], renderer);
-                button[i].setTexture(keyUp[i], keyDown[i]);
+                button[i].setTexture((keyUp+i), (keyDown+i));
             }
         }
         void render(SDL_Renderer* renderer){
@@ -232,58 +233,65 @@ class Tabs_Menu{
 };
 
 class GameOverAnnouncement{
-    private:
-        LButton replayButton;
-        
+    public:
+        LButton* replayButton;
+        LTexture* replayButtonTex;
+        LTexture* replayButtonTex_;
         int direct;
     public:
         GameOverAnnouncement(){
-            direct = GameOver;
-            // backButton.setCenterPosition(1289, 569);
-            replayButton.setCenterPosition(1137, 569);
+            replayButton = new LButton;
+            replayButtonTex = new LTexture;
+            replayButtonTex_ = new LTexture;
+            direct = InGame_SoloMode;
+            // backButton->setCenterPosition(1289, 569);
+            replayButton->setCenterPosition(1137, 569);
 
         }
         int getDirect(){
             return direct;
         }
         void resetDirect(){
-            direct = GameOver;
+            direct = InGame_SoloMode;
         }
         void setUp(SDL_Renderer* renderer){
-            LTexture* replayButtonTex = new LTexture;
-            LTexture* replayButtonTex_ = new LTexture;
+            
             replayButtonTex->loadFromFile(play_again_button, renderer);
             replayButtonTex_->loadFromFile(play_again_button_, renderer);
-            replayButton.setTexture(*replayButtonTex, *replayButtonTex_);
+            replayButton->setTexture(replayButtonTex, replayButtonTex_);
+            // std::cout << replayButton->keyDown->mTexture << std::endl;
+
         }
-        void handleEvents(SDL_Event* e){
+        bool handleEvents(SDL_Event* e){
             bool flag = 0;
-            backButton.handleEvents(e, 1);
-            if (backButton.getPressed()){
-                backButton.setPressed(0);
+            backButton->handleEvents(e, 1);
+            if (backButton->getPressed()){
+                backButton->setPressed(0);
                 direct=Menu;
                 flag = 1;
-                return;
+                return false;
             }
-            replayButton.handleEvents(e, 1);
-            if (replayButton.getPressed()){
-                replayButton.setPressed(0);
+            replayButton->handleEvents(e, 1);
+            if (replayButton->getPressed()){
+                replayButton->setPressed(0);
                 direct=InGame_SoloMode;
                 flag = 1;
-                return;
+                return true;
             }
 
-            direct = GameOver; 
+            direct = InGame_SoloMode; 
+            return false;
         }
         void render(SDL_Renderer* renderer){
-            // std::cout << backButton.getXCen() << std::endl;
+            // std::cout << replayButton->keyDown->mTexture << std::endl;
             static LTexture gameOverBg(gameOverBgPath, renderer);
+                        // std::cout << replayButton->keyDown->getHeight();
             gameOverBg.render(renderer, 0, 0);
-            // std::cout << replayButton.keyUp.getHeight() << std::endl;
-            backButton.render(renderer, backButton.getXCen()-backButton.getWidth()/2, backButton.getYCen()-backButton.getHeight()/2);
-            replayButton.render(renderer, replayButton.getXCen()-replayButton.getWidth()/2, replayButton.getYCen()-replayButton.getHeight()/2);
+            backButton->render(renderer, backButton->getXCen()-backButton->getWidth()/2, backButton->getYCen()-backButton->getHeight()/2);
+            replayButton->render(renderer, replayButton->getXCen()-replayButton->getWidth()/2, replayButton->getYCen()-replayButton->getHeight()/2);
         }
 };
+
 enum HelpsInlineTabs{
     H_Helps,
     H_About,
@@ -312,15 +320,15 @@ class HelpsAndCredit{
             LTexture* helpButtonTex_ = new LTexture(help_help_buttonP_, renderer);
             LTexture* aboutButtonTex_ = new LTexture(help_about_buttonP_, renderer);
             LTexture* copyrightButtonTex_ = new LTexture(help_copyright_buttonP_, renderer);
-            helpsButton.setTexture(*helpButtonTex, *helpButtonTex_);
-            aboutButton.setTexture(*aboutButtonTex, *aboutButtonTex_);
-            copyrightButton.setTexture(*copyrightButtonTex, *copyrightButtonTex_);
+            helpsButton.setTexture(helpButtonTex, helpButtonTex_);
+            aboutButton.setTexture(aboutButtonTex, aboutButtonTex_);
+            copyrightButton.setTexture(copyrightButtonTex, copyrightButtonTex_);
         }
         void handleEvent(SDL_Event* e){
             bool flag = 0;
-            backButton.handleEvents(e, 1);
-            if (backButton.getPressed()){
-                backButton.setPressed(0);
+            backButton->handleEvents(e, 1);
+            if (backButton->getPressed()){
+                backButton->setPressed(0);
                 direct=Menu;
                 flag = 1;
                 return;
@@ -346,7 +354,7 @@ class HelpsAndCredit{
         void render(SDL_Renderer* renderer){
             static LTexture helpsBg (helpsBgP, renderer);
             helpsBg.render(renderer, 0, 0);
-            backButton.render(renderer, backButton.getXCen()-backButton.getWidth()/2, backButton.getYCen()-backButton.getHeight()/2);
+            backButton->render(renderer, backButton->getXCen()-backButton->getWidth()/2, backButton->getYCen()-backButton->getHeight()/2);
             helpsButton.render(renderer);
             aboutButton.render(renderer);
             copyrightButton.render(renderer);
