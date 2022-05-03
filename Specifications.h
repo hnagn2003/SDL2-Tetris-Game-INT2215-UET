@@ -45,6 +45,10 @@ const std::string help_help_textP = "assets/Pictures/helps_help_tex.png";
 const std::string help_about_textP = "assets/Pictures/helps_about_tex.png";
 const std::string help_copyright_textP = "assets/Pictures/helps_copyright_tex.png";
 
+const std::string winnerIconP = "assets/Pictures/winner.png";
+const std::string battle_endedP = "assets/Pictures/battle_ended.png";
+const std::string drawTextP = "assets/Pictures/draw.png";
+const std::string victoryTextP = "assets/Pictures/victory.png";
 static Mix_Music* playingSoundtrack;
 static Mix_Music* themeSoundtrack;
 static TTF_Font* gFont1;
@@ -56,7 +60,6 @@ enum Tabs {
     Settings,
     Helps,
     ExitGame,
-    BattleEnded,
     allButtonsOfMenu
 };
 class LButton
@@ -276,7 +279,40 @@ class GameOverAnnouncement{
             replayButton->render(renderer, replayButton->getXCen()-replayButton->getWidth()/2, replayButton->getYCen()-replayButton->getHeight()/2);
         }
 };
+class BattleEnded{
+    private:
+        int direct;
+    public:
+        BattleEnded(){
+            direct = InGame_BattleMode;
+        }
+        int getDirect(){
+            return direct;
+        }
+        bool handleEvents(SDL_Event* e){
+            backButton->handleEvents(e, 1);
+            if (backButton->getPressed()){
+                backButton->setPressed(0);
+                direct=Menu;
+                return false;
+            }
+            replayButton->handleEvents(e, 1);
+            if (replayButton->getPressed()){
+                replayButton->setPressed(0);
+                direct=InGame_BattleMode;
+                return true;
+            }
 
+            direct = InGame_BattleMode; 
+            return false;
+        }
+        void render(SDL_Renderer* renderer){
+            static LTexture battle_endTex(battle_endedP, renderer);
+            battle_endTex.render(renderer, 0, 0);
+            backButton->render(renderer, backButton->getXCen()-backButton->getWidth()/2, backButton->getYCen()-backButton->getHeight()/2);
+            replayButton->render(renderer, replayButton->getXCen()-replayButton->getWidth()/2, replayButton->getYCen()-replayButton->getHeight()/2);
+        }
+};
 enum HelpsInlineTabs{
     H_Helps,
     H_About,

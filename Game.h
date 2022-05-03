@@ -118,7 +118,7 @@ class Game_State {
                     renderText(countDownTime, renderer, gFont1, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, WHITE_COLOR);
             }
             backButton->render(renderer, backButton->getXCen()-backButton->getWidth()/2, backButton->getYCen()-backButton->getHeight()/2);
-            if (isOver){
+            if (isOver && gameMode==0){
                 gameOverAnnouncement->render(renderer);
             }
         }
@@ -152,7 +152,7 @@ class Game_State {
             hardLevel = easy; //...
         }
         void handleEvent(SDL_Event event, bool battleMode = 0, bool player2 = 0){
-            if (isOver){
+            if (isOver && !battleMode){
                 if (gameOverAnnouncement->handleEvents(&event)){
                     reset();
                 }
@@ -478,17 +478,38 @@ class BallteProcessor{
     private:
         Game_State *gameStatePlayer1;
         Game_State *gameStatePlayer2;
+        BattleEnded* battleEnded;
         int direct;
+        bool isOver;
     public:
         BallteProcessor(){
             direct = InGame_BattleMode;
             gameStatePlayer1 = new Game_State;
             gameStatePlayer2 = new Game_State;
+            battleEnded = new BattleEnded;
+            isOver = 0;
+        }
+        void reset(){
+            gameStatePlayer1->reset();
+            gameStatePlayer2->reset();
+            isOver = 0;
+        }
+        bool getOver(){
+            return isOver;
         }
         int getDirect(){
             return direct;
         }
         void handleEvent(SDL_Event event){
+            if (isOver){
+                gameStatePlayer1->pauseGame();
+                gameStatePlayer2->pauseGame();
+                if (battleEnded->handleEvents(&event)){
+                    reset();
+                }
+                direct = battleEnded->getDirect();
+                return;
+            }
             switch (event.type)
             {   
                 case SDL_KEYDOWN:
@@ -519,7 +540,7 @@ class BallteProcessor{
             gameStatePlayer2->handleEvent(event, 1, 1);
         }
         void update(){
-            
+            isOver = gameOver();
             std::thread x(std::bind(&Game_State::update, gameStatePlayer1));
             std::thread y(std::bind(&Game_State::update, gameStatePlayer2));
             x.join();
@@ -528,8 +549,12 @@ class BallteProcessor{
         void render(SDL_Renderer* renderer){
             gameStatePlayer1->render(renderer, 1);
             gameStatePlayer2->render(renderer, -1);
+            if (isOver){
+                battleEnded->render(renderer);
+            }
         }
         bool gameOver(){
+            // std:: cout << gameStatePlayer1->gameOver() << ' ' << gameStatePlayer2->gameOver();
             return (gameStatePlayer1->gameOver() || gameStatePlayer2->gameOver());
         }
 };

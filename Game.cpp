@@ -193,7 +193,7 @@ void Game::playMusic()
 void Game::update()
 {
 	//if currentTetrads tiep dat, chuyen trang thai khoi, cho khoi moi tiep dat
-
+	
 	gFPS_Processor->cappingFrame();
 	switch (tabs){
 		case Menu:
@@ -211,12 +211,15 @@ void Game::update()
 
 			break;
 		case InGame_BattleMode:
-			battleProcessor->update();
-			backButton->setCenterPosition(100, 100);
-			if (battleProcessor->gameOver()){
-				tabs = BattleEnded;
-				*battleProcessor = BallteProcessor();
+			if (!battleProcessor->getOver()){
+				backButton->setCenterPosition(100, 100);
+			}else{
+				replayButton->setCenterPosition(1137, 569);
+				backButton->setCenterPosition(1289, 569);
+				Mix_HaltMusic();
 			}
+			battleProcessor->update();
+			
 			
 			// if (gameState->gameOver()){
 			// 	tabs = GameOver; //...
