@@ -580,6 +580,58 @@ class BallteProcessor{
             return (result != -1);
         }
 };
+class UserSettings{
+    private:
+        LButton setButton[settingElementsTotal][2];
+        int direct;
+    public:
+        UserSettings(){
+            direct = Settings;
+            for (int i=0; i<settingElementsTotal; i++){
+                for (int j=0; j<2; j++){
+                    setButton[i][j].setPosition(1100+150*i, 460+70*j);
+                }
+            }
+        }
+        ~UserSettings(){
+
+        }
+        int getDirect(){
+            return direct;
+        }
+        void resetDirect(){
+            direct = Menu;
+        }
+        void initSettings(SDL_Renderer* renderer){
+            static LTexture* leftPress = new LTexture(left_pressP, renderer);
+            static LTexture* rightPress = new LTexture(right_pressP, renderer);
+            static LTexture* leftPress_ = new LTexture(left_pressP_, renderer);
+            static LTexture* rightPress_ = new LTexture(right_pressP_, renderer);
+            for (int i=0; i<settingElementsTotal; i++){
+                setButton[i][0].setTexture(leftPress, leftPress_);
+                setButton[i][1].setTexture(rightPress, rightPress_);
+            }
+        }
+        void handleEvents(SDL_Event* e){
+
+        }
+        void update(){
+            
+        }
+        void render(SDL_Renderer* renderer){
+            static LTexture tab_st(tabSettingsP, renderer);
+            tab_st.render(renderer, 0, 0);
+            for (auto it=settingsElement.begin(); it!=settingsElement.end(); it++){
+                static int jInd = 0;
+                LTexture tmp;
+                tmp.loadFromRenderedText(it->first, WHITE_COLOR, fontVarino1, renderer);
+                tmp.render(renderer, 800, 460+jInd*70);
+                jInd++;
+            }
+            backButton->render(renderer, backButton->getXCen()-backButton->getWidth()/2, backButton->getYCen()-backButton->getHeight()/2);
+
+        }
+};
 class Game {
 
 public:
@@ -610,6 +662,7 @@ private:
     int tabs;
     Tabs_Menu tabs_menu;
     HelpsAndCredit* helpsAndCredit;
+    UserSettings* userSettings;
 };
 
 

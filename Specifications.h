@@ -54,10 +54,16 @@ const std::string victoryTextP = "assets/Pictures/victory.png";
 const std::string player1winP = "assets/Pictures/player1_win.png";
 const std::string player2winP = "assets/Pictures/player2_win.png";
 const std::string drawP = "assets/Pictures/draw.png";
+const std::string tabSettingsP = "assets/Pictures/tabs_settings.png";
+const std::string right_pressP = "assets/Pictures/rightPress.png";
+const std::string left_pressP = "assets/Pictures/leftPress.png";
+const std::string right_pressP_ = "assets/Pictures/rightPress_.png";
+const std::string left_pressP_ = "assets/Pictures/leftPress_.png";
+const std::string fontVarino1P = "fonts/VarinonormalRegular-nRYg4.otf";
 static Mix_Music* playingSoundtrack;
 static Mix_Music* themeSoundtrack;
 static TTF_Font* gFont1;
-
+static TTF_Font* fontVarino1;
 enum Tabs {
     Menu = -1,
     InGame_SoloMode,

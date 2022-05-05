@@ -18,6 +18,7 @@ Game::Game()
 	battleProcessor = new BallteProcessor;
 	gFPS_Processor = new FPS_Processor;
 	helpsAndCredit = new HelpsAndCredit;
+	userSettings = new UserSettings;
 	tabs = -1;
 }
 
@@ -104,8 +105,9 @@ void Game::loadmedia()
 {
 	tabs_menu.setUpMenu(renderer);
 	helpsAndCredit->setUp(renderer);
+	userSettings->initSettings(renderer);
 	gFont1 = TTF_OpenFont( "font/Northstar3D-4D3x.otf", 24 );
-
+	fontVarino1 = TTF_OpenFont(fontVarino1P.c_str(), 30);
 	LTexture* backButtonTex = new LTexture;
 	LTexture* backButtonTex_ = new LTexture;
 	backButtonTex->loadFromFile(back_button, renderer);
@@ -188,6 +190,10 @@ void Game::handleEvents()
 						helpsAndCredit->handleEvent(&event);
 						tabs = helpsAndCredit->getDirect();
 						break;
+					case Settings:
+						userSettings->handleEvents(&event);
+						tabs = userSettings->getDirect();
+						break;
 					default:
 						break;
 					}
@@ -252,6 +258,10 @@ void Game::update()
 		case Helps:
 			backButton->setCenterPosition(100, 100);
 			break;
+		case Settings:
+			backButton->setCenterPosition(100, 100);
+			userSettings->update();
+			break;
 		default:
 			break;
 	}
@@ -280,6 +290,9 @@ void Game::render()
 
 	case Helps:
 		helpsAndCredit->render(renderer);
+		break;
+	case Settings:
+		userSettings->render(renderer);
 		break;
 	default:
 		break;
