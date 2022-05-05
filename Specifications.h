@@ -49,6 +49,9 @@ const std::string winnerIconP = "assets/Pictures/winner.png";
 const std::string battle_endedP = "assets/Pictures/battle_ended.png";
 const std::string drawTextP = "assets/Pictures/draw.png";
 const std::string victoryTextP = "assets/Pictures/victory.png";
+const std::string player1winP = "assets/Pictures/player1_win.png";
+const std::string player2winP = "assets/Pictures/player2_win.png";
+const std::string drawP = "assets/Pictures/draw.png";
 static Mix_Music* playingSoundtrack;
 static Mix_Music* themeSoundtrack;
 static TTF_Font* gFont1;
@@ -277,6 +280,7 @@ class GameOverAnnouncement{
             gameOverBg.render(renderer, 0, 0);
             backButton->render(renderer, backButton->getXCen()-backButton->getWidth()/2, backButton->getYCen()-backButton->getHeight()/2);
             replayButton->render(renderer, replayButton->getXCen()-replayButton->getWidth()/2, replayButton->getYCen()-replayButton->getHeight()/2);
+            
         }
 };
 class BattleEnded{
@@ -306,11 +310,28 @@ class BattleEnded{
             direct = InGame_BattleMode; 
             return false;
         }
-        void render(SDL_Renderer* renderer){
+        void render(SDL_Renderer* renderer, int result){
             static LTexture battle_endTex(battle_endedP, renderer);
             battle_endTex.render(renderer, 0, 0);
             backButton->render(renderer, backButton->getXCen()-backButton->getWidth()/2, backButton->getYCen()-backButton->getHeight()/2);
             replayButton->render(renderer, replayButton->getXCen()-replayButton->getWidth()/2, replayButton->getYCen()-replayButton->getHeight()/2);
+            switch (result)
+            {
+            case 0:
+                static LTexture drawTex(drawP, renderer);
+                drawTex.render(renderer, 0, 0);
+                break;
+            case 1:
+                static LTexture player1winTex(player1winP, renderer);
+                player1winTex.render(renderer, 0, 0);
+                break;
+            case 2:
+                static LTexture player2winTex(player2winP, renderer);
+                player2winTex.render(renderer, 0, 0);
+                break;
+            default:
+                break;
+            }
         }
 };
 enum HelpsInlineTabs{

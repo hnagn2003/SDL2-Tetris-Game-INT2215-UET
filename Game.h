@@ -556,7 +556,7 @@ class BallteProcessor{
             gameStatePlayer1->render(renderer, 1);
             gameStatePlayer2->render(renderer, -1);
             if (isOver){
-                battleEnded->render(renderer);
+                battleEnded->render(renderer, result);
             }
         }
         bool gameOver(){
