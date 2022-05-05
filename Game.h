@@ -152,7 +152,7 @@ class Game_State {
             next2Tetrads = getRandomTetrads();
             currentTetrads = getRandomTetrads();
             grid = new Grid;
-            hardLevel = easy; //...
+            hardLevel = settingsElement["Level"]; //...
         }
         void handleEvent(SDL_Event event, bool battleMode = 0, bool player2 = 0){
             if (isOver && !battleMode){

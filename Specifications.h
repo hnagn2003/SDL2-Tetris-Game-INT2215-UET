@@ -4,6 +4,8 @@
 #include <sstream>
 #include <iostream>
 #include "Structure.h"
+#include <map>
+const int settingElementsTotal = 2;
 const int TILE_SIZE = 40;
 const int ROWS = 20;
 const int HIDDEN_ROWS = 10;
@@ -65,6 +67,9 @@ enum Tabs {
     ExitGame,
     allButtonsOfMenu
 };
+
+static std::map<std::string, int> settingsElement;
+
 class LButton
 {
     public:

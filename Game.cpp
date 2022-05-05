@@ -120,7 +120,28 @@ void Game::loadmedia()
 	playingSoundtrack = Mix_LoadMUS( "assets/Musics/playing.mp3" );
 	themeSoundtrack = Mix_LoadMUS( "assets/Musics/backgroundMusic.mp3" );
 
+	settingsElement.insert(std::make_pair("Level", easy));
+	settingsElement.insert(std::make_pair("Music Volume", 100));
+	// settingsElement.insert(std::make_pair("Music Type", original));
+	// settingsElement.insert(std::make_pair("Ghost Piece", 1));
 
+	SDL_RWops* settingsFile = SDL_RWFromFile("settings/settings.bin", "r+b");
+	if (settingsFile==NULL){
+		settingsFile = SDL_RWFromFile("settings/settings.bin", "w+b");
+		if (settingsFile!=NULL){
+			for (auto it = settingsElement.begin(); it!=settingsElement.end(); it++){
+				SDL_RWwrite(settingsFile, &(it->second), sizeof(int), 1);			
+			}
+			SDL_RWclose( settingsFile );
+		}else{
+			printf( "Error: Unable to create file! SDL Error: %s\n", SDL_GetError() );
+		}
+	}else{
+		for (auto it = settingsElement.begin(); it!=settingsElement.end(); it++){
+			SDL_RWread(settingsFile, &(it->second), sizeof(int), 1);
+		}
+		SDL_RWclose(settingsFile);
+	}
 }
 void Game::handleEvents()							
 {
