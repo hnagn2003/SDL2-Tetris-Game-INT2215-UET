@@ -589,9 +589,8 @@ class UserSettings{
         UserSettings(){
             direct = Settings;
             for (int i=0; i<settingElementsTotal; i++){
-                for (int j=0; j<2; j++){
-                    setButton[i][j].setPosition(1100+150*i, 460+60*j);
-                }
+                    setButton[i][0].setPosition(1000, 460+60*i);
+                    setButton[i][1].setPosition(1300, 460+60*i);
             }
         }
         ~UserSettings(){
@@ -614,24 +613,27 @@ class UserSettings{
             }
         }
         void handleOption(int option, int adjust){
+            // std:: cout<<option<<' '<<adjust<<std::endl;
             switch (option)
             {
             case 0:
-                if (settingsElement["Level"] < easy && settingsElement["Level"] > asian){
-                    if (adjust == 1){
-                        settingsElement["Level"] += 4.75;
-                    }else{
-                        settingsElement["Level"] -= 4.75;
+                if (adjust == 1 && settingsElement["Level"] > asian){
+                    settingsElement["Level"] -= 5;
+                    if (settingsElement["Level"] <= 0){
+                        settingsElement["Level"] = 1;
                     }
+                    // std::cout << "level increase"<<std::endl;
+                }
+                if (adjust == 0 && settingsElement["Level"] < easy){
+                    settingsElement["Level"] += 5;
                 }
                 break;
             case 1:
-                if (settingsElement["Music Volume"] < 100 && settingsElement["Music Volume"] > 0){
-                    if (adjust == 1){
-                        settingsElement["Music Volume"] +=25;
-                    }else{
-                        settingsElement["Music Volume"] -=25;
-                    }
+                if (adjust == 1 && settingsElement["Music Volume"] < 100){
+                    settingsElement["Music Volume"] +=25;
+                }
+                if (adjust == 0 && settingsElement["Music Volume"] > 0){
+                    settingsElement["Music Volume"] -=25;
                 }
                 break;
             default:
@@ -647,7 +649,11 @@ class UserSettings{
             }
             for (int i=0; i<settingElementsTotal; i++){
                 for (int j=0; j<2; j++){
-                    handleOption(i, j);
+                    setButton[i][j].handleEvents(e);
+                    if (setButton[i][j].getPressed()){
+                        setButton[i][j].setPressed(0);
+                        handleOption(i, j);
+                    }
                 }
             }
             direct = Settings;

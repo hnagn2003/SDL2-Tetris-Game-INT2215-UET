@@ -138,15 +138,19 @@ void Game::loadmedia()
 		}else{
 			printf( "Error: Unable to create file! SDL Error: %s\n", SDL_GetError() );
 		}
+						// std::cout << settingsElement["Level"] <<std::endl;
+
 	}else{
 		for (auto it = settingsElement.begin(); it!=settingsElement.end(); it++){
 			SDL_RWread(settingsFile, &(it->second), sizeof(int), 1);
 		}
 		SDL_RWclose(settingsFile);
 	}
+
 }
 void Game::handleEvents()							
 {
+
         SDL_Event event; 
 		while(SDL_PollEvent(&event)){
 			
@@ -220,7 +224,6 @@ void Game::playMusic()
 void Game::update()
 {
 	//if currentTetrads tiep dat, chuyen trang thai khoi, cho khoi moi tiep dat
-	
 	gFPS_Processor->cappingFrame();
 	switch (tabs){
 		case Menu:

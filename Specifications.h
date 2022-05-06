@@ -458,7 +458,7 @@ enum LEVEL{
     easy = 20,
     hard = 15,
     extremely_hard = 10,
-    super_ultra_hard = 6,
+    super_ultra_hard = 5,
     asian = 1
 };
 
