@@ -75,7 +75,7 @@ extern TTF_Font* fontVarino1;
 extern TTF_Font* fontStar_40;
 extern TTF_Font* fontStar_50;
 
-static std::vector<int> highestScore;
+extern std::vector<int> highestScore;
 
 enum Tabs {
     Menu = -1,
@@ -88,7 +88,7 @@ enum Tabs {
 };
 
 static std::map<std::string, int> settingsElement;
-void updateScoreTable(int score);
+bool updateScoreTable(int score);
 void printScoreTable(SDL_Renderer *renderer, int x, int y);
 class LButton
 {

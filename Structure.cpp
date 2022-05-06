@@ -79,7 +79,7 @@ bool LTexture::loadFromRenderedText( std::string textureText, SDL_Color textColo
 	}
 	else
 	{
-		// printf( "Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError() );
+		printf( "Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError() );
 	}
 
 
@@ -89,13 +89,13 @@ bool LTexture::loadFromRenderedText( std::string textureText, SDL_Color textColo
 
 void LTexture::free()
 {
-	// if( mTexture != NULL )
-	// {
-	// 	SDL_DestroyTexture( mTexture );
-	// 	mTexture = NULL;
-	// 	mWidth = 0;
-	// 	mHeight = 0;
-	// }
+	if( mTexture != NULL )
+	{
+		SDL_DestroyTexture( mTexture );
+		mTexture = NULL;
+		mWidth = 0;
+		mHeight = 0;
+	}
 }
 
 void LTexture::setColor( Uint8 red, Uint8 green, Uint8 blue )

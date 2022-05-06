@@ -8,8 +8,8 @@ TTF_Font* gFont1 = NULL;
 TTF_Font* fontVarino1 = NULL;
 TTF_Font* fontStar_40 = NULL;
 TTF_Font* fontStar_50 = NULL;
-int ngan = 0;
-int* pngan = new int(20);
+std::vector<int> highestScore;
+
 void renderText(long long text, SDL_Renderer* renderer, TTF_Font* gFont, int xPos, int yPos, SDL_Color textColor){
     LTexture textTexture;
     std::stringstream ssText;
@@ -117,8 +117,7 @@ void Game::loadmedia()
 	tabs_menu.setUpMenu(renderer);
 	helpsAndCredit->setUp(renderer);
 	userSettings->initSettings(renderer);
-	ngan = 10;
-	pngan = new int(710);
+
 	LTexture* backButtonTex = new LTexture;
 	LTexture* backButtonTex_ = new LTexture;
 	backButtonTex->loadFromFile(back_button, renderer);
@@ -261,10 +260,13 @@ void Game::update()
 		case InGame_SoloMode:
 			if (!gameState->getOver()){
 				backButton->setCenterPosition(100, 100);
-				updateScoreTable(gameState->getScore());
 			}else{
 				replayButton->setCenterPosition(1137, 569);
 				backButton->setCenterPosition(1289, 569);
+				if (!gameState->getRecord()){
+					updateScoreTable(gameState->getScore());
+					gameState->setRecord(1);
+				}
 				Mix_HaltMusic();
 			}
 			gameState->update();

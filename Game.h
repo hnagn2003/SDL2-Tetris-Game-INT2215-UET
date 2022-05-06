@@ -38,6 +38,7 @@ class Game_State {
         Grid* grid;
         GameOverAnnouncement* gameOverAnnouncement;
         bool isOver;
+        bool recordScore;
     public: 
         Game_State(){
             playing = 0;
@@ -52,6 +53,7 @@ class Game_State {
             direct = InGame_SoloMode;
             velocity = initVelocity;
             isOver = 0;
+            recordScore = 0;
             // next0Tetrads = new Tetromino;
             // next1Tetrads = new Tetromino;
             // next2Tetrads = new Tetromino;
@@ -64,6 +66,7 @@ class Game_State {
             gameOverAnnouncement = new GameOverAnnouncement;
             grid = new Grid;
             hardLevel = easy; //...
+
         }
         int getDirect(){
             return direct;
@@ -104,7 +107,12 @@ class Game_State {
             level = lineCount/hardLevel+1;
             velocity = 1000/level;
         }
-        //
+        void setRecord(bool set){
+            recordScore = set;
+        }
+        bool getRecord(){
+            return recordScore;
+        }
         void render (SDL_Renderer *renderer, int gameMode = 0){
             grid->render(renderer, gameMode);
             renderText(lineCount, renderer, gFont1, 693.5+grid->getX(), 628.5+grid->getY());
@@ -154,6 +162,7 @@ class Game_State {
             isOver = 0;
             direct = InGame_SoloMode;
             velocity = initVelocity;
+            recordScore = 0;
             next0Tetrads = getRandomTetrads();
             next1Tetrads = getRandomTetrads();
             next2Tetrads = getRandomTetrads();
