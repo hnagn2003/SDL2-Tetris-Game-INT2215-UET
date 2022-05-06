@@ -14,6 +14,7 @@
 #include <thread>
 #include <cstdint>
 #include <functional>
+#include <string>
 void renderText(long long text, SDL_Renderer* renderer, TTF_Font* gFont, int xCenter, int yCenter, SDL_Color textColor = WHITE_COLOR);
 class Game_State {
     public:
@@ -600,7 +601,7 @@ class UserSettings{
             return direct;
         }
         void resetDirect(){
-            direct = Menu;
+            direct = Settings;
         }
         void initSettings(SDL_Renderer* renderer){
             static LTexture* leftPress = new LTexture(left_pressP, renderer);
@@ -612,8 +613,44 @@ class UserSettings{
                 setButton[i][1].setTexture(rightPress, rightPress_);
             }
         }
+        void handleOption(int option, int adjust){
+            switch (option)
+            {
+            case 0:
+                if (settingsElement["Level"] < easy && settingsElement["Level"] > asian){
+                    if (adjust == 1){
+                        settingsElement["Level"] += 4.75;
+                    }else{
+                        settingsElement["Level"] -= 4.75;
+                    }
+                }
+                break;
+            case 1:
+                if (settingsElement["Music Volume"] < 100 && settingsElement["Music Volume"] > 0){
+                    if (adjust == 1){
+                        settingsElement["Music Volume"] +=25;
+                    }else{
+                        settingsElement["Music Volume"] -=25;
+                    }
+                }
+                break;
+            default:
+                break;
+            }
+        }
         void handleEvents(SDL_Event* e){
-            
+            backButton->handleEvents(e, 1);
+            if (backButton->getPressed()){
+                backButton->setPressed(0);
+                direct=Menu;
+                return;
+            }
+            for (int i=0; i<settingElementsTotal; i++){
+                for (int j=0; j<2; j++){
+                    handleOption(i, j);
+                }
+            }
+            direct = Settings;
         }
         void update(){
             
@@ -627,6 +664,11 @@ class UserSettings{
                 LTexture tmp;
                 tmp.loadFromRenderedText(it->first, CYAN_COLOR, fontVarino1, renderer);
                 tmp.render(renderer, 800, 460+jInd*60);
+                setButton[jInd][0].render(renderer, 1000, 460+jInd*60);
+                setButton[jInd][1].render(renderer, 1300, 460+jInd*60);
+                LTexture tmp2;
+                tmp2.loadFromRenderedText(std::to_string(it->second), CYAN_COLOR, fontVarino1, renderer);
+                tmp2.render(renderer, 1100, 460+jInd*60);
                 jInd++;
             }
             backButton->render(renderer, backButton->getXCen()-backButton->getWidth()/2, backButton->getYCen()-backButton->getHeight()/2);

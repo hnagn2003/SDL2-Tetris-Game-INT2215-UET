@@ -456,9 +456,9 @@ const SDL_Color backgroundColor = {0, 0, 0};
 
 enum LEVEL{
     easy = 20,
-    hard = 13,
-    extremely_hard = 9,
-    super_ultra_hard = 5,
+    hard = 15,
+    extremely_hard = 10,
+    super_ultra_hard = 6,
     asian = 1
 };
 
