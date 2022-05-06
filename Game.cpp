@@ -131,11 +131,13 @@ void Game::loadmedia()
 	replayButton->setTexture(replayButtonTex, replayButtonTex_);
 	playingSoundtrack = Mix_LoadMUS( "assets/Musics/playing.mp3" );
 	themeSoundtrack = Mix_LoadMUS( "assets/Musics/backgroundMusic.mp3" );
-
+	
+	settingsElement.insert(std::make_pair("Ghost Piece", 1));
 	settingsElement.insert(std::make_pair("Level", easy));
+	settingsElement.insert(std::make_pair("Music Type", 0));
 	settingsElement.insert(std::make_pair("Music Volume", 100));
-	// settingsElement.insert(std::make_pair("Music Type", original));
-	// settingsElement.insert(std::make_pair("Ghost Piece", 1));
+
+
 
 	SDL_RWops* settingsFile = SDL_RWFromFile("settings/settings.bin", "r+b");
 	if (settingsFile==NULL){

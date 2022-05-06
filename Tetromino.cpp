@@ -8,7 +8,8 @@
 #include <cstdlib>
 #include <set>
 void Tetromino::renderGhostPiece(SDL_Renderer* renderer, Grid* grid){
-    Tetromino ghostTetro = *this;
+    static Tetromino ghostTetro;
+    ghostTetro = *this;
     ghostTetro.disableFromActivate();
         // std::cout << ghostTetro.xPos << ' ' << ghostTetro.collin.x++<<std::endl;
     while(!ghostTetro.collision(grid, 1, 0)){

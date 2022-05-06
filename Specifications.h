@@ -10,7 +10,7 @@
 #include <SDL_ttf.h>
 #include <SDL_image.h>
 #include <SDL.h>
-const int settingElementsTotal = 2;
+const int settingElementsTotal = 4;
 const int TILE_SIZE = 40;
 const int ROWS = 20;
 const int HIDDEN_ROWS = 10;

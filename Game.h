@@ -128,6 +128,7 @@ class Game_State {
             if (countDownTime > 0){
                     renderText(countDownTime, renderer, gFont1, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, WHITE_COLOR);
             }
+            currentTetrads->renderGhostPiece(renderer, grid);
             backButton->render(renderer, backButton->getXCen()-backButton->getWidth()/2, backButton->getYCen()-backButton->getHeight()/2);
             if (isOver && gameMode==0){
                 gameOverAnnouncement->render(renderer);
@@ -137,7 +138,7 @@ class Game_State {
                 printScore.loadFromRenderedText(std::to_string(score), BLACK_COLOR, gFont1, renderer);
                 printScore.render(renderer, 914, 236);
             }
-            currentTetrads->renderGhostPiece(renderer, grid);
+            
         }
 
         void newTetradsFalling(){
@@ -630,7 +631,7 @@ class UserSettings{
             // std:: cout<<option<<' '<<adjust<<std::endl;
             switch (option)
             {
-            case 0:
+            case 1:
                 if (adjust == 1 && settingsElement["Level"] > asian){
                     settingsElement["Level"] -= 5;
                     if (settingsElement["Level"] <= 0){
@@ -642,18 +643,38 @@ class UserSettings{
                     settingsElement["Level"] += 5;
                 }
                 break;
-            case 1:
+            case 3:
                 if (adjust == 1){
                     settingsElement["Music Volume"] +=20;
                 }
                 if (adjust == 0){
                     settingsElement["Music Volume"] -=20;
                 }
-                if (adjust > 100){
-                    adjust = 100;
+                if (settingsElement["Music Volume"] > 100){
+                    settingsElement["Music Volume"] = 100;
                 }
-                if (adjust < 0){
-                    adjust = 0;
+                if (settingsElement["Music Volume"] < 0){
+                    settingsElement["Music Volume"] = 0;
+                }
+                break;
+            case 2:
+                if (adjust == 1){
+                    settingsElement["Music Type"] ++;
+                }else{
+                    settingsElement["Music Type"] --;
+                }
+                if (settingsElement["Music Type"] < 0){
+                    settingsElement["Music Type"] = 3;
+                }
+                if (settingsElement["Music Type"] > 3){
+                    settingsElement["Music Type"] = 0;
+                }
+                break;
+            case 0:
+                if (settingsElement["Ghost Piece"] == 0){
+                    settingsElement["Ghost Piece"] = 1;
+                }else{
+                    settingsElement["Ghost Piece"] = 0;
                 }
                 break;
             default:
