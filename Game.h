@@ -589,7 +589,7 @@ class UserSettings{
             direct = Settings;
             for (int i=0; i<settingElementsTotal; i++){
                 for (int j=0; j<2; j++){
-                    setButton[i][j].setPosition(1100+150*i, 460+70*j);
+                    setButton[i][j].setPosition(1100+150*i, 460+60*j);
                 }
             }
         }
@@ -613,7 +613,7 @@ class UserSettings{
             }
         }
         void handleEvents(SDL_Event* e){
-
+            
         }
         void update(){
             
@@ -621,11 +621,12 @@ class UserSettings{
         void render(SDL_Renderer* renderer){
             static LTexture tab_st(tabSettingsP, renderer);
             tab_st.render(renderer, 0, 0);
+            int jInd = 0;
+
             for (auto it=settingsElement.begin(); it!=settingsElement.end(); it++){
-                static int jInd = 0;
                 LTexture tmp;
-                tmp.loadFromRenderedText(it->first, WHITE_COLOR, fontVarino1, renderer);
-                tmp.render(renderer, 800, 460+jInd*70);
+                tmp.loadFromRenderedText(it->first, CYAN_COLOR, fontVarino1, renderer);
+                tmp.render(renderer, 800, 460+jInd*60);
                 jInd++;
             }
             backButton->render(renderer, backButton->getXCen()-backButton->getWidth()/2, backButton->getYCen()-backButton->getHeight()/2);
