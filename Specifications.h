@@ -5,6 +5,7 @@
 #include <iostream>
 #include "Structure.h"
 #include <map>
+#include <vector>
 const int settingElementsTotal = 2;
 const int TILE_SIZE = 40;
 const int ROWS = 20;
@@ -17,6 +18,7 @@ const int SCREEN_TICK_PER_FRAME = 1000 / SCREEN_FPS;
 const int initVelocity = 1000;
 const int delimitedLine = -2;
 const int delayBeforeDied = 3;
+const int scoreMaxMem = 5;
 const SDL_Color WHITE_COLOR = {255, 255, 255};
 const SDL_Color BLACK_COLOR = {0, 0, 0};
 const SDL_Color CYAN_COLOR = {0, 255, 255};
@@ -65,6 +67,8 @@ static Mix_Music* playingSoundtrack;
 static Mix_Music* themeSoundtrack;
 static TTF_Font* gFont1;
 static TTF_Font* fontVarino1;
+static std::vector<int> highestScore;
+
 enum Tabs {
     Menu = -1,
     InGame_SoloMode,
@@ -452,7 +456,7 @@ const SDL_Color TetroColor[] = {
     {187, 0, 222},
     {232, 0, 0}
 };
-const SDL_Color backgroundColor = {0, 0, 0};
+
 
 enum LEVEL{
     easy = 20,

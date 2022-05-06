@@ -124,7 +124,13 @@ class Game_State {
             backButton->render(renderer, backButton->getXCen()-backButton->getWidth()/2, backButton->getYCen()-backButton->getHeight()/2);
             if (isOver && gameMode==0){
                 gameOverAnnouncement->render(renderer);
+                //914 236
+                // print last score
+                LTexture printScore;
+                printScore.loadFromRenderedText(std::to_string(score), BLACK_COLOR, gFont1, renderer);
+                printScore.render(renderer, 914, 236);
             }
+
         }
 
         void newTetradsFalling(){

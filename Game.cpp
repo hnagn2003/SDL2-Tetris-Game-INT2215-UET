@@ -147,6 +147,24 @@ void Game::loadmedia()
 		SDL_RWclose(settingsFile);
 	}
 
+	highestScore.insert(highestScore.end(), scoreMaxMem, 0);
+	SDL_RWops* highestScoreFile = SDL_RWFromFile("settings/scoreFile.bin", "r+b");
+	if (highestScoreFile==NULL){
+		highestScoreFile = SDL_RWFromFile("settings/scoreFile.bin", "w+b");
+		if (highestScoreFile!=NULL){
+			for (int i=0; i<scoreMaxMem; i++){
+				SDL_RWwrite(highestScoreFile, &(highestScore[i]), sizeof(int), 1);			
+			}
+			SDL_RWclose( highestScoreFile );
+		}else{
+			printf( "Error: Unable to create file! SDL Error: %s\n", SDL_GetError() );
+		}
+	}else{
+		for (int i=0; i<scoreMaxMem; i++){
+			SDL_RWread(highestScoreFile, &(highestScore[i]), sizeof(int), 1);
+		}
+		SDL_RWclose(highestScoreFile);
+	}
 }
 void Game::handleEvents()							
 {
