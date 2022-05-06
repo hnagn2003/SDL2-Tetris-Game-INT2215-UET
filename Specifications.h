@@ -67,6 +67,8 @@ const std::string right_pressP = "assets/Pictures/rightPress.png";
 const std::string left_pressP = "assets/Pictures/leftPress.png";
 const std::string right_pressP_ = "assets/Pictures/rightPress_.png";
 const std::string left_pressP_ = "assets/Pictures/leftPress_.png";
+const std::string ghostBlockP = "assets/Pictures/ghostBlocks.png";
+
 const std::string fontVarino1P = "fonts/VarinonormalRegular-nRYg4.otf";
 static Mix_Music* playingSoundtrack;
 static Mix_Music* themeSoundtrack;
@@ -530,15 +532,24 @@ class block{
             return hGrid;
         }
 
-        void render(SDL_Renderer* renderer, int gridXPos, int realCoordinates = 0){
+        void render(SDL_Renderer* renderer, int gridXPos, int realCoordinates = 0, bool ghost = 0){
             // SDL_Rect rectBlock{gridXPosToRendererPos(xGrid)+gridXPos, gridYPosToRendererPos(yGrid), gridSizeToRendererSize(wGrid), gridSizeToRendererSize(hGrid)};
             // SDL_SetRenderDrawColor( renderer, color.r, color.g, color.b, 0 );
             static LTexture blockTemp("assets/Pictures/7block.png", renderer);
+            static LTexture ghostBlockTex(ghostBlockP, renderer);
             SDL_Rect clip{type*TILE_SIZE, 0, TILE_SIZE, TILE_SIZE};
-            if (realCoordinates){
-                blockTemp.render(renderer, xReal+gridXPos, yReal, &clip);
+            if (!ghost){
+                if (realCoordinates){
+                    blockTemp.render(renderer, xReal+gridXPos, yReal, &clip);
+                }else{
+                    blockTemp.render(renderer, gridXPosToRendererPos(xGrid)+gridXPos, gridYPosToRendererPos(yGrid), &clip);
+                }
             }else{
-                blockTemp.render(renderer, gridXPosToRendererPos(xGrid)+gridXPos, gridYPosToRendererPos(yGrid), &clip);
+                if (realCoordinates){
+                    ghostBlockTex.render(renderer, xReal+gridXPos, yReal, &clip);
+                }else{
+                    ghostBlockTex.render(renderer, gridXPosToRendererPos(xGrid)+gridXPos, gridYPosToRendererPos(yGrid), &clip);
+                }
             }
         }
 };  

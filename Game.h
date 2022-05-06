@@ -137,7 +137,7 @@ class Game_State {
                 printScore.loadFromRenderedText(std::to_string(score), BLACK_COLOR, gFont1, renderer);
                 printScore.render(renderer, 914, 236);
             }
-
+            currentTetrads->renderGhostPiece(renderer, grid);
         }
 
         void newTetradsFalling(){

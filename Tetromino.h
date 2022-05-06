@@ -110,19 +110,19 @@ class Tetromino{
         void setPause(bool p){
             pause = p;
         }
-        void render(SDL_Renderer* renderer, int gridXPos){
-            if (active){
+        void render(SDL_Renderer* renderer, int gridXPos, bool ghost = 0){ // render = toa do grid
+            if (active || ghost){
                 for (int i=0; i<sizeOfTetradsSide; i++){
                     for (int j=0; j<sizeOfTetradsSide; j++){
                         if (matrix[i][j] == true){
                             block aBlock{xPos+j, yPos+i, type};
-                            aBlock.render(renderer, gridXPos);
+                            aBlock.render(renderer, gridXPos, 0, ghost);
                         }
                     }
                 }
             }
         }
-        void render(SDL_Renderer* renderer, int gridXPos, int x, int y){ 
+        void render(SDL_Renderer* renderer, int gridXPos, int x, int y){ // render theo toa do thuc
             for (int i=0; i<sizeOfTetradsSide; i++){
                     for (int j=0; j<sizeOfTetradsSide; j++){
                         if (matrix[i][j] == true){
@@ -151,9 +151,9 @@ class Tetromino{
         }
         // kiểm tra va chạm dưới
 
-        bool collision(Grid *grid, bool disabled = 1){ // ...
+        bool collision(Grid *grid, bool disabled = 1, bool mergeToGrid_ = 1){ // ...
 
-            if (active){
+            // if (active){
                 // std::cout << "begin" << std::endl;
                 int bottomSide = collin.y + collin.h;
                 // static int moribundFrames = 0;
@@ -164,9 +164,12 @@ class Tetromino{
                     // if (moribundFrames>=delayBeforeDied){ //...
                         
                         // moribundFrames = 0;
-                        disableFromActivate();
-                        // fixTheSuperimposed(grid);
-                        mergeToGrid(grid);
+                        if (mergeToGrid_){
+                        
+                            disableFromActivate();
+                            // fixTheSuperimposed(grid);
+                            mergeToGrid(grid);
+                        }
                     // std::cout << "end1" << std::endl;
                     // }
                     return true;
@@ -174,9 +177,9 @@ class Tetromino{
                 // std::cout << "end2" << std::endl;
                 return false;
                 // std::cout << "end" << std::endl;
-            }
+            // }
             // std::cout << "end3" << std::endl;
-            return true;
+            // return true;
         
         }
         //kiểm tra chồng chéo giữa các khối tetrads và tetrads với grid
@@ -421,6 +424,8 @@ class Tetromino{
         void swapWithHolding(Tetromino &holding){
 
         }
+
+        void renderGhostPiece(SDL_Renderer* renderer, Grid* grid);
 };
 // define matrix của 7 loại tetrads
 static bool matrixStructure_I[sizeOfTetradsSide][sizeOfTetradsSide] = {
