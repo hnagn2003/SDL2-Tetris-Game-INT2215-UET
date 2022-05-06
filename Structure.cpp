@@ -79,10 +79,10 @@ bool LTexture::loadFromRenderedText( std::string textureText, SDL_Color textColo
 	}
 	else
 	{
-		printf( "Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError() );
+		// printf( "Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError() );
 	}
 
-	
+
 	return mTexture != NULL;
 }
 // #endif

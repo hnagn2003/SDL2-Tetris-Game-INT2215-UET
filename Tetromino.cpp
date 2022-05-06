@@ -9,7 +9,6 @@
 #include <set>
 // hàm random tetrads, làm giảm xác suất giống nhau của 2 khối liên tiếp
 Tetromino* getRandomTetrads(){ //...
-    
     Tetromino* res = new Tetromino;
     static std::set<int> tetradsBag;
     if (tetradsBag.begin() == tetradsBag.end()){

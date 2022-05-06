@@ -43,5 +43,7 @@ void Grid::render(SDL_Renderer *renderer, int gameMode){
             }
         }
     }
+    	    // std::cout << fontStar_40 << std::endl;
+
 }
 

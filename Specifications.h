@@ -6,6 +6,10 @@
 #include "Structure.h"
 #include <map>
 #include <vector>
+#include <algorithm> // void updateScoreTable
+#include <SDL_ttf.h>
+#include <SDL_image.h>
+#include <SDL.h>
 const int settingElementsTotal = 2;
 const int TILE_SIZE = 40;
 const int ROWS = 20;
@@ -22,6 +26,7 @@ const int scoreMaxMem = 5;
 const SDL_Color WHITE_COLOR = {255, 255, 255};
 const SDL_Color BLACK_COLOR = {0, 0, 0};
 const SDL_Color CYAN_COLOR = {0, 255, 255};
+const SDL_Color GOLD_YELLOW_COLOR = {255, 204, 53};
 const std::string backGroundPicture = "assets/Pictures/cyber_background.png";
 const std::string menuPicturePath = "assets/Pictures/tabs_menu.png";
 const std::string gameOverBgPath = "assets/Pictures/game_over_path.png";
@@ -65,8 +70,11 @@ const std::string left_pressP_ = "assets/Pictures/leftPress_.png";
 const std::string fontVarino1P = "fonts/VarinonormalRegular-nRYg4.otf";
 static Mix_Music* playingSoundtrack;
 static Mix_Music* themeSoundtrack;
-static TTF_Font* gFont1;
-static TTF_Font* fontVarino1;
+extern TTF_Font* gFont1;
+extern TTF_Font* fontVarino1;
+extern TTF_Font* fontStar_40;
+extern TTF_Font* fontStar_50;
+
 static std::vector<int> highestScore;
 
 enum Tabs {
@@ -80,7 +88,8 @@ enum Tabs {
 };
 
 static std::map<std::string, int> settingsElement;
-
+void updateScoreTable(int score);
+void printScoreTable(SDL_Renderer *renderer, int x, int y);
 class LButton
 {
     public:
@@ -296,7 +305,7 @@ class GameOverAnnouncement{
             gameOverBg.render(renderer, 0, 0);
             backButton->render(renderer, backButton->getXCen()-backButton->getWidth()/2, backButton->getYCen()-backButton->getHeight()/2);
             replayButton->render(renderer, replayButton->getXCen()-replayButton->getWidth()/2, replayButton->getYCen()-replayButton->getHeight()/2);
-            
+            printScoreTable(renderer, 620, 505);
         }
 };
 class BattleEnded{

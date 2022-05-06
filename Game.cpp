@@ -3,6 +3,13 @@
 #include "Specifications.h"
 #include <iostream>
 #include <sstream>
+
+TTF_Font* gFont1 = NULL;
+TTF_Font* fontVarino1 = NULL;
+TTF_Font* fontStar_40 = NULL;
+TTF_Font* fontStar_50 = NULL;
+int ngan = 0;
+int* pngan = new int(20);
 void renderText(long long text, SDL_Renderer* renderer, TTF_Font* gFont, int xPos, int yPos, SDL_Color textColor){
     LTexture textTexture;
     std::stringstream ssText;
@@ -99,15 +106,19 @@ void Game::init(const char* title, int xPos, int yPos, int SCREEN_WIDTH, int SCR
 	
 	gFPS_Processor->initTimeCounting();
 	// tabs_menu.setRenderer(renderer);
-	
+
 }
 void Game::loadmedia()
 {
+	gFont1 = TTF_OpenFont( "font/Northstar3D-4D3x.otf", 24 );
+	fontVarino1 = TTF_OpenFont("font/VarinonormalRegular-nRYg4.otf", 20);
+	fontStar_40 = TTF_OpenFont("font/NorthstarCondensed-Xp4j.otf", 40);
+	fontStar_50 = TTF_OpenFont("font/NorthstarCondensed-Xp4j.otf", 50);
 	tabs_menu.setUpMenu(renderer);
 	helpsAndCredit->setUp(renderer);
 	userSettings->initSettings(renderer);
-	gFont1 = TTF_OpenFont( "font/Northstar3D-4D3x.otf", 24 );
-	fontVarino1 = TTF_OpenFont("font/VarinonormalRegular-nRYg4.otf", 20);
+	ngan = 10;
+	pngan = new int(710);
 	LTexture* backButtonTex = new LTexture;
 	LTexture* backButtonTex_ = new LTexture;
 	backButtonTex->loadFromFile(back_button, renderer);
@@ -250,6 +261,7 @@ void Game::update()
 		case InGame_SoloMode:
 			if (!gameState->getOver()){
 				backButton->setCenterPosition(100, 100);
+				updateScoreTable(gameState->getScore());
 			}else{
 				replayButton->setCenterPosition(1137, 569);
 				backButton->setCenterPosition(1289, 569);
@@ -291,7 +303,6 @@ void Game::update()
 
 void Game::render()
 {
-
     SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0 );
     SDL_RenderClear(renderer);
 	static LTexture backGround {backGroundPicture, renderer};
@@ -323,6 +334,7 @@ void Game::render()
 	
 	// SDL_SetRenderDrawColor( renderer, 32, 64, 0, 0 );
     SDL_RenderPresent(renderer);
+
 }
 
 void Game::clean()
