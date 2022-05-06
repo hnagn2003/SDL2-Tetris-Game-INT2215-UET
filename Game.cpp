@@ -107,7 +107,7 @@ void Game::loadmedia()
 	helpsAndCredit->setUp(renderer);
 	userSettings->initSettings(renderer);
 	gFont1 = TTF_OpenFont( "font/Northstar3D-4D3x.otf", 24 );
-	fontVarino1 = TTF_OpenFont(fontVarino1P.c_str(), 30);
+	fontVarino1 = TTF_OpenFont("font/VarinonormalRegular-nRYg4.otf", 20);
 	LTexture* backButtonTex = new LTexture;
 	LTexture* backButtonTex_ = new LTexture;
 	backButtonTex->loadFromFile(back_button, renderer);

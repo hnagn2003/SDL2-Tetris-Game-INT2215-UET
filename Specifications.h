@@ -19,6 +19,7 @@ const int delimitedLine = -2;
 const int delayBeforeDied = 3;
 const SDL_Color WHITE_COLOR = {255, 255, 255};
 const SDL_Color BLACK_COLOR = {0, 0, 0};
+const SDL_Color CYAN_COLOR = {0, 255, 255};
 const std::string backGroundPicture = "assets/Pictures/cyber_background.png";
 const std::string menuPicturePath = "assets/Pictures/tabs_menu.png";
 const std::string gameOverBgPath = "assets/Pictures/game_over_path.png";
