@@ -118,7 +118,6 @@ class Game_State {
             renderText(lineCount, renderer, gFont1, 693.5+grid->getX(), 628.5+grid->getY());
             renderText(score, renderer, gFont1, 693.5+grid->getX(), 736+grid->getY());
             renderText(level, renderer, gFont1, 693.5+grid->getX(), 842+grid->getY());
-
             if (holding!=NULL){
                 holding->render(renderer, grid->getX(), 663-2*TILE_SIZE, 242-2*TILE_SIZE);
             }
@@ -644,11 +643,17 @@ class UserSettings{
                 }
                 break;
             case 1:
-                if (adjust == 1 && settingsElement["Music Volume"] < 100){
-                    settingsElement["Music Volume"] +=25;
+                if (adjust == 1){
+                    settingsElement["Music Volume"] +=20;
                 }
-                if (adjust == 0 && settingsElement["Music Volume"] > 0){
-                    settingsElement["Music Volume"] -=25;
+                if (adjust == 0){
+                    settingsElement["Music Volume"] -=20;
+                }
+                if (adjust > 100){
+                    adjust = 100;
+                }
+                if (adjust < 0){
+                    adjust = 0;
                 }
                 break;
             default:
@@ -674,7 +679,8 @@ class UserSettings{
             direct = Settings;
         }
         void update(){
-            
+            Mix_VolumeMusic(settingsElement["Music Volume"]);
+
         }
         void render(SDL_Renderer* renderer){
             static LTexture tab_st(tabSettingsP, renderer);

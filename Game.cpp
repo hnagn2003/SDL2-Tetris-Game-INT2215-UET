@@ -116,7 +116,7 @@ void Game::loadmedia()
 	fontStar_50 = TTF_OpenFont("font/NorthstarCondensed-Xp4j.otf", 50);
 	tabs_menu.setUpMenu(renderer);
 	helpsAndCredit->setUp(renderer);
-	userSettings->initSettings(renderer);
+	userSettings->initSettings(renderer); 
 
 	LTexture* backButtonTex = new LTexture;
 	LTexture* backButtonTex_ = new LTexture;
