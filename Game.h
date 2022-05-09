@@ -131,6 +131,12 @@ class Game_State {
             if (settingsElement["Ghost Piece"] == 1){
                 currentTetrads->renderGhostPiece(renderer, grid);
             }
+            if (gameMode!=-1){
+                // print "press P ..."
+                static LTexture pressPTex;
+                pressPTex.loadFromRenderedText("Press P to pause/continue the game", DARK_CYAN_COLOR, fontVarino1, renderer);
+                pressPTex.render(renderer, (SCREEN_WIDTH - pressPTex.getWidth())/2, 100);
+            }
             backButton->render(renderer, backButton->getXCen()-backButton->getWidth()/2, backButton->getYCen()-backButton->getHeight()/2);
             if (isOver && gameMode==0){
                 gameOverAnnouncement->render(renderer);
@@ -598,9 +604,15 @@ class BallteProcessor{
             return (result != -1);
         }
 };
+enum clear_button{
+    clearScore,
+    clearUserSettings,
+    totalOfClearButton
+};
 class UserSettings{
     private:
         LButton setButton[settingElementsTotal][2];
+        LButton clearButton[2];
         int direct;
     public:
         UserSettings(){
@@ -608,6 +620,9 @@ class UserSettings{
             for (int i=0; i<settingElementsTotal; i++){
                     setButton[i][0].setPosition(1000, 460+60*i);
                     setButton[i][1].setPosition(1300, 460+60*i);
+            }
+            for (int i=0; i<totalOfClearButton; i++){
+                clearButton[i].setPosition(700 + 320*i, 700 ); //...
             }
         }
         ~UserSettings(){
@@ -627,6 +642,16 @@ class UserSettings{
             for (int i=0; i<settingElementsTotal; i++){
                 setButton[i][0].setTexture(leftPress, leftPress_);
                 setButton[i][1].setTexture(rightPress, rightPress_);
+            }
+            // load clear button
+            static LTexture* clearButtonTex[2];
+            static LTexture* clearButtonTex_[2];
+            clearButtonTex[clearScore] = new LTexture(clearHighestScoreP, renderer);
+            clearButtonTex[clearUserSettings] = new LTexture(clearSettingsP, renderer);
+            clearButtonTex_[clearScore] = new LTexture(clearHighestScoreP_, renderer);
+            clearButtonTex_[clearUserSettings] = new LTexture(clearSettingsP_, renderer);
+            for (int i=0; i<totalOfClearButton; i++){
+                clearButton[i].setTexture(clearButtonTex[i], clearButtonTex_[i]);
             }
         }
         void handleOption(int option, int adjust){
@@ -679,6 +704,12 @@ class UserSettings{
                     settingsElement["Ghost Piece"] = 0;
                 }
                 break;
+            case 4:
+                // clearRankingScore();
+                break;
+            case 5:
+                // resetSettings();
+                break;
             default:
                 break;
             }
@@ -699,6 +730,13 @@ class UserSettings{
                     }
                 }
             }
+            for (int i=0; i<totalOfClearButton; i++){
+                clearButton[i].handleEvents(e);
+                if (clearButton[i].getPressed()){
+                    clearButton[i].setPressed(0);
+                    handleOption(i+settingElementsTotal, 0);
+                }
+            }
             direct = Settings;
         }
         void update(){
@@ -706,6 +744,7 @@ class UserSettings{
 
         }
         void render(SDL_Renderer* renderer){
+            // load bg
             static LTexture tab_st(tabSettingsP, renderer);
             tab_st.render(renderer, 0, 0);
             int jInd = 0;
@@ -720,6 +759,9 @@ class UserSettings{
                 tmp2.loadFromRenderedText(std::to_string(it->second), CYAN_COLOR, fontVarino1, renderer);
                 tmp2.render(renderer, 1100, 460+jInd*60);
                 jInd++;
+            }
+            for (int i=0; i<totalOfClearButton; i++){
+                clearButton[i].render(renderer, clearButton[i].getXPos(), clearButton[i].getYPos());
             }
             backButton->render(renderer, backButton->getXCen()-backButton->getWidth()/2, backButton->getYCen()-backButton->getHeight()/2);
 

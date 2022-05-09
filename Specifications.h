@@ -26,7 +26,9 @@ const int scoreMaxMem = 5;
 const SDL_Color WHITE_COLOR = {255, 255, 255};
 const SDL_Color BLACK_COLOR = {0, 0, 0};
 const SDL_Color CYAN_COLOR = {0, 255, 255};
+const SDL_Color DARK_CYAN_COLOR = {0, 190, 190};
 const SDL_Color GOLD_YELLOW_COLOR = {255, 204, 53};
+
 const std::string backGroundPicture = "assets/Pictures/cyber_background.png";
 const std::string menuPicturePath = "assets/Pictures/tabs_menu.png";
 const std::string gameOverBgPath = "assets/Pictures/game_over_path.png";
@@ -68,7 +70,10 @@ const std::string left_pressP = "assets/Pictures/leftPress.png";
 const std::string right_pressP_ = "assets/Pictures/rightPress_.png";
 const std::string left_pressP_ = "assets/Pictures/leftPress_.png";
 const std::string ghostBlockP = "assets/Pictures/ghostBlocks.png";
-
+const std::string clearHighestScoreP = "assets/Pictures/clear_highest_score.png";
+const std::string clearSettingsP = "assets/Pictures/clear_settings.png";
+const std::string clearHighestScoreP_ = "assets/Pictures/clear_highest_score_.png";
+const std::string clearSettingsP_ = "assets/Pictures/clear_settings_.png";
 const std::string fontVarino1P = "fonts/VarinonormalRegular-nRYg4.otf";
 static Mix_Music* playingSoundtrack;
 static Mix_Music* themeSoundtrack;
@@ -126,6 +131,8 @@ class LButton
         }
         int getXCen(){return xCen;}
         int getYCen(){return yCen;}
+        int getXPos(){return xPos;}
+        int getYPos(){return yPos;}
         int getWidth(){return width;}
         int getHeight(){return height;}
         void setSize(int w, int h){
