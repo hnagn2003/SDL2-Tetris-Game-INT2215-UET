@@ -131,7 +131,7 @@ void Game::loadmedia()
 	replayButton->setTexture(replayButtonTex, replayButtonTex_);
 	playingSoundtrack = Mix_LoadMUS( "assets/Musics/playing.mp3" );
 	themeSoundtrack = Mix_LoadMUS( "assets/Musics/backgroundMusic.mp3" );
-	
+
 	settingsElement.insert(std::make_pair("Ghost Piece", 1));
 	settingsElement.insert(std::make_pair("Level", easy));
 	settingsElement.insert(std::make_pair("Music Type", 0));
@@ -343,6 +343,16 @@ void Game::render()
 
 void Game::clean()
 {
+	SDL_RWops* settingsFile = SDL_RWFromFile("settings/settings.bin", "w+b");
+	for (auto it = settingsElement.begin(); it!=settingsElement.end(); it++){
+		SDL_RWwrite(settingsFile, &(it->second), sizeof(int), 1);			
+	}
+	SDL_RWops* highestScoreFile = SDL_RWFromFile("settings/scoreFile.bin", "w+b");
+	for (int i=0; i<scoreMaxMem; i++){
+		SDL_RWwrite(highestScoreFile, &(highestScore[i]), sizeof(int), 1);			
+	}
+	SDL_RWclose( highestScoreFile );
+	SDL_RWclose( settingsFile );
 	TTF_CloseFont( gFont1 );
 	gFont1 = NULL;
 

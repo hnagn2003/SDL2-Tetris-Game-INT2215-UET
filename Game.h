@@ -128,7 +128,9 @@ class Game_State {
             if (countDownTime > 0){
                     renderText(countDownTime, renderer, gFont1, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, WHITE_COLOR);
             }
-            currentTetrads->renderGhostPiece(renderer, grid);
+            if (settingsElement["Ghost Piece"] == 1){
+                currentTetrads->renderGhostPiece(renderer, grid);
+            }
             backButton->render(renderer, backButton->getXCen()-backButton->getWidth()/2, backButton->getYCen()-backButton->getHeight()/2);
             if (isOver && gameMode==0){
                 gameOverAnnouncement->render(renderer);
