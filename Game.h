@@ -40,7 +40,8 @@ class Game_State {
         bool isOver;
         bool recordScore;
     public: 
-        Game_State(){
+        Game_State()
+        {
             playing = 0;
             lineCount = 0;
             score = 0;
@@ -54,10 +55,6 @@ class Game_State {
             velocity = initVelocity;
             isOver = 0;
             recordScore = 0;
-            // next0Tetrads = new Tetromino;
-            // next1Tetrads = new Tetromino;
-            // next2Tetrads = new Tetromino;
-            // currentTetrads = new Tetromino;
             holding = NULL;
             next0Tetrads = getRandomTetrads();
             next1Tetrads = getRandomTetrads();
@@ -68,77 +65,97 @@ class Game_State {
             hardLevel = easy; //...
 
         }
-        int getDirect(){
+        int getDirect()
+        {
             return direct;
         }
-        bool getOver(){
+        bool getOver()
+        {
             return isOver;
         }
-        bool getPlaying(){
+        bool getPlaying()
+        {
             return playing;
         }
-        void setPlaying(bool _playing){
+        void setPlaying(bool _playing)
+        {
             playing = _playing;
         }
-        bool getPause(){
+        bool getPause()
+        {
             return pause;
         }
-        long long getScore(){
+        long long getScore()
+        {
             return score;
         }
 
-        Grid* getGrid(){
+        Grid* getGrid()
+        {
             return grid;
         }
-        Tetromino* getCurTetrads(){
+        Tetromino* getCurTetrads()
+        {
             return currentTetrads;
         }
-        Tetromino* getNext0Tetrads(){
+        Tetromino* getNext0Tetrads()
+        {
             return next0Tetrads;
         }
-        void setCountDownTime(int c){
+        void setCountDownTime(int c)
+        {
             countDownTime = c;
         }
-        void setInCountDown(bool iC){
+        void setInCountDown(bool iC)
+        {
             inCountDown = iC;
         }
-        void updateGameState(short int updateLines){
+        void updateGameState(short int updateLines)
+        {
             score += updateLines * level;
             level = lineCount/hardLevel+1;
             velocity = 1000/level;
         }
-        void setRecord(bool set){
+        void setRecord(bool set)
+        {
             recordScore = set;
         }
-        bool getRecord(){
+        bool getRecord()
+        {
             return recordScore;
         }
-        void render (SDL_Renderer *renderer, int gameMode = 0){
+        void render (SDL_Renderer *renderer, int gameMode = 0)
+        {
             grid->render(renderer, gameMode);
             renderText(lineCount, renderer, gFont1, 693.5+grid->getX(), 628.5+grid->getY());
             renderText(score, renderer, gFont1, 693.5+grid->getX(), 736+grid->getY());
             renderText(level, renderer, gFont1, 693.5+grid->getX(), 842+grid->getY());
-            if (holding!=NULL){
+            if (holding!=NULL)
+            {
                 holding->render(renderer, grid->getX(), 663-2*TILE_SIZE, 242-2*TILE_SIZE);
             }
             next0Tetrads->render(renderer, grid->getX(), 1259-2*TILE_SIZE, 244-2*TILE_SIZE);
             next1Tetrads->render(renderer, grid->getX(), 1259-2*TILE_SIZE, 400-2*TILE_SIZE);
             next2Tetrads->render(renderer, grid->getX(), 1259-2*TILE_SIZE, 556-2*TILE_SIZE);
             currentTetrads->render(renderer, grid->getX());
-            if (countDownTime > 0){
+            if (countDownTime > 0)
+            {
                     renderText(countDownTime, renderer, gFont1, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, WHITE_COLOR);
             }
-            if (settingsElement["Ghost Piece"] == 1){
+            if (settingsElement["Ghost Piece"] == 1)
+            {
                 currentTetrads->renderGhostPiece(renderer, grid);
             }
-            if (gameMode!=-1){
+            if (gameMode!=-1)
+            {
                 // print "press P ..."
                 static LTexture pressPTex;
                 pressPTex.loadFromRenderedText("Press P to pause/continue the game", DARK_CYAN_COLOR, fontVarino1, renderer);
                 pressPTex.render(renderer, (SCREEN_WIDTH - pressPTex.getWidth())/2, 100);
             }
             backButton->render(renderer, backButton->getXCen()-backButton->getWidth()/2, backButton->getYCen()-backButton->getHeight()/2);
-            if (isOver && gameMode==0){
+            if (isOver && gameMode==0)
+            {
                 gameOverAnnouncement->render(renderer);
                 //914 236
                 // print last score
@@ -149,7 +166,8 @@ class Game_State {
             
         }
 
-        void newTetradsFalling(){
+        void newTetradsFalling()
+        {
             if (playing){
             // if (currentTetrads.getXPos() <= 0){
                 currentTetrads->setFall(true);
@@ -157,7 +175,8 @@ class Game_State {
             // }
             }
         }
-        void reset(){
+        void reset()
+        {
             // *this = Game_State();
             playing = 0;
             lineCount = 0;
@@ -178,9 +197,11 @@ class Game_State {
             grid = new Grid;
             hardLevel = settingsElement["Level"]; //...
         }
-        void handleEvent(SDL_Event event, bool battleMode = 0, bool player2 = 0){
+        void handleEvent(SDL_Event event, bool battleMode = 0, bool player2 = 0)
+        {
             if (isOver && !battleMode){
-                if (gameOverAnnouncement->handleEvents(&event)){
+                if (gameOverAnnouncement->handleEvents(&event))
+                {
                     reset();
                 }
                 direct = gameOverAnnouncement->getDirect();
@@ -189,7 +210,8 @@ class Game_State {
             }
             if (!player2){
                 backButton->handleEvents(&event, 1);
-                if (backButton->getPressed()){
+                if (backButton->getPressed())
+                {
                     Mix_HaltMusic();
                     reset();
                     direct=Menu;
@@ -197,7 +219,8 @@ class Game_State {
                 }
             }
             direct = InGame_SoloMode;
-            if (playing){
+            if (playing)
+            {
                 switch (event.type)
                 {   
                     case SDL_KEYDOWN:
@@ -205,14 +228,16 @@ class Game_State {
                             switch( event.key.keysym.sym )
                             {   
                                 case SDLK_UP: 
-                                    if ( !event.key.repeat && !pause ){
+                                    if ( !event.key.repeat && !pause )
+                                    {
                                         currentTetrads->rotate(grid); 
                                         break;
                                     }
                                 break;
                                 case SDLK_DOWN:
                                     
-                                    if (currentTetrads->getStatus() && !pause){
+                                    if (currentTetrads->getStatus() && !pause)
+                                    {
                                         currentTetrads->moveDown(grid); 
                                     }
                                     
@@ -234,8 +259,10 @@ class Game_State {
                                     // std::cout << "e2 "<<currentTetrads->getYPos()<<' ' << nextTetrads->getYPos() << std::endl;
                                     break;
                                 case SDLK_c:
-                                    if (!pause){
-                                        if (holding == NULL){
+                                    if (!pause)
+                                    {
+                                        if (holding == NULL)
+                                        {
                                             holding = new Tetromino;
                                             // holding = currentTetrads;
                                             // currentTetrads = next0Tetrads;
@@ -249,7 +276,8 @@ class Game_State {
                                             next1Tetrads = next2Tetrads;
                                             next2Tetrads = getRandomTetrads();
                                         }else{
-                                            if (!switchHold){
+                                            if (!switchHold)
+                                            {
                                                 int tmp = holding->getType();
                                                 *holding = Tetrads[currentTetrads->getType()];
                                                 *currentTetrads = Tetrads[tmp];
@@ -259,28 +287,36 @@ class Game_State {
                                     }
                                     break;
                                 case SDLK_p:
-                                    if(!pause){
+                                    if(!pause)
+                                    {
                                         pauseGame();
-                                    }else{
+                                    }
+                                    else
+                                    {
                                         startCD();
                                     }
                                     break;
                             
                                 default: break;
                             }    
-                        }else{
-                            if (!player2){
+                        }
+                        else
+                        {
+                            if (!player2)
+                            {
                                 switch( event.key.keysym.sym )
                                 {   
                                     case SDLK_w: 
-                                        if ( !event.key.repeat && !pause ){
+                                        if ( !event.key.repeat && !pause )
+                                        {
                                             currentTetrads->rotate(grid); 
                                             break;
                                         }
                                     break;
                                     case SDLK_s:
                                         
-                                        if (currentTetrads->getStatus() && !pause){
+                                        if (currentTetrads->getStatus() && !pause)
+                                        {
                                             currentTetrads->moveDown(grid); 
                                         }
                                         
@@ -302,22 +338,21 @@ class Game_State {
                                         // std::cout << "e2 "<<currentTetrads->getYPos()<<' ' << nextTetrads->getYPos() << std::endl;
                                         break;
                                     case SDLK_c:
-                                        if (!pause){
-                                            if (holding == NULL){
+                                        if (!pause)
+                                        {
+                                            if (holding == NULL)
+                                            {
                                                 holding = new Tetromino;
-                                                // holding = currentTetrads;
-                                                // currentTetrads = next0Tetrads;
-                                                // currentTetrads->setXPos(holding->getXPos());
-                                                // currentTetrads->setYPos(holding->getYPos());
-                                                // currentTetrads->detectCoveredRect();
-                                                // currentTetrads->fixTheSuperimposed(grid);
                                                 *holding = Tetrads[currentTetrads->getType()];
                                                 currentTetrads = next0Tetrads;
                                                 next0Tetrads = next1Tetrads;
                                                 next1Tetrads = next2Tetrads;
                                                 next2Tetrads = getRandomTetrads();
-                                            }else{
-                                                if (!switchHold){
+                                            }
+                                            else
+                                            {
+                                                if (!switchHold)
+                                                {
                                                     int tmp = holding->getType();
                                                     *holding = Tetrads[currentTetrads->getType()];
                                                     *currentTetrads = Tetrads[tmp];
@@ -327,9 +362,12 @@ class Game_State {
                                         }
                                         break;
                                     case SDLK_p:
-                                        if(!pause){
+                                        if(!pause)
+                                        {
                                             pauseGame();
-                                        }else{
+                                        }
+                                        else
+                                        {
                                             startCD();
                                         }
                                         break;
@@ -340,14 +378,16 @@ class Game_State {
                                 switch( event.key.keysym.sym )
                                 {   
                                     case SDLK_UP: 
-                                        if ( !event.key.repeat && !pause ){
+                                        if ( !event.key.repeat && !pause )
+                                        {
                                             currentTetrads->rotate(grid); 
                                             break;
                                         }
                                     break;
                                     case SDLK_DOWN:
                                         
-                                        if (currentTetrads->getStatus() && !pause){
+                                        if (currentTetrads->getStatus() && !pause)
+                                        {
                                             currentTetrads->moveDown(grid); 
                                         }
                                         
@@ -733,7 +773,7 @@ class UserSettings{
             for (int i=0; i<totalOfClearButton; i++){
                 clearButton[i].handleEvents(e);
                 if (clearButton[i].getPressed()){
-                    clearButton[i].setPressed(0);
+                    // clearButton[i].setPressed(0);
                     handleOption(i+settingElementsTotal, 0);
                 }
             }
@@ -743,12 +783,16 @@ class UserSettings{
             Mix_VolumeMusic(settingsElement["Music Volume"]);
 
         }
+
         void render(SDL_Renderer* renderer){
             // load bg
             static LTexture tab_st(tabSettingsP, renderer);
             tab_st.render(renderer, 0, 0);
             int jInd = 0;
-
+            if (clearButton[0].getPressed()){
+                // thong tin rang nut da pressed
+            }
+            //
             for (auto it=settingsElement.begin(); it!=settingsElement.end(); it++){
                 LTexture tmp;
                 tmp.loadFromRenderedText(it->first, CYAN_COLOR, fontVarino1, renderer);
