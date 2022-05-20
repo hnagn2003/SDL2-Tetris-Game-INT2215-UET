@@ -122,7 +122,11 @@ void Game::loadmedia()
 	replayButton->setTexture(replayButtonTex, replayButtonTex_);
 	playingSoundtrack = Mix_LoadMUS( "assets/Musics/playing.mp3" );
 	themeSoundtrack = Mix_LoadMUS( "assets/Musics/backgroundMusic.mp3" );
-
+	ES_MouseClick = Mix_LoadWAV(ES_MouseClickP.c_str());
+	if( ES_MouseClick == NULL )
+	{
+		printf( "Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError() );
+	}
 	settingsElement.insert(std::make_pair("Ghost Piece", 1));
 	settingsElement.insert(std::make_pair("Level", easy));
 	settingsElement.insert(std::make_pair("Music Type", 0));
@@ -190,6 +194,9 @@ void Game::handleEvents()
 						break;
 					}
 				default:
+					if (event.type == SDL_MOUSEBUTTONDOWN){
+						Mix_PlayChannel( -1, ES_MouseClick, 0 );
+					}
 					switch (tabs)
 					{
 					case Menu:

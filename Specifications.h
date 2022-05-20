@@ -75,8 +75,11 @@ const std::string clearSettingsP = "assets/Pictures/clear_settings.png";
 const std::string clearHighestScoreP_ = "assets/Pictures/clear_highest_score_.png";
 const std::string clearSettingsP_ = "assets/Pictures/clear_settings_.png";
 const std::string fontVarino1P = "fonts/VarinonormalRegular-nRYg4.otf";
+
+const std::string ES_MouseClickP = "assets/Sounds/MouseClick.mp3";
 static Mix_Music* playingSoundtrack;
 static Mix_Music* themeSoundtrack;
+static Mix_Chunk* ES_MouseClick;
 extern TTF_Font* gFont1;
 extern TTF_Font* fontVarino1;
 extern TTF_Font* fontStar_40;
