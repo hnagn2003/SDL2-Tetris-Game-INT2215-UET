@@ -225,7 +225,7 @@ class Game_State {
                                     if ( !event.key.repeat && !pause )
                                     {
                                         currentTetrads->rotate(grid);
-                                        Mix_PlayChannel( -1, se_rotate, 0 );
+                                        playSoundEffects(se_rotate);
                                         break;
                                     }
                                 break;
@@ -234,29 +234,29 @@ class Game_State {
                                     if (currentTetrads->getStatus() && !pause)
                                     {
                                         currentTetrads->moveDown(grid);
-                                        Mix_PlayChannel( -1, se_move, 0 );
+                                        playSoundEffects(se_move);
                                     }
                                     
                                     break;
                                 case SDLK_LEFT: 
                                     if (!pause)
                                         currentTetrads->moveLeft(grid); 
-                                        Mix_PlayChannel( -1, se_move, 0 );
+                                        playSoundEffects(se_move);
                                     break;
                                 case SDLK_RIGHT: 
                                     if (!pause)
                                         currentTetrads->moveRight(grid); 
-                                        Mix_PlayChannel( -1, se_move, 0 );
+                                        playSoundEffects(se_move);
                                     break;
                                 case SDLK_SPACE:
                                     if (!pause)
                                         currentTetrads->dropDown(grid);
-                                        Mix_PlayChannel( -1, se_drop, 0 );
+                                        playSoundEffects(se_drop);
                                     break;
                                 case SDLK_c:
                                     if (!pause)
                                     {
-                                        Mix_PlayChannel( -1, se_hold, 0 );
+                                        playSoundEffects(se_hold);
                                         if (holding == NULL)
                                         {
                                             holding = new Tetromino;
@@ -280,7 +280,7 @@ class Game_State {
                                     if(!pause)
                                     {
                                         pauseGame();
-                                        Mix_PlayChannel( -1, se_pause, 0 );
+                                        playSoundEffects(se_pause);
                                     }
                                     else
                                     {
@@ -448,21 +448,31 @@ class Game_State {
             countDownTime = 3;
             inCountDown = true;
         }
-        void countDownHandle(){
+        void countDownHandle()
+        {
             if (inCountDown){
-                if (countDownTime > 0){
-                    if (timeC == 0){
+                if (countDownTime > 0)
+                {
+                    if (timeC == 0)
+                    {
                         timeC = SDL_GetTicks();
                     }
-                    if (SDL_GetTicks() - timeC > 1000){
+                    if (SDL_GetTicks() - timeC > 1000)
+                    {
                         timeC = SDL_GetTicks();
                         countDownTime --;
+                        if (countDownTime == 0){
+                            playSoundEffects(me_start);
+                        }else{
+                            playSoundEffects(se_count);
+                        }
                     }
                 }else{
                     currentTetrads->setPause(0);
                     pause = 0;
                     inCountDown = false;
-                    if( Mix_PlayingMusic() == 0 ){
+                    if( Mix_PlayingMusic() == 0 )
+                    {
                         Mix_PlayMusic( playingSoundtrack, -1 );
                     }
                 }
@@ -496,6 +506,7 @@ class Game_State {
 
         bool gameOver(){
                 if (grid->getHighestRow(0, 0, COLS-1)<=delimitedLine+HIDDEN_ROWS){
+                    Mix_PlayMusic( me_gameover, -1 );
                     playing = 0;
                     return true;
                 }
