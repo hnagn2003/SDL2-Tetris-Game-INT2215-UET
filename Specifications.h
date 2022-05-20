@@ -80,20 +80,24 @@ const std::string ES_MouseClickP = "assets/Sounds/MouseClick.wav";
 const std::string se_moveP = "assets/Sounds/se_game_move.wav";
 const std::string se_holdP = "assets/Sounds/se_game_hold.wav";
 const std::string se_dropP = "assets/Sounds/se_game_harddrop.wav";
-const std::string se_startP = "assets/Sounds/se_game_start1.wav";
+const std::string me_startP = "assets/Sounds/me_game_start1.wav";
 const std::string se_doubleP = "assets/Sounds/se_game_double.wav";
 const std::string se_pauseP = "assets/Sounds/se_game_pause.wav";
 const std::string se_rotateP = "assets/Sounds/se_game_rotate.wav";
+const std::string se_countP = "assets/Sounds/se_game_count.wav";
+const std::string me_gameoverP = "assets/Sounds/me_game_gameover.wav";
 static Mix_Music* playingSoundtrack;
 static Mix_Music* themeSoundtrack;
 static Mix_Chunk* ES_MouseClick;
 static Mix_Chunk* se_move;
 static Mix_Chunk* se_hold;
 static Mix_Chunk* se_drop;
-static Mix_Chunk* se_start;
+static Mix_Chunk* me_start;
 static Mix_Chunk* se_double;
 static Mix_Chunk* se_pause;
 static Mix_Chunk* se_rotate;
+static Mix_Chunk* se_count;
+static Mix_Chunk* me_gameover;
 extern TTF_Font* gFont1;
 extern TTF_Font* fontVarino1;
 extern TTF_Font* fontStar_40;
@@ -133,7 +137,8 @@ class LButton
             pressed = 0;
             xPos = 0; yPos = 0; xCen = 0; yCen = 0;
         }
-        LButton(LTexture* _keyUp, LTexture* _keyDown){
+        LButton(LTexture* _keyUp, LTexture* _keyDown)
+        {
             motionMouse = 0;
             keyUp = _keyUp;
             keyDown = _keyDown;
@@ -141,10 +146,12 @@ class LButton
             height = keyUp->getHeight();
             xPos = 0; yPos = 0; xCen = 0; yCen = 0;
         }
-        bool getPressed(){
+        bool getPressed()
+        {
             return pressed;
         }
-        bool getInside(){
+        bool getInside()
+        {
             return inside;
         }
         int getXCen(){return xCen;}
@@ -206,7 +213,6 @@ class LButton
                             motionMouse = 1;
                             break;
                         case SDL_MOUSEBUTTONDOWN:
-                            Mix_PlayChannel( -1, ES_MouseClick, 0 );
                             playSoundEffects(ES_MouseClick);
                             motionMouse = 1;
                             pressed = 1;
