@@ -140,7 +140,7 @@ class Game_State {
             currentTetrads->render(renderer, grid->getX());
             if (countDownTime > 0)
             {
-                    renderText(countDownTime, renderer, gFont1, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, WHITE_COLOR);
+                renderText(countDownTime, renderer, gFont1, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, WHITE_COLOR);
             }
             if (settingsElement["Ghost Piece"] == 1)
             {
@@ -148,7 +148,6 @@ class Game_State {
             }
             if (gameMode!=-1)
             {
-                // print "press P ..."
                 static LTexture pressPTex;
                 pressPTex.loadFromRenderedText("Press P to pause/continue the game", DARK_CYAN_COLOR, fontVarino1, renderer);
                 pressPTex.render(renderer, (SCREEN_WIDTH - pressPTex.getWidth())/2, 100);
@@ -157,8 +156,6 @@ class Game_State {
             if (isOver && gameMode==0)
             {
                 gameOverAnnouncement->render(renderer);
-                //914 236
-                // print last score
                 LTexture printScore;
                 printScore.loadFromRenderedText(std::to_string(score), BLACK_COLOR, gFont1, renderer);
                 printScore.render(renderer, 914, 236);
@@ -169,15 +166,12 @@ class Game_State {
         void newTetradsFalling()
         {
             if (playing){
-            // if (currentTetrads.getXPos() <= 0){
                 currentTetrads->setFall(true);
                 currentTetrads->fall(velocity, grid);
-            // }
             }
         }
         void reset()
         {
-            // *this = Game_State();
             playing = 0;
             lineCount = 0;
             score = 0;
@@ -253,10 +247,8 @@ class Game_State {
                                     break;
                                 case SDLK_SPACE:
                                     if (!pause)
-                                    // std::cout << "e1 "<<currentTetrads->getYPos()<<' ' << nextTetrads->getYPos() << std::endl;
                                         currentTetrads->dropDown(grid);
                                     
-                                    // std::cout << "e2 "<<currentTetrads->getYPos()<<' ' << nextTetrads->getYPos() << std::endl;
                                     break;
                                 case SDLK_c:
                                     if (!pause)
@@ -264,12 +256,6 @@ class Game_State {
                                         if (holding == NULL)
                                         {
                                             holding = new Tetromino;
-                                            // holding = currentTetrads;
-                                            // currentTetrads = next0Tetrads;
-                                            // currentTetrads->setXPos(holding->getXPos());
-                                            // currentTetrads->setYPos(holding->getYPos());
-                                            // currentTetrads->detectCoveredRect();
-                                            // currentTetrads->fixTheSuperimposed(grid);
                                             *holding = Tetrads[currentTetrads->getType()];
                                             currentTetrads = next0Tetrads;
                                             next0Tetrads = next1Tetrads;
@@ -332,10 +318,8 @@ class Game_State {
                                         break;
                                     case SDLK_SPACE:
                                         if (!pause)
-                                        // std::cout << "e1 "<<currentTetrads->getYPos()<<' ' << nextTetrads->getYPos() << std::endl;
                                             currentTetrads->dropDown(grid);
                                         
-                                        // std::cout << "e2 "<<currentTetrads->getYPos()<<' ' << nextTetrads->getYPos() << std::endl;
                                         break;
                                     case SDLK_c:
                                         if (!pause)
@@ -403,21 +387,13 @@ class Game_State {
                                         break;
                                     case SDLK_KP_ENTER:
                                         if (!pause)
-                                        // std::cout << "e1 "<<currentTetrads->getYPos()<<' ' << nextTetrads->getYPos() << std::endl;
                                             currentTetrads->dropDown(grid);
                                         
-                                        // std::cout << "e2 "<<currentTetrads->getYPos()<<' ' << nextTetrads->getYPos() << std::endl;
                                         break;
                                     case SDLK_KP_PLUS:
                                         if (!pause){
                                             if (holding == NULL){
                                                 holding = new Tetromino;
-                                                // holding = currentTetrads;
-                                                // currentTetrads = next0Tetrads;
-                                                // currentTetrads->setXPos(holding->getXPos());
-                                                // currentTetrads->setYPos(holding->getYPos());
-                                                // currentTetrads->detectCoveredRect();
-                                                // currentTetrads->fixTheSuperimposed(grid);
                                                 *holding = Tetrads[currentTetrads->getType()];
                                                 currentTetrads = next0Tetrads;
                                                 next0Tetrads = next1Tetrads;
@@ -489,22 +465,18 @@ class Game_State {
         }
         void updateFallingTetrads(){
             if (playing){
-                
-                // std::cout << "b2"<<currentTetrads.getYPos()<<' ' << nextTetrads.getYPos() << std::endl;
-                if (!currentTetrads->getStatus()){
-                    // std::cout<<'1' << nextTetrads.getYPos() <<std::endl;
+                if (!currentTetrads->getStatus())
+                {
                     int highestRow = grid->getHighestRow(0, 0, COLS-1);
-                    // std::cout << "higest row " << highestRow << std::endl;
-                    if (highestRow<=(HIDDEN_ROWS+2)){ //ch
+                    if (highestRow<=(HIDDEN_ROWS+2))
+                    { 
                         next0Tetrads->setCollinYInitTetrads(highestRow);
-                        if (holding!=NULL){
+                        if (holding!=NULL)
+                        {
                             holding->setCollinYInitTetrads(highestRow);
                         }
-                        // std::cout << "y " << next0Tetrads->getYPos();
                     }
                     
-                    // std::cout << next0Tetrads->getYPos() << ' ' << next0Tetrads->getYCol() << std::endl;
-                    // std::cout<<'2' << nextTetrads.getYPos() <<std::endl;
                     int filledRow = grid->update(currentTetrads->getYPos()+HIDDEN_ROWS, currentTetrads->getYPos()+currentTetrads->getHCol()+HIDDEN_ROWS);
                     lineCount+=filledRow;
                     updateGameState(filledRow);
@@ -548,9 +520,10 @@ class BallteProcessor{
         BattleEnded* battleEnded;
         int direct;
         bool isOver;
-        int result; // 0 la draw, 1 la player 1 win, 2 la player 2 win
+        int result;
     public:
-        BallteProcessor(){
+        BallteProcessor()
+        {
             direct = InGame_BattleMode;
             gameStatePlayer1 = new Game_State;
             gameStatePlayer2 = new Game_State;
@@ -558,23 +531,28 @@ class BallteProcessor{
             isOver = 0;
             result = -1;
         }
-        void reset(){
+        void reset()
+        {
             gameStatePlayer1->reset();
             gameStatePlayer2->reset();
             isOver = 0;
             result = -1;
         }
-        bool getOver(){
+        bool getOver()
+        {
             return isOver;
         }
-        int getDirect(){
+        int getDirect()
+        {
             return direct;
         }
-        void handleEvent(SDL_Event event){
+        void handleEvent(SDL_Event event)
+        {
             if (isOver){
                 gameStatePlayer1->pauseGame();
                 gameStatePlayer2->pauseGame();
-                if (battleEnded->handleEvents(&event)){
+                if (battleEnded->handleEvents(&event))
+                {
                     reset();
                 }
                 direct = battleEnded->getDirect();
@@ -583,12 +561,16 @@ class BallteProcessor{
             switch (event.type)
             {   
                 case SDL_KEYDOWN:
-                    switch( event.key.keysym.sym ){ 
+                    switch( event.key.keysym.sym )
+                    { 
                         case SDLK_p: 
-                            if(!gameStatePlayer1->getPause() && !gameStatePlayer2->getPause()){
+                            if(!gameStatePlayer1->getPause() && !gameStatePlayer2->getPause())
+                            {
                                 gameStatePlayer1->pauseGame();
                                 gameStatePlayer2->pauseGame();
-                            }else{
+                            }
+                            else
+                            {
                                 gameStatePlayer1->startCD();
                                 gameStatePlayer2->startCD();
                             }
@@ -601,67 +583,83 @@ class BallteProcessor{
             }
             gameStatePlayer1->handleEvent(event, 1);
             direct = gameStatePlayer1->getDirect();
-            if (direct == InGame_SoloMode){
+            if (direct == InGame_SoloMode)
+            {
                 direct = InGame_BattleMode;
-            }else{
+            }else
+            {
                 *gameStatePlayer1 = Game_State();
                 *gameStatePlayer2 = Game_State();
             }
             gameStatePlayer2->handleEvent(event, 1, 1);
         }
-        void update(){
+        void update()
+        {
             isOver = gameOver();
             std::thread x(std::bind(&Game_State::update, gameStatePlayer1));
             std::thread y(std::bind(&Game_State::update, gameStatePlayer2));
             x.join();
             y.join();
         }
-        void render(SDL_Renderer* renderer){
+        void render(SDL_Renderer* renderer)
+        {
             gameStatePlayer1->render(renderer, 1);
             gameStatePlayer2->render(renderer, -1);
             if (isOver){
                 battleEnded->render(renderer, result);
             }
         }
-        bool gameOver(){
+        bool gameOver()
+        {
             bool P1Over = gameStatePlayer1->gameOver(), P2Over = gameStatePlayer2->gameOver();
             long long P1Score = gameStatePlayer1->getScore(), P2Score = gameStatePlayer2->getScore();
-            if (P1Over && P2Over){
-                if (P1Score > P2Score){
+            if (P1Over && P2Over)
+            {
+                if (P1Score > P2Score)
+                {
                     result = 1;
-                }else if (P1Score < P2Score){
+                }else if (P1Score < P2Score)
+                {
                     result = 2;
-                }else{
+                }else
+                {
                     result = 0;
                 }
             }
-            if (P1Over && !P2Over){
+            if (P1Over && !P2Over)
+            {
                 result = 2;
             }
-            if (!P1Over && P2Over){
+            if (!P1Over && P2Over)
+            {
                 result = 1;
             }
             return (result != -1);
         }
 };
-enum clear_button{
+enum clear_button
+{
     clearScore,
     clearUserSettings,
     totalOfClearButton
 };
-class UserSettings{
+class UserSettings
+{
     private:
         LButton setButton[settingElementsTotal][2];
         LButton clearButton[2];
         int direct;
     public:
-        UserSettings(){
+        UserSettings()
+        {
             direct = Settings;
-            for (int i=0; i<settingElementsTotal; i++){
+            for (int i=0; i<settingElementsTotal; i++)
+            {
                     setButton[i][0].setPosition(1000, 460+60*i);
                     setButton[i][1].setPosition(1300, 460+60*i);
             }
-            for (int i=0; i<totalOfClearButton; i++){
+            for (int i=0; i<totalOfClearButton; i++)
+            {
                 clearButton[i].setPosition(700 + 320*i, 700 ); //...
             }
         }
@@ -683,7 +681,6 @@ class UserSettings{
                 setButton[i][0].setTexture(leftPress, leftPress_);
                 setButton[i][1].setTexture(rightPress, rightPress_);
             }
-            // load clear button
             static LTexture* clearButtonTex[2];
             static LTexture* clearButtonTex_[2];
             clearButtonTex[clearScore] = new LTexture(clearHighestScoreP, renderer);
@@ -695,7 +692,6 @@ class UserSettings{
             }
         }
         void handleOption(int option, int adjust){
-            // std:: cout<<option<<' '<<adjust<<std::endl;
             switch (option)
             {
             case 1:
@@ -704,7 +700,6 @@ class UserSettings{
                     if (settingsElement["Level"] <= 0){
                         settingsElement["Level"] = 1;
                     }
-                    // std::cout << "level increase"<<std::endl;
                 }
                 if (adjust == 0 && settingsElement["Level"] < easy){
                     settingsElement["Level"] += 5;
@@ -745,10 +740,10 @@ class UserSettings{
                 }
                 break;
             case 4:
-                // clearRankingScore();
+                clearRankingScore();
                 break;
             case 5:
-                // resetSettings();
+                clearSettings();
                 break;
             default:
                 break;
@@ -773,7 +768,6 @@ class UserSettings{
             for (int i=0; i<totalOfClearButton; i++){
                 clearButton[i].handleEvents(e);
                 if (clearButton[i].getPressed()){
-                    // clearButton[i].setPressed(0);
                     handleOption(i+settingElementsTotal, 0);
                 }
             }
@@ -785,14 +779,11 @@ class UserSettings{
         }
 
         void render(SDL_Renderer* renderer){
-            // load bg
             static LTexture tab_st(tabSettingsP, renderer);
             tab_st.render(renderer, 0, 0);
             int jInd = 0;
             if (clearButton[0].getPressed()){
-                // thong tin rang nut da pressed
             }
-            //
             for (auto it=settingsElement.begin(); it!=settingsElement.end(); it++){
                 LTexture tmp;
                 tmp.loadFromRenderedText(it->first, CYAN_COLOR, fontVarino1, renderer);
@@ -828,9 +819,6 @@ public:
     {
         return isRunning;
     }
-    // void setRunning(bool running){
-    //     isRunning = running;
-    // }
 private:
     bool isRunning;
     SDL_Window *window;

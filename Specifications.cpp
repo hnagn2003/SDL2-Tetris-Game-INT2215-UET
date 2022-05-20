@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <SDL_ttf.h>
 #include <vector>
+// std::vector<int> highestScore;
 int gridSizeToRendererSize(int w)
     {
     return w*TILE_SIZE;
@@ -35,5 +36,18 @@ void printScoreTable(SDL_Renderer *renderer, int x, int y){
             ranking[i].loadFromRenderedText(std::to_string(highestScore[i]), WHITE_COLOR, fontStar_40, renderer);
         }
         ranking[i].render(renderer, x, y+i*50);
+    }
+}
+
+void clearSettings(){
+    settingsElement["Ghost Piece"]=1;
+	settingsElement["Level"]=easy;
+	settingsElement["Music Type"]=0;
+	settingsElement["Music Volume"]=100;
+}
+
+void clearRankingScore(){
+    for (int i : highestScore){
+        highestScore[i] = 0;
     }
 }

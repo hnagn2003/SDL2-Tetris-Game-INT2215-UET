@@ -16,7 +16,6 @@ void renderText(long long text, SDL_Renderer* renderer, TTF_Font* gFont, int xPo
     ssText.str( "" );
     ssText << text;
     textTexture.loadFromRenderedText(ssText.str().c_str(), textColor, gFont, renderer);
-	// std::cout << textTexture.getWidth() << ' ' << textTexture.getHeight() << std::endl;
     textTexture.render(renderer, xPos-textTexture.getWidth()/2, yPos-textTexture.getHeight()/2);
 }
 Game::Game()
@@ -36,10 +35,8 @@ Game::~Game()
 
 void Game::init(const char* title, int xPos, int yPos, int SCREEN_WIDTH, int SCREEN_HEIGHT, bool fullscreen)
 {
-	//Initialization flag
 	bool success = true;
 
-	//Initialize SDL
 	if( SDL_Init( SDL_INIT_VIDEO | SDL_INIT_AUDIO ) < 0 )
 	{
 		printf( "SDL could not initialize! SDL Error: %s\n", SDL_GetError() );
@@ -48,13 +45,11 @@ void Game::init(const char* title, int xPos, int yPos, int SCREEN_WIDTH, int SCR
 	}
 	else
 	{
-		//Set texture filtering to linear
 		if( !SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1" ) )
 		{
 			printf( "Warning: Linear texture filtering not enabled!" );
 		}
 
-		//Create window
 		window = SDL_CreateWindow( title, xPos, yPos, SCREEN_WIDTH, SCREEN_HEIGHT, fullscreen );
 		if( window == NULL )
 		{
@@ -63,7 +58,6 @@ void Game::init(const char* title, int xPos, int yPos, int SCREEN_WIDTH, int SCR
 		}
 		else
 		{
-			//Create renderer for window
 			renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC );
 			if( renderer == NULL )
 			{
@@ -72,10 +66,8 @@ void Game::init(const char* title, int xPos, int yPos, int SCREEN_WIDTH, int SCR
 			}
 			else
 			{
-				//Initialize renderer color
 				SDL_SetRenderDrawColor( renderer, 0, 0, 0, 0 );
 
-				//Initialize PNG loading
 				int imgFlags = IMG_INIT_PNG;
 				if( !( IMG_Init( imgFlags ) & imgFlags ) )
 				{
@@ -105,7 +97,6 @@ void Game::init(const char* title, int xPos, int yPos, int SCREEN_WIDTH, int SCR
 	}
 	
 	gFPS_Processor->initTimeCounting();
-	// tabs_menu.setRenderer(renderer);
 
 }
 void Game::loadmedia()
@@ -150,7 +141,6 @@ void Game::loadmedia()
 		}else{
 			printf( "Error: Unable to create file! SDL Error: %s\n", SDL_GetError() );
 		}
-						// std::cout << settingsElement["Level"] <<std::endl;
 
 	}else{
 		for (auto it = settingsElement.begin(); it!=settingsElement.end(); it++){
@@ -199,20 +189,14 @@ void Game::handleEvents()
 					default:
 						break;
 					}
-					// case ...
 				default:
 					switch (tabs)
 					{
 					case Menu:
-						// std::cout <<"1 "<< tabs << std::endl;
-						// std::cout <<"1 "<< tabs_menu.getDirect() << std::endl;
 						tabs_menu.handleEvents(&event);
 						tabs = tabs_menu.getDirect();
-						// std::cout <<"2 "<< tabs_menu.getDirect() << std::endl;
-						// std::cout <<"2 "<< tabs << std::endl;
 						break;
 					case InGame_SoloMode:
-						//SDL_Delay...
 						gameState->handleEvent(event);
 						tabs = gameState->getDirect();
 						break;
@@ -253,7 +237,6 @@ void Game::playMusic()
 }
 void Game::update()
 {
-	//if currentTetrads tiep dat, chuyen trang thai khoi, cho khoi moi tiep dat
 	gFPS_Processor->cappingFrame();
 	switch (tabs){
 		case Menu:
@@ -272,7 +255,6 @@ void Game::update()
 				Mix_HaltMusic();
 			}
 			gameState->update();
-
 			break;
 		case InGame_BattleMode:
 			if (!battleProcessor->getOver()){
@@ -283,13 +265,6 @@ void Game::update()
 				Mix_HaltMusic();
 			}
 			battleProcessor->update();
-			
-			
-			// if (gameState->gameOver()){
-			// 	tabs = GameOver; //...
-			// 	*gameState = Game_State();
-
-			// }
 			break;
 
 		case Helps:
@@ -333,10 +308,6 @@ void Game::render()
 	default:
 		break;
 	}
-	
-	// gFPS_Processor->printFPS(renderer, gFont);
-	
-	// SDL_SetRenderDrawColor( renderer, 32, 64, 0, 0 );
     SDL_RenderPresent(renderer);
 
 }
@@ -355,7 +326,6 @@ void Game::clean()
 	SDL_RWclose( settingsFile );
 	TTF_CloseFont( gFont1 );
 	gFont1 = NULL;
-
     SDL_DestroyRenderer( renderer );
 	SDL_DestroyWindow( window );
 	window = NULL;

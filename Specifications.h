@@ -83,6 +83,7 @@ extern TTF_Font* fontStar_40;
 extern TTF_Font* fontStar_50;
 
 extern std::vector<int> highestScore;
+static std::map<std::string, int> settingsElement;
 
 enum Tabs {
     Menu = -1,
@@ -94,7 +95,6 @@ enum Tabs {
     allButtonsOfMenu
 };
 
-static std::map<std::string, int> settingsElement;
 bool updateScoreTable(int score);
 void printScoreTable(SDL_Renderer *renderer, int x, int y);
 class LButton
@@ -483,7 +483,8 @@ enum LEVEL{
     super_ultra_hard = 5,
     asian = 1
 };
-
+void clearSettings();
+void clearRankingScore();
 struct Point{
     int x;
     int y;
