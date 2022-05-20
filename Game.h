@@ -775,7 +775,6 @@ class UserSettings
         }
         void update(){
             Mix_VolumeMusic(settingsElement["Music Volume"]);
-
         }
 
         void render(SDL_Renderer* renderer){

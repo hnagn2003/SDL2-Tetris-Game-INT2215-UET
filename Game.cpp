@@ -237,6 +237,7 @@ void Game::playMusic()
 }
 void Game::update()
 {
+	Mix_VolumeMusic(settingsElement["Music Volume"]);
 	gFPS_Processor->cappingFrame();
 	switch (tabs){
 		case Menu:
@@ -260,8 +261,8 @@ void Game::update()
 			if (!battleProcessor->getOver()){
 				backButton->setCenterPosition(100, 100);
 			}else{
-				replayButton->setCenterPosition(1137, 569);
-				backButton->setCenterPosition(1289, 569);
+				replayButton->setCenterPosition(SCREEN_WIDTH/2-70, 655);
+				backButton->setCenterPosition(SCREEN_WIDTH/2+120, 655);
 				Mix_HaltMusic();
 			}
 			battleProcessor->update();
