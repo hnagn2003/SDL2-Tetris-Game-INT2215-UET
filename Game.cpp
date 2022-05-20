@@ -9,7 +9,7 @@ TTF_Font* fontVarino1 = NULL;
 TTF_Font* fontStar_40 = NULL;
 TTF_Font* fontStar_50 = NULL;
 std::vector<int> highestScore;
-
+std::map<std::string, int> settingsElement;
 void renderText(long long text, SDL_Renderer* renderer, TTF_Font* gFont, int xPos, int yPos, SDL_Color textColor){
     LTexture textTexture;
     std::stringstream ssText;
@@ -123,13 +123,20 @@ void Game::loadmedia()
 	playingSoundtrack = Mix_LoadMUS( "assets/Musics/playing.mp3" );
 	themeSoundtrack = Mix_LoadMUS( "assets/Musics/backgroundMusic.mp3" );
 	ES_MouseClick = Mix_LoadWAV(ES_MouseClickP.c_str());
+	se_move = Mix_LoadWAV(se_moveP.c_str());;
+	se_hold = Mix_LoadWAV(se_holdP.c_str());;
+	se_drop = Mix_LoadWAV(se_dropP.c_str());;
+	se_start = Mix_LoadWAV(se_startP.c_str());;
+	se_double = Mix_LoadWAV(se_doubleP.c_str());;
+	se_pause = Mix_LoadWAV(se_pauseP.c_str());;
+	se_rotate = Mix_LoadWAV(se_rotateP.c_str());;
 	if( ES_MouseClick == NULL )
 	{
 		printf( "Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError() );
 	}
 	settingsElement.insert(std::make_pair("Ghost Piece", 1));
 	settingsElement.insert(std::make_pair("Level", easy));
-	settingsElement.insert(std::make_pair("Music Type", 0));
+	settingsElement.insert(std::make_pair("Sound Effects", 1));
 	settingsElement.insert(std::make_pair("Music Volume", 100));
 
 
@@ -194,9 +201,6 @@ void Game::handleEvents()
 						break;
 					}
 				default:
-					if (event.type == SDL_MOUSEBUTTONDOWN){
-						Mix_PlayChannel( -1, ES_MouseClick, 0 );
-					}
 					switch (tabs)
 					{
 					case Menu:

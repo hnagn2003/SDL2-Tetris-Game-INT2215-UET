@@ -224,7 +224,8 @@ class Game_State {
                                 case SDLK_UP: 
                                     if ( !event.key.repeat && !pause )
                                     {
-                                        currentTetrads->rotate(grid); 
+                                        currentTetrads->rotate(grid);
+                                        Mix_PlayChannel( -1, se_rotate, 0 );
                                         break;
                                     }
                                 break;
@@ -232,27 +233,30 @@ class Game_State {
                                     
                                     if (currentTetrads->getStatus() && !pause)
                                     {
-                                        currentTetrads->moveDown(grid); 
+                                        currentTetrads->moveDown(grid);
+                                        Mix_PlayChannel( -1, se_move, 0 );
                                     }
                                     
                                     break;
                                 case SDLK_LEFT: 
                                     if (!pause)
                                         currentTetrads->moveLeft(grid); 
-                                    
+                                        Mix_PlayChannel( -1, se_move, 0 );
                                     break;
                                 case SDLK_RIGHT: 
                                     if (!pause)
                                         currentTetrads->moveRight(grid); 
+                                        Mix_PlayChannel( -1, se_move, 0 );
                                     break;
                                 case SDLK_SPACE:
                                     if (!pause)
                                         currentTetrads->dropDown(grid);
-                                    
+                                        Mix_PlayChannel( -1, se_drop, 0 );
                                     break;
                                 case SDLK_c:
                                     if (!pause)
                                     {
+                                        Mix_PlayChannel( -1, se_hold, 0 );
                                         if (holding == NULL)
                                         {
                                             holding = new Tetromino;
@@ -276,6 +280,7 @@ class Game_State {
                                     if(!pause)
                                     {
                                         pauseGame();
+                                        Mix_PlayChannel( -1, se_pause, 0 );
                                     }
                                     else
                                     {
@@ -670,7 +675,7 @@ class UserSettings
             return direct;
         }
         void resetDirect(){
-            direct = Settings;
+            direct = Settings;  
         }
         void initSettings(SDL_Renderer* renderer){
             static LTexture* leftPress = new LTexture(left_pressP, renderer);
@@ -705,7 +710,7 @@ class UserSettings
                     settingsElement["Level"] += 5;
                 }
                 break;
-            case 3:
+            case 2:
                 if (adjust == 1){
                     settingsElement["Music Volume"] +=20;
                 }
@@ -719,23 +724,23 @@ class UserSettings
                     settingsElement["Music Volume"] = 0;
                 }
                 break;
-            case 2:
-                if (adjust == 1){
-                    settingsElement["Music Type"] ++;
-                }else{
-                    settingsElement["Music Type"] --;
+            case 3:
+                if (settingsElement["Sound Effects"] == 0)
+                {
+                    settingsElement["Sound Effects"] = 1;
                 }
-                if (settingsElement["Music Type"] < 0){
-                    settingsElement["Music Type"] = 3;
-                }
-                if (settingsElement["Music Type"] > 3){
-                    settingsElement["Music Type"] = 0;
+                else
+                {
+                    settingsElement["Sound Effects"] = 0;
                 }
                 break;
             case 0:
-                if (settingsElement["Ghost Piece"] == 0){
+                if (settingsElement["Ghost Piece"] == 0)
+                {
                     settingsElement["Ghost Piece"] = 1;
-                }else{
+                }
+                else
+                {
                     settingsElement["Ghost Piece"] = 0;
                 }
                 break;

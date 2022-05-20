@@ -76,17 +76,31 @@ const std::string clearHighestScoreP_ = "assets/Pictures/clear_highest_score_.pn
 const std::string clearSettingsP_ = "assets/Pictures/clear_settings_.png";
 const std::string fontVarino1P = "fonts/VarinonormalRegular-nRYg4.otf";
 
-const std::string ES_MouseClickP = "assets/Sounds/MouseClick.mp3";
+const std::string ES_MouseClickP = "assets/Sounds/MouseClick.wav";
+const std::string se_moveP = "assets/Sounds/se_game_move.wav";
+const std::string se_holdP = "assets/Sounds/se_game_hold.wav";
+const std::string se_dropP = "assets/Sounds/se_game_harddrop.wav";
+const std::string se_startP = "assets/Sounds/se_game_start1.wav";
+const std::string se_doubleP = "assets/Sounds/se_game_double.wav";
+const std::string se_pauseP = "assets/Sounds/se_game_pause.wav";
+const std::string se_rotateP = "assets/Sounds/se_game_rotate.wav";
 static Mix_Music* playingSoundtrack;
 static Mix_Music* themeSoundtrack;
 static Mix_Chunk* ES_MouseClick;
+static Mix_Chunk* se_move;
+static Mix_Chunk* se_hold;
+static Mix_Chunk* se_drop;
+static Mix_Chunk* se_start;
+static Mix_Chunk* se_double;
+static Mix_Chunk* se_pause;
+static Mix_Chunk* se_rotate;
 extern TTF_Font* gFont1;
 extern TTF_Font* fontVarino1;
 extern TTF_Font* fontStar_40;
 extern TTF_Font* fontStar_50;
 
 extern std::vector<int> highestScore;
-static std::map<std::string, int> settingsElement;
+extern std::map<std::string, int> settingsElement;
 
 enum Tabs {
     Menu = -1,
@@ -99,6 +113,7 @@ enum Tabs {
 };
 
 bool updateScoreTable(int score);
+void playSoundEffects(Mix_Chunk* chunk, int loop = 0, int channel = -1);
 void printScoreTable(SDL_Renderer *renderer, int x, int y);
 class LButton
 {
@@ -191,6 +206,8 @@ class LButton
                             motionMouse = 1;
                             break;
                         case SDL_MOUSEBUTTONDOWN:
+                            Mix_PlayChannel( -1, ES_MouseClick, 0 );
+                            playSoundEffects(ES_MouseClick);
                             motionMouse = 1;
                             pressed = 1;
                             break;
@@ -406,7 +423,8 @@ class HelpsAndCredit{
         void handleEvent(SDL_Event* e){
             bool flag = 0;
             backButton->handleEvents(e, 1);
-            if (backButton->getPressed()){
+            if (backButton->getPressed())
+            {
                 backButton->setPressed(0);
                 direct=Menu;
                 flag = 1;
@@ -414,18 +432,21 @@ class HelpsAndCredit{
             }
             direct = Helps;
             helpsButton.handleEvents(e);
-            if (helpsButton.getPressed()){
+            if (helpsButton.getPressed())
+            {
                 helpsButton.setPressed(0);
                 inlineTab = H_Helps;
             }
             aboutButton.handleEvents(e);
-            if (aboutButton.getPressed()){
+            if (aboutButton.getPressed())
+            {
                 aboutButton.setPressed(0);
                 inlineTab = H_About;
             }
 
             copyrightButton.handleEvents(e);
-            if (copyrightButton.getPressed()){
+            if (copyrightButton.getPressed())
+            {
                 copyrightButton.setPressed(0);
                 inlineTab = H_Copyright;
             }

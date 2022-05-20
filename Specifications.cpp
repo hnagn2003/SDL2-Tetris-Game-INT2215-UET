@@ -9,6 +9,7 @@
 #include <SDL_ttf.h>
 #include <vector>
 // std::vector<int> highestScore;
+// std::map<std::string, int> settingsElement;
 int gridSizeToRendererSize(int w)
     {
     return w*TILE_SIZE;
@@ -42,12 +43,18 @@ void printScoreTable(SDL_Renderer *renderer, int x, int y){
 void clearSettings(){
     settingsElement["Ghost Piece"]=1;
 	settingsElement["Level"]=easy;
-	settingsElement["Music Type"]=0;
+	settingsElement["Sound Effects"]=1;
 	settingsElement["Music Volume"]=100;
 }
 
 void clearRankingScore(){
     for (int i : highestScore){
         highestScore[i] = 0;
+    }
+}
+
+void playSoundEffects(Mix_Chunk* chunk, int loop, int channel){
+    if (settingsElement["Sound Effects"]){
+        Mix_PlayChannel( channel, chunk, loop );
     }
 }
