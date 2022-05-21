@@ -528,16 +528,26 @@ class Game_State {
         bool gameOver(){
                 if (grid->getHighestRow(0, 0, COLS-1)<=delimitedLine+HIDDEN_ROWS){
                     playing = 0;
+                //     if (!Mix_PlayingMusic()){
+                //     std::cout << "runned";
+                //     Mix_PlayMusic(me_gameover, 1);
+                // }
                     return true;
                 }
             return false;
         }
         void update(){
             isOver = gameOver();
+            static bool gameOver_SE = true;
             if (isOver){
                 backButton->setPosition(1289, 569);
+                if (gameOver_SE){
+                    playSoundEffects(se_gameover);
+                    gameOver_SE = false;
+                }
                 return;
             }
+            gameOver_SE = true;
             if (!playing){
 				startCD();
 				pauseGame();

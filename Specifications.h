@@ -87,6 +87,7 @@ const std::string se_pauseP = "assets/Sounds/se_game_pause.wav";
 const std::string se_rotateP = "assets/Sounds/se_game_rotate.wav";
 const std::string se_countP = "assets/Sounds/se_game_count.wav";
 const std::string me_gameoverP = "assets/Sounds/me_game_gameover.mp3";
+const std::string se_gameoverP = "assets/Sounds/me_game_gameover.wav";
 static Mix_Music* playingSoundtrack;
 static Mix_Music* themeSoundtrack;
 static Mix_Chunk* ES_MouseClick;
@@ -99,6 +100,7 @@ static Mix_Chunk* se_pause;
 static Mix_Chunk* se_rotate;
 static Mix_Chunk* se_count;
 static Mix_Music* me_gameover;
+static Mix_Chunk* se_gameover;
 
 extern TTF_Font* gFont1;
 extern TTF_Font* fontVarino1;
@@ -306,9 +308,6 @@ class GameOverAnnouncement{
     public:
         GameOverAnnouncement(){
             direct = InGame_SoloMode;
-            // backButton->setCenterPosition(1289, 569);
-            // replayButton->setCenterPosition(1137, 569);
-
         }
         int getDirect(){
             return direct;
@@ -363,7 +362,8 @@ class BattleEnded{
                 return false;
             }
             replayButton->handleEvents(e, 1);
-            if (replayButton->getPressed()){
+            if (replayButton->getPressed())
+            {
                 replayButton->setPressed(0);
                 direct=InGame_BattleMode;
                 return true;
@@ -372,7 +372,8 @@ class BattleEnded{
             direct = InGame_BattleMode; 
             return false;
         }
-        void render(SDL_Renderer* renderer, int result){
+        void render(SDL_Renderer* renderer, int result)
+        {
             static LTexture battle_endTex(battle_endedP, renderer);
             battle_endTex.render(renderer, 0, 0);
             backButton->render(renderer, backButton->getXCen()-backButton->getWidth()/2, backButton->getYCen()-backButton->getHeight()/2);
@@ -407,17 +408,22 @@ class HelpsAndCredit{
         int direct;
         LButton helpsButton, aboutButton, copyrightButton;
     public:
-        HelpsAndCredit(){
+        HelpsAndCredit()
+        {
             inlineTab = H_Helps;
             direct = Helps;
             helpsButton.setPosition(411, 473);
             aboutButton.setPosition(411, 557);
             copyrightButton.setPosition(411, 642);
         }
-        int getDirect(){
+
+        int getDirect()
+        {
             return direct;
         }
-        void setUp(SDL_Renderer* renderer){
+
+        void setUp(SDL_Renderer* renderer)
+        {
             LTexture* helpButtonTex = new LTexture(help_help_buttonP, renderer);
             LTexture* aboutButtonTex = new LTexture(help_about_buttonP, renderer);
             LTexture* copyrightButtonTex = new LTexture(help_copyright_buttonP, renderer);
@@ -428,6 +434,7 @@ class HelpsAndCredit{
             aboutButton.setTexture(aboutButtonTex, aboutButtonTex_);
             copyrightButton.setTexture(copyrightButtonTex, copyrightButtonTex_);
         }
+
         void handleEvent(SDL_Event* e){
             bool flag = 0;
             backButton->handleEvents(e, 1);
@@ -517,7 +524,8 @@ enum LEVEL{
 };
 void clearSettings();
 void clearRankingScore();
-struct Point{
+struct Point
+{
     int x;
     int y;
     Point(int _x, int _y){

@@ -132,6 +132,7 @@ void Game::loadmedia()
 	se_rotate = Mix_LoadWAV(se_rotateP.c_str());
 	se_count = Mix_LoadWAV(se_countP.c_str());
 	me_gameover = Mix_LoadMUS(me_gameoverP.c_str());
+	se_gameover = Mix_LoadWAV(se_gameoverP.c_str());
 	if( ES_MouseClick == NULL )
 	{
 		printf( "Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError() );
