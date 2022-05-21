@@ -44,7 +44,7 @@ void clearSettings(){
     settingsElement["Ghost Piece"]=1;
 	settingsElement["Level"]=easy;
 	settingsElement["Sound Effects"]=1;
-	settingsElement["Music Volume"]=100;
+	settingsElement["Music Volume"]=80;
 }
 
 void clearRankingScore(){

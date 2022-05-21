@@ -712,7 +712,7 @@ class UserSettings
             for (int i=0; i<settingElementsTotal; i++)
             {
                     setButton[i][0].setPosition(1070, 460+60*i);
-                    setButton[i][1].setPosition(1150, 460+60*i);
+                    setButton[i][1].setPosition(1270, 460+60*i);
             }
             for (int i=0; i<totalOfClearButton; i++)
             {
@@ -857,7 +857,7 @@ class UserSettings
                 tmp.loadFromRenderedText(it->first, CYAN_COLOR, fontVarino1, renderer);
                 tmp.render(renderer, 800, 460+jInd*60);
                 setButton[jInd][0].render(renderer, 1070, 460+jInd*60);
-                setButton[jInd][1].render(renderer, 1150, 460+jInd*60);
+                setButton[jInd][1].render(renderer, 1270, 460+jInd*60);
                 LTexture tmp2;
                 std::string content;
                 switch(jInd)
@@ -866,14 +866,14 @@ class UserSettings
                         switch(it->second)
                         {
                             case 0:
-                                content = "on";
+                                content = "off";
                                 break;
                             case 1:
-                                content = "off";
+                                content = "on";
                                 break;
                             default:
                                 std::cout << "Invalid Settings Value" << std::endl;
-                                exit(0);
+                                // exit(0);
                                 break;
                         }
                         break;
@@ -898,7 +898,7 @@ class UserSettings
                             break;
                         default:
                             std::cout << "Invalid Settings Value" << std::endl;
-                            exit(0);
+                            // exit(0);
                             break;
                         }
                         break;
@@ -907,14 +907,14 @@ class UserSettings
                         switch(it->second)
                         {
                             case 0:
-                                content = "on";
+                                content = "off";
                                 break;
                             case 1:
-                                content = "off";
+                                content = "on";
                                 break;
                             default:
                                 std::cout << "Invalid Settings Value" << std::endl;
-                                exit(0);
+                                // exit(0);
                                 break;
                         }
                         break;

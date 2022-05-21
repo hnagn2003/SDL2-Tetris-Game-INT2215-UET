@@ -144,7 +144,7 @@ void Game::loadmedia()
 	settingsElement.insert(std::make_pair("Ghost Piece", 1));
 	settingsElement.insert(std::make_pair("Level", easy));
 	settingsElement.insert(std::make_pair("Sound Effects", 1));
-	settingsElement.insert(std::make_pair("Music Volume", 100));
+	settingsElement.insert(std::make_pair("Music Volume", 80));
 
 
 

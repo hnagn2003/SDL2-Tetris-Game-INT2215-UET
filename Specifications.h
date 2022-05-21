@@ -16,7 +16,7 @@ const int ROWS = 20;
 const int HIDDEN_ROWS = 10;
 const int COLS = 10;
 const int SCREEN_WIDTH = 1920;
-const int SCREEN_HEIGHT = 800;
+const int SCREEN_HEIGHT = 1080;
 const int SCREEN_FPS = 60;
 const int SCREEN_TICK_PER_FRAME = 1000 / SCREEN_FPS;
 const int initVelocity = 1000;
@@ -516,10 +516,10 @@ const SDL_Color TetroColor[] = {
 
 
 enum LEVEL{
-    easy = 20,
-    hard = 15,
-    extremely_hard = 10,
-    super_ultra_hard = 5,
+    easy = 21,
+    hard = 16,
+    extremely_hard = 11,
+    super_ultra_hard = 6,
     asian = 1
 };
 void clearSettings();
