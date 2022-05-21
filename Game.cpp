@@ -126,12 +126,12 @@ void Game::loadmedia()
 	se_move = Mix_LoadWAV(se_moveP.c_str());
 	se_hold = Mix_LoadWAV(se_holdP.c_str());
 	se_drop = Mix_LoadWAV(se_dropP.c_str());
-	me_start = Mix_LoadWAV(se_startP.c_str());
+	me_start = Mix_LoadMUS(me_startP.c_str());
 	se_double = Mix_LoadWAV(se_doubleP.c_str());
 	se_pause = Mix_LoadWAV(se_pauseP.c_str());
 	se_rotate = Mix_LoadWAV(se_rotateP.c_str());
 	se_count = Mix_LoadWAV(se_countP.c_str());
-	me_gameover = Mix_LoadWAV(me_gameoverP.c_str());
+	me_gameover = Mix_LoadMUS(me_gameoverP.c_str());
 	if( ES_MouseClick == NULL )
 	{
 		printf( "Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError() );
@@ -238,6 +238,14 @@ void Game::playMusic()
 	switch (tabs)
 	{
 	case InGame_SoloMode:
+		if( Mix_PlayingMusic() == 0 && !gameState->isInCountDown() && gameState->getPlaying())
+		{
+			Mix_PlayMusic( playingSoundtrack, -1 );
+		}
+		if (gameState->getPause())
+		{
+			Mix_HaltMusic();
+		}
 		break;
 	case InGame_BattleMode:
 		break;

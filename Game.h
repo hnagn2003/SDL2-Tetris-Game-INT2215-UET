@@ -17,7 +17,7 @@
 #include <string>
 void renderText(long long text, SDL_Renderer* renderer, TTF_Font* gFont, int xCenter, int yCenter, SDL_Color textColor = WHITE_COLOR);
 class Game_State {
-    public:
+    private:
         bool playing;
         int lineCount;
         long long score;
@@ -109,6 +109,10 @@ class Game_State {
         void setInCountDown(bool iC)
         {
             inCountDown = iC;
+        }
+        bool isInCountDown()
+        {
+            return inCountDown;
         }
         void updateGameState(short int updateLines)
         {
@@ -239,26 +243,29 @@ class Game_State {
                                     
                                     break;
                                 case SDLK_LEFT: 
-                                    if (!pause)
+                                    if (!pause){
                                         currentTetrads->moveLeft(grid); 
                                         playSoundEffects(se_move);
+                                    }
                                     break;
                                 case SDLK_RIGHT: 
-                                    if (!pause)
+                                    if (!pause){
                                         currentTetrads->moveRight(grid); 
                                         playSoundEffects(se_move);
+                                    }
                                     break;
                                 case SDLK_SPACE:
-                                    if (!pause)
+                                    if (!pause){
                                         currentTetrads->dropDown(grid);
                                         playSoundEffects(se_drop);
+                                    }
                                     break;
                                 case SDLK_c:
                                     if (!pause)
                                     {
-                                        playSoundEffects(se_hold);
                                         if (holding == NULL)
                                         {
+                                            playSoundEffects(se_hold);
                                             holding = new Tetromino;
                                             *holding = Tetrads[currentTetrads->getType()];
                                             currentTetrads = next0Tetrads;
@@ -268,6 +275,7 @@ class Game_State {
                                         }else{
                                             if (!switchHold)
                                             {
+                                                playSoundEffects(se_hold);
                                                 int tmp = holding->getType();
                                                 *holding = Tetrads[currentTetrads->getType()];
                                                 *currentTetrads = Tetrads[tmp];
@@ -301,6 +309,7 @@ class Game_State {
                                         if ( !event.key.repeat && !pause )
                                         {
                                             currentTetrads->rotate(grid); 
+                                            playSoundEffects(se_rotate);
                                             break;
                                         }
                                     break;
@@ -309,21 +318,27 @@ class Game_State {
                                         if (currentTetrads->getStatus() && !pause)
                                         {
                                             currentTetrads->moveDown(grid); 
+                                            playSoundEffects(se_move);
                                         }
                                         
                                         break;
                                     case SDLK_a: 
-                                        if (!pause)
+                                        if (!pause){
                                             currentTetrads->moveLeft(grid); 
-                                        
+                                            playSoundEffects(se_move);
+                                        }
                                         break;
                                     case SDLK_d: 
-                                        if (!pause)
+                                        if (!pause){
                                             currentTetrads->moveRight(grid); 
+                                            playSoundEffects(se_move);
+                                        }
                                         break;
                                     case SDLK_SPACE:
-                                        if (!pause)
+                                        if (!pause){
                                             currentTetrads->dropDown(grid);
+                                            playSoundEffects(se_drop);
+                                        }
                                         
                                         break;
                                     case SDLK_c:
@@ -331,6 +346,7 @@ class Game_State {
                                         {
                                             if (holding == NULL)
                                             {
+                                                playSoundEffects(se_hold);
                                                 holding = new Tetromino;
                                                 *holding = Tetrads[currentTetrads->getType()];
                                                 currentTetrads = next0Tetrads;
@@ -342,6 +358,7 @@ class Game_State {
                                             {
                                                 if (!switchHold)
                                                 {
+                                                    playSoundEffects(se_hold);
                                                     int tmp = holding->getType();
                                                     *holding = Tetrads[currentTetrads->getType()];
                                                     *currentTetrads = Tetrads[tmp];
@@ -354,6 +371,7 @@ class Game_State {
                                         if(!pause)
                                         {
                                             pauseGame();
+                                            playSoundEffects(se_pause);
                                         }
                                         else
                                         {
@@ -370,6 +388,7 @@ class Game_State {
                                         if ( !event.key.repeat && !pause )
                                         {
                                             currentTetrads->rotate(grid); 
+                                            playSoundEffects(se_rotate);
                                             break;
                                         }
                                     break;
@@ -378,26 +397,31 @@ class Game_State {
                                         if (currentTetrads->getStatus() && !pause)
                                         {
                                             currentTetrads->moveDown(grid); 
+                                            playSoundEffects(se_move);
                                         }
                                         
                                         break;
                                     case SDLK_LEFT: 
                                         if (!pause)
-                                            currentTetrads->moveLeft(grid); 
+                                            currentTetrads->moveLeft(grid);
+                                            playSoundEffects(se_move);
                                         
                                         break;
                                     case SDLK_RIGHT: 
                                         if (!pause)
                                             currentTetrads->moveRight(grid); 
+                                            playSoundEffects(se_move);
                                         break;
                                     case SDLK_KP_ENTER:
                                         if (!pause)
                                             currentTetrads->dropDown(grid);
+                                            playSoundEffects(se_drop);
                                         
                                         break;
                                     case SDLK_KP_PLUS:
                                         if (!pause){
                                             if (holding == NULL){
+                                                playSoundEffects(se_hold);
                                                 holding = new Tetromino;
                                                 *holding = Tetrads[currentTetrads->getType()];
                                                 currentTetrads = next0Tetrads;
@@ -406,6 +430,7 @@ class Game_State {
                                                 next2Tetrads = getRandomTetrads();
                                             }else{
                                                 if (!switchHold){
+                                                    playSoundEffects(se_hold);
                                                     int tmp = holding->getType();
                                                     *holding = Tetrads[currentTetrads->getType()];
                                                     *currentTetrads = Tetrads[tmp];
@@ -417,6 +442,7 @@ class Game_State {
                                     case SDLK_p:
                                         if(!pause){
                                             pauseGame();
+                                            playSoundEffects(se_pause);
                                         }else{
                                             startCD();
                                         }
@@ -462,7 +488,7 @@ class Game_State {
                         timeC = SDL_GetTicks();
                         countDownTime --;
                         if (countDownTime == 0){
-                            playSoundEffects(me_start);
+							Mix_PlayMusic(me_start, 1);
                         }else{
                             playSoundEffects(se_count);
                         }
@@ -471,10 +497,6 @@ class Game_State {
                     currentTetrads->setPause(0);
                     pause = 0;
                     inCountDown = false;
-                    if( Mix_PlayingMusic() == 0 )
-                    {
-                        Mix_PlayMusic( playingSoundtrack, -1 );
-                    }
                 }
             }
         }
@@ -491,7 +513,6 @@ class Game_State {
                             holding->setCollinYInitTetrads(highestRow);
                         }
                     }
-                    
                     int filledRow = grid->update(currentTetrads->getYPos()+HIDDEN_ROWS, currentTetrads->getYPos()+currentTetrads->getHCol()+HIDDEN_ROWS);
                     lineCount+=filledRow;
                     updateGameState(filledRow);
@@ -506,7 +527,6 @@ class Game_State {
 
         bool gameOver(){
                 if (grid->getHighestRow(0, 0, COLS-1)<=delimitedLine+HIDDEN_ROWS){
-                    Mix_PlayMusic( me_gameover, -1 );
                     playing = 0;
                     return true;
                 }
@@ -524,7 +544,6 @@ class Game_State {
 			}
 			countDownHandle();
 			playing = 1;
-
 			newTetradsFalling();
 			updateFallingTetrads();
         }
