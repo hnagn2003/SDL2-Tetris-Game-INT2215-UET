@@ -10,20 +10,12 @@
 #include <iostream>
 #include <cstdlib>
 
-// struct block;
-// struct Box{
-//     int x, y;
-//     int width = TILE_SIZE;
-//     int height = TILE_SIZE;
-// };
 class Grid{
     private:
         int width = COLS*TILE_SIZE;
         int height = ROWS*TILE_SIZE;
         int xPos = (SCREEN_WIDTH - width) / 2;
         int yPos = (SCREEN_HEIGHT - height) / 2;
-        // Point center{xPos + width, yPos + height};
-        // mỗi 1 ô trên grid define = 1 block
         block matrix[ROWS+HIDDEN_ROWS][COLS];
     public:
         Grid();
@@ -41,41 +33,48 @@ class Grid{
         void render(SDL_Renderer *renderer, int gameMode);
         //kiểm tra 1 hàng có filled hay ko
         bool filledRow(int i){
-            for (int j = 0; j<COLS; j++){
-                if (matrix[i][j].exist==0){
+            for (int j = 0; j<COLS; j++)
+            {
+                if (matrix[i][j].exist==0)
+                {
                     return false;
                 }
             }
             return true;
         }
-        void deleteRow(int indexOfDeletedRow){
-            for (int i=indexOfDeletedRow; i>delimitedLine+HIDDEN_ROWS-2; i--){
-                for (int j=0; j<COLS; j++){
+        void deleteRow(int indexOfDeletedRow)
+        {
+            for (int i=indexOfDeletedRow; i>delimitedLine+HIDDEN_ROWS-2; i--)
+            {
+                for (int j=0; j<COLS; j++)
+                {
                     matrix[i][j].exist = matrix[i-1][j].exist;
                     matrix[i][j].type = matrix[i-1][j].type; //...
                 }
             }
-            // for (int j=0; j<COLS; j++){
-            //     matrix[0][j].exist = 0;
-            //     matrix[0][j].color = backgroundColor;
-            // }
-            
         }
         // kiểm tra sự tạo thành 1 hàng và xóa, return số hàng bị xóa
-        int update(int topRowCheck, int botRowCheck){
+        int update(int topRowCheck, int botRowCheck)
+        {
             int deletedRowCount = 0;
-            for (int i = topRowCheck; i<=botRowCheck; i++){
+            for (int i = topRowCheck; i<=botRowCheck; i++)
+            {
                 if (filledRow(i)){
                     deleteRow(i);
                     deletedRowCount++;
                 }
             }
+            playSoundEffects(se_lineCompleted[deletedRowCount-1]);
             return deletedRowCount;
         }
-        int getHighestRow(int startPoint, int leftLimit, int rightLimit){
-            for (int i=startPoint; i<ROWS+HIDDEN_ROWS; i++){
-                for (int j=leftLimit; j<=rightLimit; j++){
-                    if (matrix[i][j].exist){
+        int getHighestRow(int startPoint, int leftLimit, int rightLimit)
+        {
+            for (int i=startPoint; i<ROWS+HIDDEN_ROWS; i++)
+            {
+                for (int j=leftLimit; j<=rightLimit; j++)
+                {
+                    if (matrix[i][j].exist)
+                    {
                         return i;
                     }
                 }
