@@ -253,6 +253,14 @@ void Game::playMusic()
 		}
 		break;
 	case InGame_BattleMode:
+		if( Mix_PlayingMusic() == 0 && !battleProcessor->getGameState1()->isInCountDown() && battleProcessor->getGameState1()->getPlaying())
+		{
+			Mix_PlayMusic( playingSoundtrack, -1 );
+		}
+		if (battleProcessor->getGameState1()->getPause() && battleProcessor->getGameState1()->getPlaying())
+		{
+			Mix_HaltMusic();
+		}
 		break;
 	default:
 		if( Mix_PlayingMusic() == 0 ){

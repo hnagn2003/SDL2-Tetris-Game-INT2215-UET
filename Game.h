@@ -500,8 +500,10 @@ class Game_State {
                 }
             }
         }
-        void updateFallingTetrads(){
-            if (playing){
+        void updateFallingTetrads()
+        {
+            if (playing)
+            {
                 if (!currentTetrads->getStatus())
                 {
                     int highestRow = grid->getHighestRow(0, 0, COLS-1);
@@ -525,30 +527,32 @@ class Game_State {
             }
         }
 
-        bool gameOver(){
-                if (grid->getHighestRow(0, 0, COLS-1)<=delimitedLine+HIDDEN_ROWS){
+        bool gameOver()
+        {
+                if (grid->getHighestRow(0, 0, COLS-1)<=delimitedLine+HIDDEN_ROWS)
+                {
                     playing = 0;
-                //     if (!Mix_PlayingMusic()){
-                //     std::cout << "runned";
-                //     Mix_PlayMusic(me_gameover, 1);
-                // }
                     return true;
                 }
             return false;
         }
-        void update(){
+        void update(bool player2 = 0)
+        {
             isOver = gameOver();
             static bool gameOver_SE = true;
-            if (isOver){
+            if (isOver)
+            {
                 backButton->setPosition(1289, 569);
-                if (gameOver_SE){
+                if (gameOver_SE && !player2)
+                {
                     playSoundEffects(se_gameover);
                     gameOver_SE = false;
                 }
                 return;
             }
             gameOver_SE = true;
-            if (!playing){
+            if (!playing)
+            {
 				startCD();
 				pauseGame();
 			}
@@ -567,6 +571,7 @@ class BallteProcessor{
         bool isOver;
         int result;
     public:
+        
         BallteProcessor()
         {
             direct = InGame_BattleMode;
@@ -575,6 +580,10 @@ class BallteProcessor{
             battleEnded = new BattleEnded;
             isOver = 0;
             result = -1;
+        }
+        Game_State *getGameState1()
+        {
+            return gameStatePlayer1;
         }
         void reset()
         {
@@ -641,10 +650,12 @@ class BallteProcessor{
         void update()
         {
             isOver = gameOver();
-            std::thread x(std::bind(&Game_State::update, gameStatePlayer1));
-            std::thread y(std::bind(&Game_State::update, gameStatePlayer2));
-            x.join();
-            y.join();
+            // std::thread x(std::bind(&Game_State::update, gameStatePlayer1));
+            // std::thread y(std::bind(&Game_State::update, gameStatePlayer2));
+            // x.join();
+            // y.join();
+            gameStatePlayer1->update();
+            gameStatePlayer2->update(1);
         }
         void render(SDL_Renderer* renderer)
         {
@@ -700,24 +711,28 @@ class UserSettings
             direct = Settings;
             for (int i=0; i<settingElementsTotal; i++)
             {
-                    setButton[i][0].setPosition(1000, 460+60*i);
-                    setButton[i][1].setPosition(1300, 460+60*i);
+                    setButton[i][0].setPosition(1070, 460+60*i);
+                    setButton[i][1].setPosition(1150, 460+60*i);
             }
             for (int i=0; i<totalOfClearButton; i++)
             {
                 clearButton[i].setPosition(700 + 320*i, 700 ); //...
             }
         }
-        ~UserSettings(){
+        ~UserSettings()
+        {
 
         }
-        int getDirect(){
+        int getDirect()
+        {
             return direct;
         }
-        void resetDirect(){
+        void resetDirect()
+        {
             direct = Settings;  
         }
-        void initSettings(SDL_Renderer* renderer){
+        void initSettings(SDL_Renderer* renderer)
+        {
             static LTexture* leftPress = new LTexture(left_pressP, renderer);
             static LTexture* rightPress = new LTexture(right_pressP, renderer);
             static LTexture* leftPress_ = new LTexture(left_pressP_, renderer);
@@ -736,13 +751,15 @@ class UserSettings
                 clearButton[i].setTexture(clearButtonTex[i], clearButtonTex_[i]);
             }
         }
-        void handleOption(int option, int adjust){
+        void handleOption(int option, int adjust)
+        {
             switch (option)
             {
             case 1:
                 if (adjust == 1 && settingsElement["Level"] > asian){
                     settingsElement["Level"] -= 5;
-                    if (settingsElement["Level"] <= 0){
+                    if (settingsElement["Level"] <= 0)
+                    {
                         settingsElement["Level"] = 1;
                     }
                 }
@@ -751,10 +768,12 @@ class UserSettings
                 }
                 break;
             case 2:
-                if (adjust == 1){
+                if (adjust == 1)
+                {
                     settingsElement["Music Volume"] +=20;
                 }
-                if (adjust == 0){
+                if (adjust == 0)
+                {
                     settingsElement["Music Volume"] -=20;
                 }
                 if (settingsElement["Music Volume"] > 100){
@@ -794,31 +813,38 @@ class UserSettings
                 break;
             }
         }
-        void handleEvents(SDL_Event* e){
+        void handleEvents(SDL_Event* e)
+        {
             backButton->handleEvents(e, 1);
             if (backButton->getPressed()){
                 backButton->setPressed(0);
                 direct=Menu;
                 return;
             }
-            for (int i=0; i<settingElementsTotal; i++){
-                for (int j=0; j<2; j++){
+            for (int i=0; i<settingElementsTotal; i++)
+            {
+                for (int j=0; j<2; j++)
+                {
                     setButton[i][j].handleEvents(e);
-                    if (setButton[i][j].getPressed()){
+                    if (setButton[i][j].getPressed())
+                    {
                         setButton[i][j].setPressed(0);
                         handleOption(i, j);
                     }
                 }
             }
-            for (int i=0; i<totalOfClearButton; i++){
+            for (int i=0; i<totalOfClearButton; i++)
+            {
                 clearButton[i].handleEvents(e);
-                if (clearButton[i].getPressed()){
+                if (clearButton[i].getPressed())
+                {
                     handleOption(i+settingElementsTotal, 0);
                 }
             }
             direct = Settings;
         }
-        void update(){
+        void update()
+        {
             Mix_VolumeMusic(settingsElement["Music Volume"]);
         }
 
@@ -826,16 +852,79 @@ class UserSettings
             static LTexture tab_st(tabSettingsP, renderer);
             tab_st.render(renderer, 0, 0);
             int jInd = 0;
-            if (clearButton[0].getPressed()){
-            }
             for (auto it=settingsElement.begin(); it!=settingsElement.end(); it++){
                 LTexture tmp;
                 tmp.loadFromRenderedText(it->first, CYAN_COLOR, fontVarino1, renderer);
                 tmp.render(renderer, 800, 460+jInd*60);
-                setButton[jInd][0].render(renderer, 1000, 460+jInd*60);
-                setButton[jInd][1].render(renderer, 1300, 460+jInd*60);
+                setButton[jInd][0].render(renderer, 1070, 460+jInd*60);
+                setButton[jInd][1].render(renderer, 1150, 460+jInd*60);
                 LTexture tmp2;
-                tmp2.loadFromRenderedText(std::to_string(it->second), CYAN_COLOR, fontVarino1, renderer);
+                std::string content;
+                switch(jInd)
+                {
+                    case 0:
+                        switch(it->second)
+                        {
+                            case 0:
+                                content = "on";
+                                break;
+                            case 1:
+                                content = "off";
+                                break;
+                            default:
+                                std::cout << "Invalid Settings Value" << std::endl;
+                                exit(0);
+                                break;
+                        }
+                        break;
+
+                    case 1:
+                        switch (it->second)
+                        {
+                        case easy:
+                            content = "easy";
+                            break;
+                        case hard:
+                            content = "hard";
+                            break;
+                        case extremely_hard:
+                            content = "super hard";
+                            break;
+                        case super_ultra_hard:
+                            content = "ultra hard";
+                            break;
+                        case asian:
+                            content = "asian";
+                            break;
+                        default:
+                            std::cout << "Invalid Settings Value" << std::endl;
+                            exit(0);
+                            break;
+                        }
+                        break;
+
+                    case 3:
+                        switch(it->second)
+                        {
+                            case 0:
+                                content = "on";
+                                break;
+                            case 1:
+                                content = "off";
+                                break;
+                            default:
+                                std::cout << "Invalid Settings Value" << std::endl;
+                                exit(0);
+                                break;
+                        }
+                        break;
+
+                    default:
+                        content = std::to_string(it->second);
+                        break;
+
+                }
+                tmp2.loadFromRenderedText(content, CYAN_COLOR, fontVarino1, renderer);
                 tmp2.render(renderer, 1100, 460+jInd*60);
                 jInd++;
             }
