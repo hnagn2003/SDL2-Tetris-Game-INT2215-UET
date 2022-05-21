@@ -488,7 +488,7 @@ class Game_State {
                         timeC = SDL_GetTicks();
                         countDownTime --;
                         if (countDownTime == 0){
-							Mix_PlayMusic(me_start, 1);
+							playSoundEffects(se_start);
                         }else{
                             playSoundEffects(se_count);
                         }
