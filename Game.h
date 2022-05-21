@@ -244,14 +244,22 @@ class Game_State {
                                     break;
                                 case SDLK_LEFT: 
                                     if (!pause){
+                                        int tmp_leftPos = currentTetrads->getXCol();
                                         currentTetrads->moveLeft(grid); 
-                                        playSoundEffects(se_move);
+                                        if (tmp_leftPos != currentTetrads->getXCol())
+                                        {
+                                            playSoundEffects(se_move);
+                                        }
                                     }
                                     break;
                                 case SDLK_RIGHT: 
                                     if (!pause){
+                                        int tmp_rightPos = currentTetrads->getXCol();
                                         currentTetrads->moveRight(grid); 
-                                        playSoundEffects(se_move);
+                                        if (tmp_rightPos != currentTetrads->getXCol())
+                                        {
+                                            playSoundEffects(se_move);
+                                        }
                                     }
                                     break;
                                 case SDLK_SPACE:
@@ -324,14 +332,22 @@ class Game_State {
                                         break;
                                     case SDLK_a: 
                                         if (!pause){
+                                            int tmp_leftPos = currentTetrads->getXCol();
                                             currentTetrads->moveLeft(grid); 
-                                            playSoundEffects(se_move);
+                                            if (tmp_leftPos != currentTetrads->getXCol())
+                                            {
+                                                playSoundEffects(se_move);
+                                            }
                                         }
                                         break;
                                     case SDLK_d: 
                                         if (!pause){
+                                            int tmp_rightPos = currentTetrads->getXCol();
                                             currentTetrads->moveRight(grid); 
-                                            playSoundEffects(se_move);
+                                            if (tmp_rightPos != currentTetrads->getXCol())
+                                            {
+                                                playSoundEffects(se_move);
+                                            }
                                         }
                                         break;
                                     case SDLK_SPACE:
@@ -402,16 +418,27 @@ class Game_State {
                                         
                                         break;
                                     case SDLK_LEFT: 
-                                        if (!pause)
-                                            currentTetrads->moveLeft(grid);
-                                            playSoundEffects(se_move);
-                                        
+                                        if (!pause){
+                                            int tmp_leftPos = currentTetrads->getXCol();
+                                            currentTetrads->moveLeft(grid); 
+                                            if (tmp_leftPos != currentTetrads->getXCol())
+                                            {
+                                                playSoundEffects(se_move);
+                                            }
+                                        }
                                         break;
+
                                     case SDLK_RIGHT: 
-                                        if (!pause)
+                                        if (!pause){
+                                            int tmp_rightPos = currentTetrads->getXCol();
                                             currentTetrads->moveRight(grid); 
-                                            playSoundEffects(se_move);
+                                            if (tmp_rightPos != currentTetrads->getXCol())
+                                            {
+                                                playSoundEffects(se_move);
+                                            }
+                                        }
                                         break;
+
                                     case SDLK_KP_ENTER:
                                         if (!pause)
                                             currentTetrads->dropDown(grid);
@@ -536,14 +563,14 @@ class Game_State {
                 }
             return false;
         }
-        void update(bool player2 = 0)
+        void update(bool gameMode = 0, bool player2 = 0)
         {
             isOver = gameOver();
             static bool gameOver_SE = true;
             if (isOver)
             {
                 backButton->setPosition(1289, 569);
-                if (gameOver_SE && !player2)
+                if (gameOver_SE && !gameMode)
                 {
                     playSoundEffects(se_gameover);
                     gameOver_SE = false;
@@ -635,7 +662,10 @@ class BallteProcessor{
                     }
                 default: break;
             }
-            gameStatePlayer1->handleEvent(event, 1);
+            std::thread x(&Game_State::handleEvent, gameStatePlayer1, event, 1, 0);
+            std::thread y(&Game_State::handleEvent, gameStatePlayer2, event, 1, 1);
+            x.join();
+            y.join();
             direct = gameStatePlayer1->getDirect();
             if (direct == InGame_SoloMode)
             {
@@ -645,17 +675,26 @@ class BallteProcessor{
                 *gameStatePlayer1 = Game_State();
                 *gameStatePlayer2 = Game_State();
             }
-            gameStatePlayer2->handleEvent(event, 1, 1);
         }
         void update()
         {
             isOver = gameOver();
-            // std::thread x(std::bind(&Game_State::update, gameStatePlayer1));
-            // std::thread y(std::bind(&Game_State::update, gameStatePlayer2));
+            // std::thread x(&Game_State::update, gameStatePlayer1, 0);
+            // std::thread y(&Game_State::update, gameStatePlayer2, 1);
             // x.join();
             // y.join();
-            gameStatePlayer1->update();
-            gameStatePlayer2->update(1);
+            gameStatePlayer1->update(1);
+            gameStatePlayer2->update(1, 1);
+            static bool battleOver_SE = true;
+            if (isOver)
+            {
+                if (battleOver_SE){
+                    playSoundEffects(se_gameover);
+                    battleOver_SE = false;
+                }
+                return;
+            }
+            battleOver_SE = true;
         }
         void render(SDL_Renderer* renderer)
         {
@@ -674,10 +713,12 @@ class BallteProcessor{
                 if (P1Score > P2Score)
                 {
                     result = 1;
-                }else if (P1Score < P2Score)
+                }
+                else if (P1Score < P2Score)
                 {
                     result = 2;
-                }else
+                }
+                else
                 {
                     result = 0;
                 }
@@ -928,11 +969,23 @@ class UserSettings
                 tmp2.render(renderer, 1100, 460+jInd*60);
                 jInd++;
             }
-            for (int i=0; i<totalOfClearButton; i++){
+            for (int i=0; i<totalOfClearButton; i++)
+            {
                 clearButton[i].render(renderer, clearButton[i].getXPos(), clearButton[i].getYPos());
             }
             backButton->render(renderer, backButton->getXCen()-backButton->getWidth()/2, backButton->getYCen()-backButton->getHeight()/2);
-
+            static Uint32 flag = 0;
+            static LTexture clearedText("Clear Ranking Score Successful!", CYAN_COLOR, fontVarino1, renderer);
+            if (clearButton[0].getPressed())
+            {
+                flag = SDL_GetTicks();
+            }
+            if (SDL_GetTicks() - flag <= 1000)
+            {
+                clearedText.render(renderer, 800, 500);
+                return;
+            }
+            flag = 0;
         }
 };
 class Game {

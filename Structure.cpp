@@ -23,7 +23,13 @@ LTexture::LTexture(std::string path, SDL_Renderer* gRenderer)
 // {
 // 	free();
 // }
-
+LTexture::LTexture (std::string textureText, SDL_Color textColor, TTF_Font* gFont1, SDL_Renderer* gRenderer )
+{
+	mTexture = NULL;
+	mWidth = 0;
+	mHeight = 0;
+	loadFromRenderedText(textureText, textColor, gFont1, gRenderer);
+}
 bool LTexture::loadFromFile( std::string path, SDL_Renderer* gRenderer)
 {
 	free();
