@@ -11,7 +11,8 @@ TTF_Font* fontStar_40 = NULL;
 TTF_Font* fontStar_50 = NULL;
 std::vector<int> highestScore;
 std::map<std::string, int> settingsElement;
-
+LButton* backButton;
+LButton* replayButton;
 Game::Game()
 {
 	gameState = new Game_State;
@@ -99,7 +100,6 @@ void Game::loadmedia()
 	tabs_menu.setUpMenu(renderer);
 	helpsAndCredit->setUp(renderer);
 	userSettings->initSettings(renderer); 
-
 	loadGameButtons(renderer);
 	playingSoundtrack = Mix_LoadMUS( "assets/Musics/playing.mp3" );
 	themeSoundtrack = Mix_LoadMUS( "assets/Musics/backgroundMusic.mp3" );

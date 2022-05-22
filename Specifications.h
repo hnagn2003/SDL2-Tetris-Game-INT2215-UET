@@ -15,8 +15,6 @@ bool updateScoreTable(int score);
 void printScoreTable(SDL_Renderer *renderer, int x, int y);
 void renderText(long long text, SDL_Renderer* renderer, TTF_Font* gFont, int xCenter, int yCenter, SDL_Color textColor = WHITE_COLOR);
 
-
-
 class GameOverAnnouncement
 {
     public:

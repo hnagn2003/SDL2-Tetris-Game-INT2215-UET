@@ -255,6 +255,6 @@ class LButton
         }
 
 };
-static LButton* backButton = new LButton;
-static LButton* replayButton = new LButton;
+extern LButton* backButton;
+extern LButton* replayButton;
 #endif

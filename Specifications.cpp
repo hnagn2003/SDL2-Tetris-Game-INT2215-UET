@@ -7,7 +7,8 @@
 #include "Specifications.h"
 // #include <cstdlib>
 // #include <vector>
-
+// LButton* backButton;
+// LButton* replayButton;
 int gridSizeToRendererSize(int w)
 {
 return w*TILE_SIZE;
@@ -78,7 +79,9 @@ void loadGameFonts(){
 }
 
 void loadGameButtons(SDL_Renderer* renderer){
-    LTexture* backButtonTex = new LTexture;
+    backButton = new LButton;
+	replayButton = new LButton;
+	LTexture* backButtonTex = new LTexture;
 	LTexture* backButtonTex_ = new LTexture;
 	backButtonTex->loadFromFile(back_button, renderer);
     backButtonTex_->loadFromFile(back_button_, renderer);
