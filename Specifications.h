@@ -78,7 +78,7 @@ int gridSizeToRendererSize(int w);
 int gridXPosToRendererPos(int x);
 int gridYPosToRendererPos(int y);
 
-
+void loadGameFonts();
 
 
 #endif

@@ -7,6 +7,7 @@
 #include "Specifications.h"
 // #include <cstdlib>
 // #include <vector>
+
 int gridSizeToRendererSize(int w)
 {
 return w*TILE_SIZE;
@@ -67,4 +68,14 @@ void renderText(long long text, SDL_Renderer* renderer, TTF_Font* gFont, int xPo
     ssText << text;
     textTexture.loadFromRenderedText(ssText.str().c_str(), textColor, gFont, renderer);
     textTexture.render(renderer, xPos-textTexture.getWidth()/2, yPos-textTexture.getHeight()/2);
+}
+// TTF_Font* gFont1;
+// TTF_Font* fontVarino1;
+// TTF_Font* fontStar_40;
+// TTF_Font* fontStar_50;
+void loadGameFonts(){
+    gFont1 = TTF_OpenFont(fo_northStarP.c_str() , 24 );
+	fontVarino1 = TTF_OpenFont(fo_Varino1P.c_str(), 20);
+	fontStar_40 = TTF_OpenFont(fo_northStarP.c_str(), 40);
+	fontStar_50 = TTF_OpenFont(fo_northStarP.c_str(), 50);
 }
