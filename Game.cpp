@@ -39,7 +39,11 @@ Game::Game()
 
 Game::~Game()
 {
-    
+    delete gameState;
+	delete battleProcessor;
+	delete gFPS_Processor;
+	delete helpsAndCredit;
+	delete userSettings;
 }
 
 void Game::init(const char* title, int xPos, int yPos, int SCREEN_WIDTH, int SCREEN_HEIGHT, bool fullscreen)

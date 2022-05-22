@@ -2,14 +2,8 @@
 #ifndef Grid_h
 #define Grid_h
 
-// #include <SDL.h>
-// #include <stdio.h>
-// #include <SDL_image.h>
-// #include "Tetromino.h"
-// #include "Game.h"
 #include "Specifications.h"
-// #include <iostream>
-// #include <cstdlib>
+
 class block
 {
     public:
@@ -21,6 +15,7 @@ class block
         {
             exist = false;
         }
+        ~block(){}
         block(int x, int y, int _type, int realCoordinates = 0)
         {
             if (realCoordinates)

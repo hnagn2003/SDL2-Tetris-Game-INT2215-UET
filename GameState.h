@@ -52,6 +52,16 @@ class Game_State
             difficulty = easy; //...
 
         }
+        ~Game_State()
+        {
+            delete holding;
+            delete currentTetrads;
+            delete next0Tetrads;
+            delete next1Tetrads;
+            delete next2Tetrads;
+            delete grid;
+            delete gameOverAnnouncement;
+        }
         Tabs getDirect()
         {
             return direct;
