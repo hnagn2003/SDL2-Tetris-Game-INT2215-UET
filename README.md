@@ -11,11 +11,15 @@
 
 
 ## 2. Mô tả chung <br />
+
 Tetris hay Xếp Hình (1984), trò chơi có 7 loại Khối Hình (Tetromino) I (thẳng đứng), J, L, O (vuông), S, T, Z ứng với 7 màu khác nhau. <br />
+### Về Game Mechanics <br />
 Mỗi Khối Hình được cấu tạo từ 4 khối gạch vuông (Block). Các Khối Hình có thể xoay được các góc 90, 180, 270 độ. <br />
 Mục tiêu của trò chơi là di chuyển các khối gạch đang rơi từ từ xuống trong kích thước hình chữ nhật 20 hàng x 10 cột (trên màn hình).  <br />
 Chỗ nào có gạch rồi thì không di chuyển được tới vị trí đó. <br />
-Người chơi xếp những khối hình sao cho khối hình lấp đầy 1 hàng ngang để ghi điểm và hàng ngang ấy sẽ biến mất. <br />
+Người chơi xếp những khối hình sao cho khối hình lấp đầy 1 hàng ngang để ghi điểm và hàng ngang ấy sẽ biến mất và người chơi sẽ ghi điểm. <br />
+Người chơi thua cuộc khi Khối Hình tràn ra trên 2 dòng khỏi Grid (Lưới). <br />
+
 Chi tiết tại mục Help trong Game <br />
 ![image](https://user-images.githubusercontent.com/94885088/169710203-0dca5817-3242-460e-8323-bc12a4390d6a.png)
 
@@ -25,8 +29,7 @@ Chi tiết tại mục Help trong Game <br />
 Chức năng cơ bản nhất của game. Chơi như trên mô tả, cách chơi cụ thể ở hình minh họa dưới mục "Chức năng Help" ^^. <br />
 ![image](https://user-images.githubusercontent.com/94885088/169710259-a1b0b66c-3d18-4c8a-b8d8-9fc094dfe1da.png)
 <br />
-Người chơi thua cuộc khi Khối Hình tràn ra trên 2 dòng khỏi Grid (Lưới).
-Khi đó sẽ xuất hiện 1 bảng tổng sắp cho biết điểm số của người chơi và các kỷ lục trước<br />
+Khi người chơi thua sẽ xuất hiện 1 bảng tổng sắp cho biết điểm số của người chơi và các kỷ lục trước<br />
 ![image](https://user-images.githubusercontent.com/94885088/169710488-80d9d7a1-f174-4aae-bcf7-97565e011809.png)
 Người chơi có thể bấm nút Replay để chơi lại hoặc Return để quay lại màn hình chính.
 ### 2. Chức năng Battle <br />
