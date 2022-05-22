@@ -224,7 +224,7 @@ class LButton
                             motionMouse = 1;
                             break;
                         case SDL_MOUSEBUTTONDOWN:
-                            playSoundEffects(ES_MouseClick);
+                            playSoundEffects(se_mouseClick);
                             motionMouse = 1;
                             pressed = 1;
                             break;

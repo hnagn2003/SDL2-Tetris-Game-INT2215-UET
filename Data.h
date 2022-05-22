@@ -75,8 +75,9 @@ const std::string clearHighestScoreP_ = "assets/Pictures/clear_highest_score_.pn
 const std::string clearSettingsP_ = "assets/Pictures/clear_settings_.png";
 const std::string fo_Varino1P = "font/VarinonormalRegular-nRYg4.otf";
 const std::string fo_northStarP = "font/Northstar3D-4D3x.otf";
-
-const std::string ES_MouseClickP = "assets/Sounds/MouseClick.wav";
+const std::string me_playingP = "assets/Musics/playing.mp3";
+const std::string me_themeP = "assets/Musics/backgroundMusic.mp3";
+const std::string se_mouseClickP = "assets/Sounds/MouseClick.wav";
 const std::string se_moveP = "assets/Sounds/se_game_move.wav";
 const std::string se_holdP = "assets/Sounds/se_game_hold.wav";
 const std::string se_dropP = "assets/Sounds/se_game_harddrop.wav";
@@ -90,7 +91,7 @@ const std::string se_gameoverP = "assets/Sounds/me_game_gameover.wav";
 const std::string se_lineCompletedP[] = {"assets/Sounds/se_game_single.wav", "assets/Sounds/se_game_double.wav", "assets/Sounds/se_game_triple.wav", "assets/Sounds/se_game_tetris.wav"};
 extern Mix_Music* me_playing;
 extern Mix_Music* me_theme;
-extern Mix_Chunk* ES_MouseClick;
+extern Mix_Chunk* se_mouseClick;
 extern Mix_Chunk* se_move;
 extern Mix_Chunk* se_hold;
 extern Mix_Chunk* se_drop;

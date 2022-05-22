@@ -95,9 +95,9 @@ void loadGameButtons(SDL_Renderer* renderer){
 }
 
 void loadGameMusicAndSound(){
-    me_playing = Mix_LoadMUS( "assets/Musics/playing.mp3" );
-	me_theme = Mix_LoadMUS( "assets/Musics/backgroundMusic.mp3" );
-	ES_MouseClick = Mix_LoadWAV(ES_MouseClickP.c_str());
+    me_playing = Mix_LoadMUS( me_playingP.c_str() );
+	me_theme = Mix_LoadMUS( me_themeP.c_str() );
+	se_mouseClick = Mix_LoadWAV(se_mouseClickP.c_str());
 	se_move = Mix_LoadWAV(se_moveP.c_str());
 	se_hold = Mix_LoadWAV(se_holdP.c_str());
 	se_drop = Mix_LoadWAV(se_dropP.c_str());

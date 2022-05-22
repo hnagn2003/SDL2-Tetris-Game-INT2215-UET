@@ -15,7 +15,7 @@ LButton* backButton;
 LButton* replayButton;
 Mix_Music* me_playing;
 Mix_Music* me_theme;
-Mix_Chunk* ES_MouseClick;
+Mix_Chunk* se_mouseClick;
 Mix_Chunk* se_move;
 Mix_Chunk* se_hold;
 Mix_Chunk* se_drop;
