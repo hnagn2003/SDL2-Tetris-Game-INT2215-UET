@@ -66,7 +66,7 @@ class BattleEnded
             }
             //render score
             renderText(std::to_string(p2Score), renderer, fontStar_40, 425, 780, WHITE_COLOR);
-            renderText(std::to_string(p1Score), renderer, fontStar_50, 1543, 780, WHITE_COLOR);
+            renderText(std::to_string(p1Score), renderer, fontStar_40, 1543, 780, WHITE_COLOR);
         }
 };
 
@@ -88,6 +88,10 @@ class BallteProcessor{
             battleEnded = new BattleEnded;
             isOver = 0;
             result = NONE;
+        }
+        ~BallteProcessor()
+        {
+            
         }
         Game_State *getGameState1()
         {

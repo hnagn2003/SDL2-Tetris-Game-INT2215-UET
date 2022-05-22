@@ -281,6 +281,19 @@ void Game::render()
 
 void Game::clean()
 {
+	Mix_FreeMusic (me_playing);
+	Mix_FreeMusic (me_theme);
+	Mix_FreeChunk (se_mouseClick);
+	Mix_FreeChunk (se_move);
+	Mix_FreeChunk (se_hold);
+	Mix_FreeChunk (se_drop);
+	Mix_FreeChunk (se_start);
+	Mix_FreeChunk (se_double);
+	Mix_FreeChunk (se_pause);
+	Mix_FreeChunk (se_rotate);
+	Mix_FreeChunk (se_count);
+	Mix_FreeMusic (me_gameover);
+	Mix_FreeChunk (se_gameover);
 	SDL_RWops* settingsFile = SDL_RWFromFile("settings/settings.bin", "w+b");
 	for (auto it = settingsElement.begin(); it!=settingsElement.end(); it++){
 		SDL_RWwrite(settingsFile, &(it->second), sizeof(int), 1);			
@@ -299,5 +312,6 @@ void Game::clean()
 	renderer = NULL;
 	TTF_Quit();
 	IMG_Quit();
+	Mix_Quit();
 	SDL_Quit();
 }
