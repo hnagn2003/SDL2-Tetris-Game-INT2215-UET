@@ -124,6 +124,14 @@ enum GameMode {
     SinglePlay,
     Player2
 };
+enum LEVEL
+{
+    easy = 21,
+    hard = 16,
+    extremely_hard = 11,
+    super_ultra_hard = 6,
+    asian = 1
+};
 void playSoundEffects(Mix_Chunk* chunk, int loop = 0, int channel = -1);
 
 
