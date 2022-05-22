@@ -150,7 +150,7 @@ class Game_State {
             {
                 currentTetrads->renderGhostPiece(renderer, grid);
             }
-            if (gameMode!=-1)
+            if (gameMode!=-1 && pause && playing)
             {
                 static LTexture pressPTex;
                 pressPTex.loadFromRenderedText("Press P to pause/continue the game", DARK_CYAN_COLOR, fontVarino1, renderer);
@@ -889,11 +889,13 @@ class UserSettings
             Mix_VolumeMusic(settingsElement["Music Volume"]);
         }
 
-        void render(SDL_Renderer* renderer){
+        void render(SDL_Renderer* renderer)
+        {
             static LTexture tab_st(tabSettingsP, renderer);
             tab_st.render(renderer, 0, 0);
             int jInd = 0;
-            for (auto it=settingsElement.begin(); it!=settingsElement.end(); it++){
+            for (auto it=settingsElement.begin(); it!=settingsElement.end(); it++)
+            {
                 LTexture tmp;
                 tmp.loadFromRenderedText(it->first, CYAN_COLOR, fontVarino1, renderer);
                 tmp.render(renderer, 800, 460+jInd*60);
@@ -975,14 +977,14 @@ class UserSettings
             }
             backButton->render(renderer, backButton->getXCen()-backButton->getWidth()/2, backButton->getYCen()-backButton->getHeight()/2);
             static Uint32 flag = 0;
-            static LTexture clearedText("Clear Ranking Score Successful!", CYAN_COLOR, fontVarino1, renderer);
+            static LTexture clearedText("Data is cleared!", CYAN_COLOR, fontVarino1, renderer);
             if (clearButton[0].getPressed())
             {
                 flag = SDL_GetTicks();
             }
             if (SDL_GetTicks() - flag <= 1000)
             {
-                clearedText.render(renderer, 800, 500);
+                clearedText.render(renderer, 730, 780);
                 return;
             }
             flag = 0;
