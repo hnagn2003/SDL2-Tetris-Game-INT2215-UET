@@ -17,7 +17,7 @@ void transPos(bool matrix[sizeOfTetradsSide][sizeOfTetradsSide]);
 
 class Tetromino{
     private:
-        int type;
+        TetroType type;
         SDL_Color color;
         // xPos, yPos tọa độ x, y chiếu trong bảng grid
         int xPos, yPos;
@@ -37,7 +37,7 @@ class Tetromino{
             pause = 0;
             startTime = 0;
         }
-        Tetromino (int _type, SDL_Color _color, bool _matrix[sizeOfTetradsSide][sizeOfTetradsSide], int _w, int _h, int _x, int _y, int _xPos = xTetradsInit, int _yPos = yTetradsInit)
+        Tetromino (TetroType _type, SDL_Color _color, bool _matrix[sizeOfTetradsSide][sizeOfTetradsSide], int _w, int _h, int _x, int _y, int _xPos = xTetradsInit, int _yPos = yTetradsInit)
         {
             type = _type;
             active = true;
@@ -63,7 +63,7 @@ class Tetromino{
             }
             detectCoveredRect();
         }
-        int getType(){
+        TetroType getType(){
             return type;
         }
         bool getStatus(){

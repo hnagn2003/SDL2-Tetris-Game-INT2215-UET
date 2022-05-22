@@ -24,7 +24,7 @@ class Game_State
         long long score;
         int level;
         int velocity;
-        int hardLevel;
+        LEVEL difficulty;
         bool switchHold;
         bool pause;
         int countDownTime;
@@ -63,7 +63,7 @@ class Game_State
             currentTetrads = getRandomTetrads();
             gameOverAnnouncement = new GameOverAnnouncement;
             grid = new Grid;
-            hardLevel = easy; //...
+            difficulty = easy; //...
 
         }
         Tabs getDirect()
@@ -118,7 +118,7 @@ class Game_State
         void updateGameState(short int updateLines)
         {
             score += updateLines * level;
-            level = lineCount/hardLevel+1;
+            level = lineCount/(int)difficulty+1;
             velocity = 1000/level;
         }
         void setRecord(bool set)
@@ -194,11 +194,11 @@ class Game_State
             next2Tetrads = getRandomTetrads();
             currentTetrads = getRandomTetrads();
             grid = new Grid;
-            hardLevel = settingsElement["Level"]; //...
+            difficulty = (LEVEL)settingsElement["Level"]; //...
         }
-        void handleEvent(SDL_Event event, bool battleMode = 0, bool player2 = 0)
+        void handleEvent(SDL_Event event, GameMode gameMode = SinglePlay)
         {
-            if (isOver && !battleMode){
+            if (isOver && gameMode == SinglePlay){
                 if (gameOverAnnouncement->handleEvents(&event))
                 {
                     reset();
@@ -207,7 +207,7 @@ class Game_State
 
                 return;
             }
-            if (!player2){
+            if (gameMode == Player1){
                 backButton->handleEvents(&event, 1);
                 if (backButton->getPressed())
                 {
@@ -223,7 +223,7 @@ class Game_State
                 switch (event.type)
                 {   
                     case SDL_KEYDOWN:
-                        if (!battleMode){
+                        if (gameMode == SinglePlay){
                             switch( event.key.keysym.sym )
                             {   
                                 case SDLK_UP: 
@@ -310,7 +310,7 @@ class Game_State
                         }
                         else
                         {
-                            if (!player2)
+                            if (gameMode == Player2)
                             {
                                 switch( event.key.keysym.sym )
                                 {   
@@ -663,8 +663,8 @@ class BallteProcessor{
                     }
                 default: break;
             }
-            std::thread x(&Game_State::handleEvent, gameStatePlayer1, event, 1, 0);
-            std::thread y(&Game_State::handleEvent, gameStatePlayer2, event, 1, 1);
+            std::thread x(&Game_State::handleEvent, gameStatePlayer1, event, Player1);
+            std::thread y(&Game_State::handleEvent, gameStatePlayer2, event, Player2);
             x.join();
             y.join();
             direct = gameStatePlayer1->getDirect();

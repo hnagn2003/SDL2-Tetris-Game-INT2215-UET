@@ -408,7 +408,7 @@ enum HelpsInlineTabs{
 };
 class HelpsAndCredit{
     private: 
-        int inlineTab;
+        HelpsInlineTabs inlineTab;
         Tabs direct;
         LButton helpsButton, aboutButton, copyrightButton;
     public:
@@ -497,7 +497,7 @@ class HelpsAndCredit{
             }
 };
 
-enum Shapes{
+enum TetroType{
     I_BLOCK,
     L_BLOCK,
     J_BLOCK,
