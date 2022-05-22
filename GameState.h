@@ -125,9 +125,7 @@ class Game_State
             
             if (gameMode!=Player1 && pause && playing)
             {
-                static LTexture pressPTex;
-                pressPTex.loadFromRenderedText("Press P to pause/continue the game", DARK_CYAN_COLOR, fontVarino1, renderer);
-                pressPTex.render(renderer, (SCREEN_WIDTH - pressPTex.getWidth())/2, 100);
+                renderText("Press P to pause/continue the game", renderer, fontVarino1, SCREEN_WIDTH/2, 110, CYAN_COLOR);
             }
             backButton->render(renderer, backButton->getXCen()-backButton->getWidth()/2, backButton->getYCen()-backButton->getHeight()/2);
             renderOver(renderer, gameMode);
@@ -157,9 +155,7 @@ class Game_State
             if (isOver && gameMode==SinglePlay)
             {
                 gameOverAnnouncement->render(renderer);
-                LTexture printScore;
-                printScore.loadFromRenderedText(std::to_string(score), BLACK_COLOR, gFont1, renderer);
-                printScore.render(renderer, 914, 236);
+                renderText(std::to_string(score), renderer, fontStar_50, 920, 250, BLACK_COLOR);
             } 
         }
 
