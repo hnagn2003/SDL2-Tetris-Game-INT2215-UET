@@ -41,7 +41,7 @@ class BattleEnded
             direct = InGame_BattleMode; 
             return false;
         }
-        void render(SDL_Renderer* renderer, Result result)
+        void render(SDL_Renderer* renderer, Result result, int p1Score, int p2Score)
         {
             static LTexture battle_endTex(battle_endedP, renderer);
             battle_endTex.render(renderer, 0, 0);
@@ -64,6 +64,9 @@ class BattleEnded
             default:
                 break;
             }
+            //render score
+            renderText(std::to_string(p2Score), renderer, fontStar_40, 425, 780, WHITE_COLOR);
+            renderText(std::to_string(p1Score), renderer, fontStar_50, 1543, 780, WHITE_COLOR);
         }
 };
 
@@ -178,8 +181,9 @@ class BallteProcessor{
         {
             gameStatePlayer1->render(renderer, Player1);
             gameStatePlayer2->render(renderer, Player2);
+            long long P1Score = gameStatePlayer1->getScore(), P2Score = gameStatePlayer2->getScore();
             if (isOver){
-                battleEnded->render(renderer, result);
+                battleEnded->render(renderer, result, P1Score, P2Score);
             }
         }
         bool gameOver()

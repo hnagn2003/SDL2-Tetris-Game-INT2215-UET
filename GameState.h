@@ -288,6 +288,7 @@ class Game_State
                 case SDLK_SPACE:
                     if (!pause){
                         currentTetrads->dropDown(grid);
+                        score++;
                         playSoundEffects(se_drop);
                     }
                     break;
@@ -364,6 +365,7 @@ class Game_State
                 case SDLK_SPACE:
                     if (!pause){
                         currentTetrads->dropDown(grid);
+                        score++;
                         playSoundEffects(se_drop);
                     }
                     
@@ -445,6 +447,7 @@ class Game_State
                 case SDLK_KP_ENTER:
                     if (!pause)
                         currentTetrads->dropDown(grid);
+                        score++;
                         playSoundEffects(se_drop);
                     
                     break;
