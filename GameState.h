@@ -195,6 +195,7 @@ class Game_State
             next1Tetrads = getRandomTetrads();
             next2Tetrads = getRandomTetrads();
             currentTetrads = getRandomTetrads();
+            holding = NULL;
             grid = new Grid;
             difficulty = (LEVEL)settingsElement["Level"]; //...
         }
