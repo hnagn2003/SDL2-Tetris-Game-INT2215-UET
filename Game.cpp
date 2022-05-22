@@ -13,6 +13,20 @@ std::vector<int> highestScore;
 std::map<std::string, int> settingsElement;
 LButton* backButton;
 LButton* replayButton;
+Mix_Music* playingSoundtrack;
+Mix_Music* themeSoundtrack;
+Mix_Chunk* ES_MouseClick;
+Mix_Chunk* se_move;
+Mix_Chunk* se_hold;
+Mix_Chunk* se_drop;
+Mix_Chunk* se_start;
+Mix_Chunk* se_double;
+Mix_Chunk* se_pause;
+Mix_Chunk* se_rotate;
+Mix_Chunk* se_count;
+Mix_Music* me_gameover;
+Mix_Chunk* se_gameover;
+Mix_Chunk* se_lineCompleted[4];
 Game::Game()
 {
 	gameState = new Game_State;
@@ -101,71 +115,8 @@ void Game::loadmedia()
 	helpsAndCredit->setUp(renderer);
 	userSettings->initSettings(renderer); 
 	loadGameButtons(renderer);
-	playingSoundtrack = Mix_LoadMUS( "assets/Musics/playing.mp3" );
-	themeSoundtrack = Mix_LoadMUS( "assets/Musics/backgroundMusic.mp3" );
-	ES_MouseClick = Mix_LoadWAV(ES_MouseClickP.c_str());
-	se_move = Mix_LoadWAV(se_moveP.c_str());
-	se_hold = Mix_LoadWAV(se_holdP.c_str());
-	se_drop = Mix_LoadWAV(se_dropP.c_str());
-	se_start = Mix_LoadWAV(se_startP.c_str());
-	se_double = Mix_LoadWAV(se_doubleP.c_str());
-	se_pause = Mix_LoadWAV(se_pauseP.c_str());
-	se_rotate = Mix_LoadWAV(se_rotateP.c_str());
-	se_count = Mix_LoadWAV(se_countP.c_str());
-	me_gameover = Mix_LoadMUS(me_gameoverP.c_str());
-	se_gameover = Mix_LoadWAV(se_gameoverP.c_str());
-	for (int i=0; i<4; i++)
-	{
-		se_lineCompleted[i] = Mix_LoadWAV(se_lineCompletedP[i].c_str());
-	}
-	if( ES_MouseClick == NULL )
-	{
-		printf( "Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError() );
-	}
-	settingsElement.insert(std::make_pair("Ghost Piece", 1));
-	settingsElement.insert(std::make_pair("Level", easy));
-	settingsElement.insert(std::make_pair("Sound Effects", 1));
-	settingsElement.insert(std::make_pair("Music Volume", 80));
-
-
-
-	SDL_RWops* settingsFile = SDL_RWFromFile("settings/settings.bin", "r+b");
-	if (settingsFile==NULL){
-		settingsFile = SDL_RWFromFile("settings/settings.bin", "w+b");
-		if (settingsFile!=NULL){
-			for (auto it = settingsElement.begin(); it!=settingsElement.end(); it++){
-				SDL_RWwrite(settingsFile, &(it->second), sizeof(int), 1);			
-			}
-			SDL_RWclose( settingsFile );
-		}else{
-			printf( "Error: Unable to create file! SDL Error: %s\n", SDL_GetError() );
-		}
-
-	}else{
-		for (auto it = settingsElement.begin(); it!=settingsElement.end(); it++){
-			SDL_RWread(settingsFile, &(it->second), sizeof(int), 1);
-		}
-		SDL_RWclose(settingsFile);
-	}
-
-	highestScore.insert(highestScore.end(), scoreMaxMem, 0);
-	SDL_RWops* highestScoreFile = SDL_RWFromFile("settings/scoreFile.bin", "r+b");
-	if (highestScoreFile==NULL){
-		highestScoreFile = SDL_RWFromFile("settings/scoreFile.bin", "w+b");
-		if (highestScoreFile!=NULL){
-			for (int i=0; i<scoreMaxMem; i++){
-				SDL_RWwrite(highestScoreFile, &(highestScore[i]), sizeof(int), 1);			
-			}
-			SDL_RWclose( highestScoreFile );
-		}else{
-			printf( "Error: Unable to create file! SDL Error: %s\n", SDL_GetError() );
-		}
-	}else{
-		for (int i=0; i<scoreMaxMem; i++){
-			SDL_RWread(highestScoreFile, &(highestScore[i]), sizeof(int), 1);
-		}
-		SDL_RWclose(highestScoreFile);
-	}
+	loadGameMusicAndSound();
+	loadGameSettings();
 }
 void Game::handleEvents()							
 {

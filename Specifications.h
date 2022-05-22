@@ -15,6 +15,18 @@ bool updateScoreTable(int score);
 void printScoreTable(SDL_Renderer *renderer, int x, int y);
 void renderText(long long text, SDL_Renderer* renderer, TTF_Font* gFont, int xCenter, int yCenter, SDL_Color textColor = WHITE_COLOR);
 
+
+void clearSettings();
+void clearRankingScore();
+
+// chuyển tọa độ trong grid về tọa độ thực (tọa độ render ra màn hình)
+int gridSizeToRendererSize(int w);
+int gridXPosToRendererPos(int x);
+int gridYPosToRendererPos(int y);
+
+void loadGameFonts();
+void loadGameButtons(SDL_Renderer* renderer);
+void loadGameMusicAndSound();
 class GameOverAnnouncement
 {
     public:
@@ -66,17 +78,5 @@ class GameOverAnnouncement
         }
 };
 
-
-
-void clearSettings();
-void clearRankingScore();
-
-// chuyển tọa độ trong grid về tọa độ thực (tọa độ render ra màn hình)
-int gridSizeToRendererSize(int w);
-int gridXPosToRendererPos(int x);
-int gridYPosToRendererPos(int y);
-
-void loadGameFonts();
-void loadGameButtons(SDL_Renderer* renderer);
-
+void loadGameSettings();
 #endif
