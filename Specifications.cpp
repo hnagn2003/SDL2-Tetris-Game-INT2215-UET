@@ -66,6 +66,7 @@ void renderText(std::string text, SDL_Renderer* renderer, TTF_Font* gFont, int x
     LTexture textTexture;
     textTexture.loadFromRenderedText(text, textColor, gFont, renderer);
     textTexture.render(renderer, xPos-textTexture.getWidth()/2, yPos-textTexture.getHeight()/2);
+	textTexture.free();
 }
 
 void loadGameFonts(){
@@ -89,6 +90,7 @@ void loadGameButtons(SDL_Renderer* renderer){
 	replayButtonTex->loadFromFile(play_again_button, renderer);
 	replayButtonTex_->loadFromFile(play_again_button_, renderer);
 	replayButton->setTexture(replayButtonTex, replayButtonTex_);
+
 }
 
 void loadGameMusicAndSound(){

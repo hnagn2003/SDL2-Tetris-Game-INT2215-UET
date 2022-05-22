@@ -294,6 +294,8 @@ void Game::clean()
 	Mix_FreeChunk (se_count);
 	Mix_FreeMusic (me_gameover);
 	Mix_FreeChunk (se_gameover);
+	delete backButton;
+	delete replayButton;
 	SDL_RWops* settingsFile = SDL_RWFromFile("settings/settings.bin", "w+b");
 	for (auto it = settingsElement.begin(); it!=settingsElement.end(); it++){
 		SDL_RWwrite(settingsFile, &(it->second), sizeof(int), 1);			
