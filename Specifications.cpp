@@ -2,8 +2,8 @@
 // #include <SDL_image.h>
 // #include <SDL.h>
 #include "Game.h"
-#include "Tetromino.h"
-#include "Grid.h"
+// #include "Tetromino.h"
+// #include "Grid.h"
 #include "Specifications.h"
 // #include <cstdlib>
 // #include <vector>

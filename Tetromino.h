@@ -1,8 +1,8 @@
 #ifndef Tetromino_h
 #define Tetromino_h
 
-#include <stdio.h>
-#include <SDL_image.h>
+// #include <stdio.h>
+// #include <SDL_image.h>
 #include "Specifications.h"
 #include "Grid.h"
 #include "Game.h"

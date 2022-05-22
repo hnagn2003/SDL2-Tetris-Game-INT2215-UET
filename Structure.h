@@ -1,11 +1,11 @@
 #ifndef Structure_h
 #define Structure_h
 
-#include <stdio.h>
-#include <SDL_image.h>
-#include <SDL_ttf.h>
-#include <iostream>
-#include <algorithm>  
+// #include <stdio.h>
+// #include <SDL_image.h>
+// #include <SDL_ttf.h>
+// #include <iostream>
+#include <algorithm>   
 #include "Data.h"
 class LTexture
 {
