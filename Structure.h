@@ -1,7 +1,6 @@
 #ifndef Structure_h
 #define Structure_h
 
-#include <SDL.h>
 #include <stdio.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
@@ -42,8 +41,6 @@ class LTexture
 		int mWidth;
 		int mHeight;
 };
-
-
 
 class LTimer
 {
@@ -118,4 +115,146 @@ class FPS_Processor
         }
 };
 
+class LButton
+{
+    public:
+		LTexture* keyUp;
+        LTexture* keyDown;
+        bool inside;
+        bool motionMouse;
+        bool pressed;
+        int xCen, yCen, width, height;
+        int xPos, yPos;
+	public:
+		LButton(){
+            keyDown = new LTexture;
+            keyUp = new LTexture;
+            inside = 0;
+            pressed = 0;
+            xPos = 0; yPos = 0; xCen = 0; yCen = 0;
+        }
+        LButton(LTexture* _keyUp, LTexture* _keyDown)
+        {
+            motionMouse = 0;
+            keyUp = _keyUp;
+            keyDown = _keyDown;
+            width = keyUp->getWidth();
+            height = keyUp->getHeight();
+            xPos = 0; yPos = 0; xCen = 0; yCen = 0;
+        }
+        bool getPressed()
+        {
+            return pressed;
+        }
+        bool getInside()
+        {
+            return inside;
+        }
+        int getXCen(){return xCen;}
+        int getYCen(){return yCen;}
+        int getXPos(){return xPos;}
+        int getYPos(){return yPos;}
+        int getWidth(){return width;}
+        int getHeight(){return height;}
+        void setSize(int w, int h){width = w; height = h;}
+        void setPressed(bool _pressed){pressed = _pressed;}
+        void setTexture(LTexture* _keyUp, LTexture* _keyDown)
+        {
+            keyUp = _keyUp;
+            keyDown = _keyDown;
+            width = keyUp->getWidth();
+            height = keyUp->getHeight();
+        }
+        void setPosition( int x, int y )
+        {
+            xPos = x; yPos = y;
+        }
+		void setCenterPosition( int x, int y )
+        {
+            xCen = x; yCen = y;
+        }
+        void handleEvents(SDL_Event* e, bool circleButton = 0)
+        {
+            if (xPos == 0 && yPos == 0)
+            {
+                xPos = xCen - width/2, yPos = yCen - height/2;
+            }
+            motionMouse = 0;
+            pressed = 0;
+        	if( e->type == SDL_MOUSEMOTION || e->type == SDL_MOUSEBUTTONDOWN || e->type == SDL_MOUSEBUTTONUP )
+            {
+                int x, y;
+		        SDL_GetMouseState( &x, &y );
+                bool inside = true;
+                if (!circleButton)
+                {
+                    if (x<xPos)
+                    {
+                        inside = false;
+                    }
+                    else if (x>xPos+width)
+                    {
+                        inside = false;
+                    }
+                    else if (y<yPos)
+                    {
+                        inside = false;
+                    }
+                    else if (y>yPos + height)
+                    {
+                        inside = false;
+                    }
+                }
+                else
+                {
+                    if ( (x-xCen)*(x-xCen) + (y-yCen)*(y-yCen) <= width*width/4 )
+                    {
+                        
+                        inside = true;
+                    }else
+                    {
+                        inside = false;
+                    }
+                }
+                if (inside)
+                {
+                    switch (e->type)
+                    {
+                        case SDL_MOUSEMOTION:
+                            motionMouse = 1;
+                            break;
+                        case SDL_MOUSEBUTTONDOWN:
+                            playSoundEffects(ES_MouseClick);
+                            motionMouse = 1;
+                            pressed = 1;
+                            break;
+                        case SDL_MOUSEBUTTONUP:
+                            pressed = 0;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+    
+        }
+		void render(SDL_Renderer* renderer, int x = 0, int y = 0)
+        {
+            if (x==0&&y==0)
+            {
+                x=xPos; y = yPos;
+            }
+            if (motionMouse)
+            {
+                keyDown->render(renderer, x, y);
+            }
+            else
+            {
+                keyUp->render(renderer, x, y);
+            }
+        }
+
+};
+static LButton* backButton = new LButton;
+static LButton* replayButton = new LButton;
 #endif

@@ -3,6 +3,8 @@
 #include <iostream>
 #include <SDL.h>
 #include <SDL_mixer.h>
+#include <SDL_ttf.h>
+
 #include <sstream>
 #include <map>
 #include <vector>
@@ -106,4 +108,24 @@ extern TTF_Font* fontStar_40;
 extern TTF_Font* fontStar_50;
 extern std::vector<int> highestScore;
 extern std::map<std::string, int> settingsElement;
+
+
+enum Tabs {
+    Menu = -1,
+    InGame_SoloMode,
+    InGame_BattleMode,
+    Settings,
+    Helps,
+    ExitGame,
+    allButtonsOfMenu
+};
+
+enum GameMode {
+    Player1,
+    SinglePlay,
+    Player2
+};
+void playSoundEffects(Mix_Chunk* chunk, int loop = 0, int channel = -1);
+
+
 #endif
