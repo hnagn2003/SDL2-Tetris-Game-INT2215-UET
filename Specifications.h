@@ -4,17 +4,11 @@
 
 
 #include "Structure.h"
-#include <map>
-#include <vector>
 #include <algorithm> // void updateScoreTable
 #include <SDL_ttf.h>
 #include <SDL_image.h>
 
 #include "Data.h"
-
-
-extern std::vector<int> highestScore;
-extern std::map<std::string, int> settingsElement;
 
 enum Tabs {
     Menu = -1,

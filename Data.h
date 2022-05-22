@@ -4,6 +4,10 @@
 #include <SDL.h>
 #include <SDL_mixer.h>
 #include <sstream>
+#include <map>
+#include <vector>
+
+
 const int settingElementsTotal = 4;
 const int TILE_SIZE = 40;
 const int ROWS = 20;
@@ -100,4 +104,6 @@ extern TTF_Font* gFont1;
 extern TTF_Font* fontVarino1;
 extern TTF_Font* fontStar_40;
 extern TTF_Font* fontStar_50;
+extern std::vector<int> highestScore;
+extern std::map<std::string, int> settingsElement;
 #endif
