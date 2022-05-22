@@ -23,7 +23,10 @@ class HelpsAndCredit
             aboutButton.setPosition(411, 557);
             copyrightButton.setPosition(411, 642);
         }
+        ~HelpsAndCredit()
+        {
 
+        }
         Tabs getDirect()
         {
             return direct;

@@ -85,6 +85,8 @@ class FPS_Processor
         ~FPS_Processor()
         {
             gFPSTextTexture->free();
+            delete fpsTimer;
+            delete capTimer;
         }
         void initTimeCounting()
         {
@@ -141,6 +143,12 @@ class LButton
             width = keyUp->getWidth();
             height = keyUp->getHeight();
             xPos = 0; yPos = 0; xCen = 0; yCen = 0;
+        }
+        ~LButton(){
+            keyUp->free();
+            keyDown->free();
+            delete keyUp;
+            delete keyDown;
         }
         bool getPressed()
         {

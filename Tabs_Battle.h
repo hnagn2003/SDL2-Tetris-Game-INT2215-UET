@@ -91,7 +91,9 @@ class BallteProcessor{
         }
         ~BallteProcessor()
         {
-            
+            delete gameStatePlayer1;
+            delete gameStatePlayer2;
+            delete battleEnded;
         }
         Game_State *getGameState1()
         {

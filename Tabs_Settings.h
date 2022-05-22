@@ -30,7 +30,11 @@ class UserSettings
         }
         ~UserSettings()
         {
-
+            for (int i=0; i<settingElementsTotal; i++){
+                delete[] setButton[i];
+            }
+            delete[] setButton;
+            delete[] clearButton;
         }
         Tabs getDirect()
         {
