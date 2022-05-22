@@ -116,6 +116,24 @@ class Game_State
         }
         void render (SDL_Renderer *renderer, GameMode gameMode = SinglePlay)
         {
+            renderGrid(renderer, gameMode);
+            if (countDownTime > 0)
+            {
+                renderText(countDownTime, renderer, gFont1, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, WHITE_COLOR);
+            }
+            
+            if (gameMode!=Player1 && pause && playing)
+            {
+                static LTexture pressPTex;
+                pressPTex.loadFromRenderedText("Press P to pause/continue the game", DARK_CYAN_COLOR, fontVarino1, renderer);
+                pressPTex.render(renderer, (SCREEN_WIDTH - pressPTex.getWidth())/2, 100);
+            }
+            backButton->render(renderer, backButton->getXCen()-backButton->getWidth()/2, backButton->getYCen()-backButton->getHeight()/2);
+            renderOver(renderer, gameMode);
+        }
+
+        void renderGrid(SDL_Renderer *renderer, GameMode gameMode = SinglePlay)
+        {
             grid->render(renderer, gameMode);
             renderText(lineCount, renderer, gFont1, 693.5+grid->getX(), 628.5+grid->getY());
             renderText(score, renderer, gFont1, 693.5+grid->getX(), 736+grid->getY());
@@ -127,30 +145,21 @@ class Game_State
             next0Tetrads->render(renderer, grid->getX(), 1259-2*TILE_SIZE, 244-2*TILE_SIZE);
             next1Tetrads->render(renderer, grid->getX(), 1259-2*TILE_SIZE, 400-2*TILE_SIZE);
             next2Tetrads->render(renderer, grid->getX(), 1259-2*TILE_SIZE, 556-2*TILE_SIZE);
-            currentTetrads->render(renderer, grid->getX());
-            if (countDownTime > 0)
-            {
-                renderText(countDownTime, renderer, gFont1, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, WHITE_COLOR);
-            }
             if (settingsElement["Ghost Piece"] == 1)
             {
                 currentTetrads->renderGhostPiece(renderer, grid);
             }
-            if (gameMode!=Player1 && pause && playing)
-            {
-                static LTexture pressPTex;
-                pressPTex.loadFromRenderedText("Press P to pause/continue the game", DARK_CYAN_COLOR, fontVarino1, renderer);
-                pressPTex.render(renderer, (SCREEN_WIDTH - pressPTex.getWidth())/2, 100);
-            }
-            backButton->render(renderer, backButton->getXCen()-backButton->getWidth()/2, backButton->getYCen()-backButton->getHeight()/2);
+            currentTetrads->render(renderer, grid->getX());
+        }
+        void renderOver(SDL_Renderer *renderer, GameMode gameMode = SinglePlay)
+        {
             if (isOver && gameMode==SinglePlay)
             {
                 gameOverAnnouncement->render(renderer);
                 LTexture printScore;
                 printScore.loadFromRenderedText(std::to_string(score), BLACK_COLOR, gFont1, renderer);
                 printScore.render(renderer, 914, 236);
-            }
-            
+            } 
         }
 
         void newTetradsFalling()
@@ -160,6 +169,7 @@ class Game_State
                 currentTetrads->fall(velocity, grid);
             }
         }
+
         void reset()
         {
             playing = 0;
@@ -209,260 +219,15 @@ class Game_State
                 {   
                     case SDL_KEYDOWN:
                         if (gameMode == SinglePlay){
-                            switch( event.key.keysym.sym )
-                            {   
-                                case SDLK_UP: 
-                                    if ( !event.key.repeat && !pause )
-                                    {
-                                        currentTetrads->rotate(grid);
-                                        playSoundEffects(se_rotate);
-                                        break;
-                                    }
-                                break;
-                                case SDLK_DOWN:
-                                    
-                                    if (currentTetrads->getStatus() && !pause)
-                                    {
-                                        currentTetrads->moveDown(grid);
-                                        playSoundEffects(se_move);
-                                    }
-                                    
-                                    break;
-                                case SDLK_LEFT: 
-                                    if (!pause){
-                                        int tmp_leftPos = currentTetrads->getXCol();
-                                        currentTetrads->moveLeft(grid); 
-                                        if (tmp_leftPos != currentTetrads->getXCol())
-                                        {
-                                            playSoundEffects(se_move);
-                                        }
-                                    }
-                                    break;
-                                case SDLK_RIGHT: 
-                                    if (!pause){
-                                        int tmp_rightPos = currentTetrads->getXCol();
-                                        currentTetrads->moveRight(grid); 
-                                        if (tmp_rightPos != currentTetrads->getXCol())
-                                        {
-                                            playSoundEffects(se_move);
-                                        }
-                                    }
-                                    break;
-                                case SDLK_SPACE:
-                                    if (!pause){
-                                        currentTetrads->dropDown(grid);
-                                        playSoundEffects(se_drop);
-                                    }
-                                    break;
-                                case SDLK_c:
-                                    if (!pause)
-                                    {
-                                        if (holding == NULL)
-                                        {
-                                            playSoundEffects(se_hold);
-                                            holding = new Tetromino;
-                                            *holding = Tetrads[currentTetrads->getType()];
-                                            currentTetrads = next0Tetrads;
-                                            next0Tetrads = next1Tetrads;
-                                            next1Tetrads = next2Tetrads;
-                                            next2Tetrads = getRandomTetrads();
-                                        }else{
-                                            if (!switchHold)
-                                            {
-                                                playSoundEffects(se_hold);
-                                                int tmp = holding->getType();
-                                                *holding = Tetrads[currentTetrads->getType()];
-                                                *currentTetrads = Tetrads[tmp];
-                                            }
-                                        }
-                                        switchHold = 1;
-                                    }
-                                    break;
-                                case SDLK_p:
-                                    if(!pause)
-                                    {
-                                        pauseGame();
-                                        playSoundEffects(se_pause);
-                                    }
-                                    else
-                                    {
-                                        startCD();
-                                    }
-                                    break;
-                            
-                                default: break;
-                            }    
+                            processEventSinglePlay(event);
                         }
                         else
                         {
                             if (gameMode == Player2)
                             {
-                                switch( event.key.keysym.sym )
-                                {   
-                                    case SDLK_w: 
-                                        if ( !event.key.repeat && !pause )
-                                        {
-                                            currentTetrads->rotate(grid); 
-                                            playSoundEffects(se_rotate);
-                                            break;
-                                        }
-                                    break;
-                                    case SDLK_s:
-                                        
-                                        if (currentTetrads->getStatus() && !pause)
-                                        {
-                                            currentTetrads->moveDown(grid); 
-                                            playSoundEffects(se_move);
-                                        }
-                                        
-                                        break;
-                                    case SDLK_a: 
-                                        if (!pause){
-                                            int tmp_leftPos = currentTetrads->getXCol();
-                                            currentTetrads->moveLeft(grid); 
-                                            if (tmp_leftPos != currentTetrads->getXCol())
-                                            {
-                                                playSoundEffects(se_move);
-                                            }
-                                        }
-                                        break;
-                                    case SDLK_d: 
-                                        if (!pause){
-                                            int tmp_rightPos = currentTetrads->getXCol();
-                                            currentTetrads->moveRight(grid); 
-                                            if (tmp_rightPos != currentTetrads->getXCol())
-                                            {
-                                                playSoundEffects(se_move);
-                                            }
-                                        }
-                                        break;
-                                    case SDLK_SPACE:
-                                        if (!pause){
-                                            currentTetrads->dropDown(grid);
-                                            playSoundEffects(se_drop);
-                                        }
-                                        
-                                        break;
-                                    case SDLK_c:
-                                        if (!pause)
-                                        {
-                                            if (holding == NULL)
-                                            {
-                                                playSoundEffects(se_hold);
-                                                holding = new Tetromino;
-                                                *holding = Tetrads[currentTetrads->getType()];
-                                                currentTetrads = next0Tetrads;
-                                                next0Tetrads = next1Tetrads;
-                                                next1Tetrads = next2Tetrads;
-                                                next2Tetrads = getRandomTetrads();
-                                            }
-                                            else
-                                            {
-                                                if (!switchHold)
-                                                {
-                                                    playSoundEffects(se_hold);
-                                                    int tmp = holding->getType();
-                                                    *holding = Tetrads[currentTetrads->getType()];
-                                                    *currentTetrads = Tetrads[tmp];
-                                                }
-                                            }
-                                            switchHold = 1;
-                                        }
-                                        break;
-                                    case SDLK_p:
-                                        if(!pause)
-                                        {
-                                            pauseGame();
-                                            playSoundEffects(se_pause);
-                                        }
-                                        else
-                                        {
-                                            startCD();
-                                        }
-                                        break;
-                                
-                                    default: break;
-                                }
+                                processEventPlayer2(event);
                             }else{
-                                switch( event.key.keysym.sym )
-                                {   
-                                    case SDLK_UP: 
-                                        if ( !event.key.repeat && !pause )
-                                        {
-                                            currentTetrads->rotate(grid); 
-                                            playSoundEffects(se_rotate);
-                                            break;
-                                        }
-                                    break;
-                                    case SDLK_DOWN:
-                                        
-                                        if (currentTetrads->getStatus() && !pause)
-                                        {
-                                            currentTetrads->moveDown(grid); 
-                                            playSoundEffects(se_move);
-                                        }
-                                        
-                                        break;
-                                    case SDLK_LEFT: 
-                                        if (!pause){
-                                            int tmp_leftPos = currentTetrads->getXCol();
-                                            currentTetrads->moveLeft(grid); 
-                                            if (tmp_leftPos != currentTetrads->getXCol())
-                                            {
-                                                playSoundEffects(se_move);
-                                            }
-                                        }
-                                        break;
-
-                                    case SDLK_RIGHT: 
-                                        if (!pause){
-                                            int tmp_rightPos = currentTetrads->getXCol();
-                                            currentTetrads->moveRight(grid); 
-                                            if (tmp_rightPos != currentTetrads->getXCol())
-                                            {
-                                                playSoundEffects(se_move);
-                                            }
-                                        }
-                                        break;
-
-                                    case SDLK_KP_ENTER:
-                                        if (!pause)
-                                            currentTetrads->dropDown(grid);
-                                            playSoundEffects(se_drop);
-                                        
-                                        break;
-                                    case SDLK_KP_PLUS:
-                                        if (!pause){
-                                            if (holding == NULL){
-                                                playSoundEffects(se_hold);
-                                                holding = new Tetromino;
-                                                *holding = Tetrads[currentTetrads->getType()];
-                                                currentTetrads = next0Tetrads;
-                                                next0Tetrads = next1Tetrads;
-                                                next1Tetrads = next2Tetrads;
-                                                next2Tetrads = getRandomTetrads();
-                                            }else{
-                                                if (!switchHold){
-                                                    playSoundEffects(se_hold);
-                                                    int tmp = holding->getType();
-                                                    *holding = Tetrads[currentTetrads->getType()];
-                                                    *currentTetrads = Tetrads[tmp];
-                                                }
-                                            }
-                                            switchHold = 1;
-                                        }
-                                        break;
-                                    case SDLK_p:
-                                        if(!pause){
-                                            pauseGame();
-                                            playSoundEffects(se_pause);
-                                        }else{
-                                            startCD();
-                                        }
-                                        break;
-                                
-                                    default: break;
-                                }    
+                                processEventPlayer1(event);   
                             }
                         }
                         break;
@@ -478,6 +243,263 @@ class Game_State
                 }
             }
 
+        }
+        void processEventSinglePlay(const SDL_Event &event)
+        {
+            switch( event.key.keysym.sym )
+            {   
+                case SDLK_UP: 
+                    if ( !event.key.repeat && !pause )
+                    {
+                        currentTetrads->rotate(grid);
+                        playSoundEffects(se_rotate);
+                        break;
+                    }
+                break;
+                case SDLK_DOWN:
+                    
+                    if (currentTetrads->getStatus() && !pause)
+                    {
+                        currentTetrads->moveDown(grid);
+                        playSoundEffects(se_move);
+                    }
+                    
+                    break;
+                case SDLK_LEFT: 
+                    if (!pause){
+                        int tmp_leftPos = currentTetrads->getXCol();
+                        currentTetrads->moveLeft(grid); 
+                        if (tmp_leftPos != currentTetrads->getXCol())
+                        {
+                            playSoundEffects(se_move);
+                        }
+                    }
+                    break;
+                case SDLK_RIGHT: 
+                    if (!pause){
+                        int tmp_rightPos = currentTetrads->getXCol();
+                        currentTetrads->moveRight(grid); 
+                        if (tmp_rightPos != currentTetrads->getXCol())
+                        {
+                            playSoundEffects(se_move);
+                        }
+                    }
+                    break;
+                case SDLK_SPACE:
+                    if (!pause){
+                        currentTetrads->dropDown(grid);
+                        playSoundEffects(se_drop);
+                    }
+                    break;
+                case SDLK_c:
+                    if (!pause)
+                    {
+                        if (holding == NULL)
+                        {
+                            playSoundEffects(se_hold);
+                            holding = new Tetromino;
+                            *holding = Tetrads[currentTetrads->getType()];
+                            currentTetrads = next0Tetrads;
+                            next0Tetrads = next1Tetrads;
+                            next1Tetrads = next2Tetrads;
+                            next2Tetrads = getRandomTetrads();
+                        }else{
+                            if (!switchHold)
+                            {
+                                playSoundEffects(se_hold);
+                                int tmp = holding->getType();
+                                *holding = Tetrads[currentTetrads->getType()];
+                                *currentTetrads = Tetrads[tmp];
+                            }
+                        }
+                        switchHold = 1;
+                    }
+                    break;
+                case SDLK_p:
+                    if(!pause)
+                    {
+                        pauseGame();
+                        playSoundEffects(se_pause);
+                    }
+                    else
+                    {
+                        startCD();
+                    }
+                    break;
+            
+                default: break;
+            }    
+        }
+        void processEventPlayer2(SDL_Event event){
+            switch( event.key.keysym.sym )
+            {   
+                case SDLK_w: 
+                    if ( !event.key.repeat && !pause )
+                    {
+                        currentTetrads->rotate(grid); 
+                        playSoundEffects(se_rotate);
+                        break;
+                    }
+                break;
+                case SDLK_s:
+                    
+                    if (currentTetrads->getStatus() && !pause)
+                    {
+                        currentTetrads->moveDown(grid); 
+                        playSoundEffects(se_move);
+                    }
+                    
+                    break;
+                case SDLK_a: 
+                    if (!pause){
+                        int tmp_leftPos = currentTetrads->getXCol();
+                        currentTetrads->moveLeft(grid); 
+                        if (tmp_leftPos != currentTetrads->getXCol())
+                        {
+                            playSoundEffects(se_move);
+                        }
+                    }
+                    break;
+                case SDLK_d: 
+                    if (!pause){
+                        int tmp_rightPos = currentTetrads->getXCol();
+                        currentTetrads->moveRight(grid); 
+                        if (tmp_rightPos != currentTetrads->getXCol())
+                        {
+                            playSoundEffects(se_move);
+                        }
+                    }
+                    break;
+                case SDLK_SPACE:
+                    if (!pause){
+                        currentTetrads->dropDown(grid);
+                        playSoundEffects(se_drop);
+                    }
+                    
+                    break;
+                case SDLK_c:
+                    if (!pause)
+                    {
+                        if (holding == NULL)
+                        {
+                            playSoundEffects(se_hold);
+                            holding = new Tetromino;
+                            *holding = Tetrads[currentTetrads->getType()];
+                            currentTetrads = next0Tetrads;
+                            next0Tetrads = next1Tetrads;
+                            next1Tetrads = next2Tetrads;
+                            next2Tetrads = getRandomTetrads();
+                        }
+                        else
+                        {
+                            if (!switchHold)
+                            {
+                                playSoundEffects(se_hold);
+                                int tmp = holding->getType();
+                                *holding = Tetrads[currentTetrads->getType()];
+                                *currentTetrads = Tetrads[tmp];
+                            }
+                        }
+                        switchHold = 1;
+                    }
+                    break;
+                case SDLK_p:
+                    if(!pause)
+                    {
+                        pauseGame();
+                        playSoundEffects(se_pause);
+                    }
+                    else
+                    {
+                        startCD();
+                    }
+                    break;
+            
+                default: break;
+            }
+        }
+
+        void processEventPlayer1(SDL_Event event)
+        {
+        switch( event.key.keysym.sym )
+            {   
+                case SDLK_UP: 
+                    if ( !event.key.repeat && !pause )
+                    {
+                        currentTetrads->rotate(grid); 
+                        playSoundEffects(se_rotate);
+                        break;
+                    }
+                break;
+                case SDLK_DOWN:
+                    
+                    if (currentTetrads->getStatus() && !pause)
+                    {
+                        currentTetrads->moveDown(grid); 
+                        playSoundEffects(se_move);
+                    }
+                    
+                    break;
+                case SDLK_LEFT: 
+                    if (!pause){
+                        int tmp_leftPos = currentTetrads->getXCol();
+                        currentTetrads->moveLeft(grid); 
+                        if (tmp_leftPos != currentTetrads->getXCol())
+                        {
+                            playSoundEffects(se_move);
+                        }
+                    }
+                    break;
+
+                case SDLK_RIGHT: 
+                    if (!pause){
+                        int tmp_rightPos = currentTetrads->getXCol();
+                        currentTetrads->moveRight(grid); 
+                        if (tmp_rightPos != currentTetrads->getXCol())
+                        {
+                            playSoundEffects(se_move);
+                        }
+                    }
+                    break;
+
+                case SDLK_KP_ENTER:
+                    if (!pause)
+                        currentTetrads->dropDown(grid);
+                        playSoundEffects(se_drop);
+                    
+                    break;
+                case SDLK_KP_PLUS:
+                    if (!pause){
+                        if (holding == NULL){
+                            playSoundEffects(se_hold);
+                            holding = new Tetromino;
+                            *holding = Tetrads[currentTetrads->getType()];
+                            currentTetrads = next0Tetrads;
+                            next0Tetrads = next1Tetrads;
+                            next1Tetrads = next2Tetrads;
+                            next2Tetrads = getRandomTetrads();
+                        }else{
+                            if (!switchHold){
+                                playSoundEffects(se_hold);
+                                int tmp = holding->getType();
+                                *holding = Tetrads[currentTetrads->getType()];
+                                *currentTetrads = Tetrads[tmp];
+                            }
+                        }
+                        switchHold = 1;
+                    }
+                    break;
+                case SDLK_p:
+                    if(!pause){
+                        pauseGame();
+                        playSoundEffects(se_pause);
+                    }else{
+                        startCD();
+                    }
+                    break;
+            
+                default: break;
+            }            
         }
         void pauseGame(){
             currentTetrads->setPause(1);
