@@ -1,21 +1,20 @@
 #ifndef Game_h
 #define Game_h
 
-#include <SDL.h>
+// #include <SDL.h>
 #include <stdio.h>
 #include <SDL_image.h>
-#include <SDL_ttf.h>
+// #include <SDL_ttf.h>
 
 #include "Tetromino.h"
 #include "Grid.h"
 #include "Specifications.h"
-#include <iostream>
-#include "Structure.h"
+// #include <iostream>
+// #include "Structure.h"
 #include <thread>
 #include <cstdint>
 #include <functional>
 #include <string>
-void renderText(long long text, SDL_Renderer* renderer, TTF_Font* gFont, int xCenter, int yCenter, SDL_Color textColor = WHITE_COLOR);
 
 enum LEVEL
 {

@@ -11,14 +11,7 @@ TTF_Font* fontStar_40 = NULL;
 TTF_Font* fontStar_50 = NULL;
 std::vector<int> highestScore;
 std::map<std::string, int> settingsElement;
-void renderText(long long text, SDL_Renderer* renderer, TTF_Font* gFont, int xPos, int yPos, SDL_Color textColor){
-    LTexture textTexture;
-    std::stringstream ssText;
-    ssText.str( "" );
-    ssText << text;
-    textTexture.loadFromRenderedText(ssText.str().c_str(), textColor, gFont, renderer);
-    textTexture.render(renderer, xPos-textTexture.getWidth()/2, yPos-textTexture.getHeight()/2);
-}
+
 Game::Game()
 {
 	gameState = new Game_State;
