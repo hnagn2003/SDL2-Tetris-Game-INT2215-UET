@@ -6,7 +6,6 @@
 #include "Grid.h"
 #include "Specifications.h"
 #include <cstdlib>
-#include <SDL_ttf.h>
 #include <vector>
 // std::vector<int> highestScore;
 int gridSizeToRendererSize(int w)
@@ -62,10 +61,3 @@ void clearRankingScore()
     }
 }
 
-void playSoundEffects(Mix_Chunk* chunk, int loop, int channel)
-{
-    if (settingsElement["Sound Effects"])
-    {
-        Mix_PlayChannel( channel, chunk, loop );
-    }
-}
