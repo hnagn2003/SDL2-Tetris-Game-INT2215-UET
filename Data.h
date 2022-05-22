@@ -73,7 +73,8 @@ const std::string clearHighestScoreP = "assets/Pictures/clear_highest_score.png"
 const std::string clearSettingsP = "assets/Pictures/clear_settings.png";
 const std::string clearHighestScoreP_ = "assets/Pictures/clear_highest_score_.png";
 const std::string clearSettingsP_ = "assets/Pictures/clear_settings_.png";
-const std::string fontVarino1P = "fonts/VarinonormalRegular-nRYg4.otf";
+const std::string fo_Varino1P = "font/VarinonormalRegular-nRYg4.otf";
+const std::string fo_northStarP = "font/Northstar3D-4D3x.otf";
 
 const std::string ES_MouseClickP = "assets/Sounds/MouseClick.wav";
 const std::string se_moveP = "assets/Sounds/se_game_move.wav";

@@ -95,10 +95,10 @@ void Game::init(const char* title, int xPos, int yPos, int SCREEN_WIDTH, int SCR
 }
 void Game::loadmedia()
 {
-	gFont1 = TTF_OpenFont( "font/Northstar3D-4D3x.otf", 24 );
-	fontVarino1 = TTF_OpenFont("font/VarinonormalRegular-nRYg4.otf", 20);
-	fontStar_40 = TTF_OpenFont("font/NorthstarCondensed-Xp4j.otf", 40);
-	fontStar_50 = TTF_OpenFont("font/NorthstarCondensed-Xp4j.otf", 50);
+	gFont1 = TTF_OpenFont(fo_northStarP.c_str() , 24 );
+	fontVarino1 = TTF_OpenFont(fo_Varino1P.c_str(), 20);
+	fontStar_40 = TTF_OpenFont(fo_northStarP.c_str(), 40);
+	fontStar_50 = TTF_OpenFont(fo_northStarP.c_str(), 50);
 	tabs_menu.setUpMenu(renderer);
 	helpsAndCredit->setUp(renderer);
 	userSettings->initSettings(renderer); 
