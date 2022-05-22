@@ -7,7 +7,6 @@
 #include "Specifications.h"
 #include <cstdlib>
 #include <vector>
-// std::vector<int> highestScore;
 int gridSizeToRendererSize(int w)
 {
 return w*TILE_SIZE;
