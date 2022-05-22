@@ -164,79 +164,10 @@ class UserSettings
             int jInd = 0;
             for (auto it=settingsElement.begin(); it!=settingsElement.end(); it++)
             {
-                LTexture tmp;
-                tmp.loadFromRenderedText(it->first, CYAN_COLOR, fontVarino1, renderer);
-                tmp.render(renderer, 800, 460+jInd*60);
+                renderText(it->first, renderer, fontVarino1, 900, 470+jInd*60, CYAN_COLOR);
                 setButton[jInd][0].render(renderer, 1070, 460+jInd*60);
                 setButton[jInd][1].render(renderer, 1270, 460+jInd*60);
-                LTexture tmp2;
-                std::string content;
-                switch(jInd)
-                {
-                    case 0:
-                        switch(it->second)
-                        {
-                            case 0:
-                                content = "off";
-                                break;
-                            case 1:
-                                content = "on";
-                                break;
-                            default:
-                                std::cout << "Invalid Settings Value" << std::endl;
-                                // exit(0);
-                                break;
-                        }
-                        break;
-
-                    case 1:
-                        switch (it->second)
-                        {
-                        case easy:
-                            content = "easy";
-                            break;
-                        case hard:
-                            content = "hard";
-                            break;
-                        case extremely_hard:
-                            content = "super hard";
-                            break;
-                        case super_ultra_hard:
-                            content = "ultra hard";
-                            break;
-                        case asian:
-                            content = "asian";
-                            break;
-                        default:
-                            std::cout << "Invalid Settings Value" << std::endl;
-                            // exit(0);
-                            break;
-                        }
-                        break;
-
-                    case 3:
-                        switch(it->second)
-                        {
-                            case 0:
-                                content = "off";
-                                break;
-                            case 1:
-                                content = "on";
-                                break;
-                            default:
-                                std::cout << "Invalid Settings Value" << std::endl;
-                                // exit(0);
-                                break;
-                        }
-                        break;
-
-                    default:
-                        content = std::to_string(it->second);
-                        break;
-
-                }
-                tmp2.loadFromRenderedText(content, CYAN_COLOR, fontVarino1, renderer);
-                tmp2.render(renderer, 1100, 460+jInd*60);
+                renderText(getSettingContents(jInd, it), renderer, fontVarino1, 1180, 475+jInd*60, CYAN_COLOR);
                 jInd++;
             }
             for (int i=0; i<totalOfClearButton; i++)
@@ -256,6 +187,73 @@ class UserSettings
                 return;
             }
             flag = 0;
+        }
+        std::string getSettingContents(int jInd, auto it)
+        {
+        switch(jInd)
+            {
+                case 0:
+                    switch(it->second)
+                    {
+                        case 0:
+                            return "off";
+                            break;
+                        case 1:
+                            return "on";
+                            break;
+                        default:
+                            std::cout << "Invalid Settings Value" << std::endl;
+                            // exit(0);
+                            break;
+                    }
+                    break;
+
+                case 1:
+                    switch (it->second)
+                    {
+                    case easy:
+                        return "easy";
+                        break;
+                    case hard:
+                        return "hard";
+                        break;
+                    case extremely_hard:
+                        return "super hard";
+                        break;
+                    case super_ultra_hard:
+                        return "ultra hard";
+                        break;
+                    case asian:
+                        return "asian";
+                        break;
+                    default:
+                        std::cout << "Invalid Settings Value" << std::endl;
+                        // exit(0);
+                        break;
+                    }
+                    break;
+
+                case 3:
+                    switch(it->second)
+                    {
+                        case 0:
+                            return "off";
+                            break;
+                        case 1:
+                            return "on";
+                            break;
+                        default:
+                            std::cout << "Invalid Settings Value" << std::endl;
+                            // exit(0);
+                            break;
+                    }
+                    break;
+
+                default:
+                    return std::to_string(it->second);
+                    break;
+
+            }
         }
 };
 #endif

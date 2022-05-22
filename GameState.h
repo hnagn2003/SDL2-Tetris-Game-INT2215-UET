@@ -1,6 +1,7 @@
 #ifndef GameState1_h
 #define GameState1_h
 #include "Specifications.h"
+#include <string>
 class Game_State 
 {
     private:
@@ -119,7 +120,7 @@ class Game_State
             renderGrid(renderer, gameMode);
             if (countDownTime > 0)
             {
-                renderText(countDownTime, renderer, gFont1, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, WHITE_COLOR);
+                renderText(std::to_string(countDownTime), renderer, gFont1, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, WHITE_COLOR);
             }
             
             if (gameMode!=Player1 && pause && playing)
@@ -135,9 +136,9 @@ class Game_State
         void renderGrid(SDL_Renderer *renderer, GameMode gameMode = SinglePlay)
         {
             grid->render(renderer, gameMode);
-            renderText(lineCount, renderer, gFont1, 693.5+grid->getX(), 628.5+grid->getY());
-            renderText(score, renderer, gFont1, 693.5+grid->getX(), 736+grid->getY());
-            renderText(level, renderer, gFont1, 693.5+grid->getX(), 842+grid->getY());
+            renderText(std::to_string(lineCount), renderer, gFont1, 693.5+grid->getX(), 628.5+grid->getY());
+            renderText(std::to_string(score), renderer, gFont1, 693.5+grid->getX(), 736+grid->getY());
+            renderText(std::to_string(level), renderer, gFont1, 693.5+grid->getX(), 842+grid->getY());
             if (holding!=NULL)
             {
                 holding->render(renderer, grid->getX(), 663-2*TILE_SIZE, 242-2*TILE_SIZE);

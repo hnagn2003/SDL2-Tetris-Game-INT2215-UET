@@ -62,12 +62,9 @@ void clearRankingScore()
     }
 }
 
-void renderText(long long text, SDL_Renderer* renderer, TTF_Font* gFont, int xPos, int yPos, SDL_Color textColor){
+void renderText(std::string text, SDL_Renderer* renderer, TTF_Font* gFont, int xPos, int yPos, SDL_Color textColor){
     LTexture textTexture;
-    std::stringstream ssText;
-    ssText.str( "" );
-    ssText << text;
-    textTexture.loadFromRenderedText(ssText.str().c_str(), textColor, gFont, renderer);
+    textTexture.loadFromRenderedText(text, textColor, gFont, renderer);
     textTexture.render(renderer, xPos-textTexture.getWidth()/2, yPos-textTexture.getHeight()/2);
 }
 

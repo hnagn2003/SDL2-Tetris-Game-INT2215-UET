@@ -2,7 +2,12 @@
 #define Battle_h
 #include "Specifications.h"
 #include <thread>
-
+enum Result{
+    NONE = -1,
+    DRAW,
+    Player1WIN,
+    Player2WIN
+};
 class BattleEnded
 {
     private:
@@ -36,7 +41,7 @@ class BattleEnded
             direct = InGame_BattleMode; 
             return false;
         }
-        void render(SDL_Renderer* renderer, int result)
+        void render(SDL_Renderer* renderer, Result result)
         {
             static LTexture battle_endTex(battle_endedP, renderer);
             battle_endTex.render(renderer, 0, 0);
@@ -44,15 +49,15 @@ class BattleEnded
             replayButton->render(renderer, replayButton->getXCen()-replayButton->getWidth()/2, replayButton->getYCen()-replayButton->getHeight()/2);
             switch (result)
             {
-            case 0:
+            case DRAW:
                 static LTexture drawTex(drawP, renderer);
                 drawTex.render(renderer, 0, 0);
                 break;
-            case 1:
+            case Player2WIN:
                 static LTexture player1winTex(player1winP, renderer);
                 player1winTex.render(renderer, 0, 0);
                 break;
-            case 2:
+            case Player1WIN:
                 static LTexture player2winTex(player2winP, renderer);
                 player2winTex.render(renderer, 0, 0);
                 break;
@@ -61,6 +66,7 @@ class BattleEnded
             }
         }
 };
+
 class BallteProcessor{
     private:
         Game_State *gameStatePlayer1;
@@ -68,7 +74,7 @@ class BallteProcessor{
         BattleEnded* battleEnded;
         Tabs direct;
         bool isOver;
-        int result;
+        Result result;
     public:
         
         BallteProcessor()
@@ -78,7 +84,7 @@ class BallteProcessor{
             gameStatePlayer2 = new Game_State;
             battleEnded = new BattleEnded;
             isOver = 0;
-            result = -1;
+            result = NONE;
         }
         Game_State *getGameState1()
         {
@@ -89,7 +95,7 @@ class BallteProcessor{
             gameStatePlayer1->reset();
             gameStatePlayer2->reset();
             isOver = 0;
-            result = -1;
+            result = NONE;
         }
         bool getOver()
         {
@@ -178,32 +184,36 @@ class BallteProcessor{
         }
         bool gameOver()
         {
+            result = checkResult();
+            return (result != NONE);
+        }
+        Result checkResult(){
             bool P1Over = gameStatePlayer1->gameOver(), P2Over = gameStatePlayer2->gameOver();
             long long P1Score = gameStatePlayer1->getScore(), P2Score = gameStatePlayer2->getScore();
+            if (P1Over && !P2Over)
+            {
+                return Player2WIN;
+            }
+            if (!P1Over && P2Over)
+            {
+                return Player1WIN;
+            }
             if (P1Over && P2Over)
             {
                 if (P1Score > P2Score)
                 {
-                    result = 1;
+                    return Player1WIN;
                 }
                 else if (P1Score < P2Score)
                 {
-                    result = 2;
+                    return Player2WIN;
                 }
                 else
                 {
-                    result = 0;
+                    return DRAW;
                 }
             }
-            if (P1Over && !P2Over)
-            {
-                result = 2;
-            }
-            if (!P1Over && P2Over)
-            {
-                result = 1;
-            }
-            return (result != -1);
+            return NONE;
         }
 };
 #endif
