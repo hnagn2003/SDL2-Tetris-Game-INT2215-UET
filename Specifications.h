@@ -67,64 +67,7 @@ class GameOverAnnouncement
             printScoreTable(renderer, 620, 505);
         }
 };
-class BattleEnded
-{
-    private:
-        Tabs direct;
-    public:
-        BattleEnded()
-        {
-            direct = InGame_BattleMode;
-        }
-        Tabs getDirect()
-        {
-            return direct;
-        }
-        bool handleEvents(SDL_Event* e)
-        {
-            backButton->handleEvents(e, 1);
-            if (backButton->getPressed())
-            {
-                backButton->setPressed(0);
-                direct=Menu;
-                return false;
-            }
-            replayButton->handleEvents(e, 1);
-            if (replayButton->getPressed())
-            {
-                replayButton->setPressed(0);
-                direct=InGame_BattleMode;
-                return true;
-            }
 
-            direct = InGame_BattleMode; 
-            return false;
-        }
-        void render(SDL_Renderer* renderer, int result)
-        {
-            static LTexture battle_endTex(battle_endedP, renderer);
-            battle_endTex.render(renderer, 0, 0);
-            backButton->render(renderer, backButton->getXCen()-backButton->getWidth()/2, backButton->getYCen()-backButton->getHeight()/2);
-            replayButton->render(renderer, replayButton->getXCen()-replayButton->getWidth()/2, replayButton->getYCen()-replayButton->getHeight()/2);
-            switch (result)
-            {
-            case 0:
-                static LTexture drawTex(drawP, renderer);
-                drawTex.render(renderer, 0, 0);
-                break;
-            case 1:
-                static LTexture player1winTex(player1winP, renderer);
-                player1winTex.render(renderer, 0, 0);
-                break;
-            case 2:
-                static LTexture player2winTex(player2winP, renderer);
-                player2winTex.render(renderer, 0, 0);
-                break;
-            default:
-                break;
-            }
-        }
-};
 
 
 void clearSettings();
