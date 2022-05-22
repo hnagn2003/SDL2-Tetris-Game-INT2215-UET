@@ -119,7 +119,11 @@ enum Tabs {
     ExitGame,
     allButtonsOfMenu
 };
-
+enum GameMode {
+    Player1,
+    SinglePlay,
+    Player2
+};
 bool updateScoreTable(int score);
 void playSoundEffects(Mix_Chunk* chunk, int loop = 0, int channel = -1);
 void printScoreTable(SDL_Renderer *renderer, int x, int y);
@@ -250,7 +254,7 @@ class Tabs_Menu{
     public:
         LButton button[allButtonsOfMenu];
         LTexture keyUp[4], keyDown[4];
-        int direct;
+        Tabs direct;
     public:
         Tabs_Menu(){
             direct = Menu;
@@ -262,7 +266,7 @@ class Tabs_Menu{
         ~Tabs_Menu(){
 
         }
-        int getDirect(){
+        Tabs getDirect(){
             return direct;
         }
         void resetDirect(){
@@ -274,7 +278,7 @@ class Tabs_Menu{
                 button[i].handleEvents(e);
                 if (button[i].getPressed()){
                     button[i].setPressed(0);
-                    direct=i;
+                    direct=(Tabs)i;
                     if (direct == InGame_SoloMode){
                         Mix_HaltMusic();
                     }
@@ -283,7 +287,7 @@ class Tabs_Menu{
                 }
             }
 
-            direct = -1; 
+            direct = Menu; 
         }
         void setUpMenu(SDL_Renderer* renderer){
             for (int i=0; i<4; i++){
@@ -304,12 +308,12 @@ class Tabs_Menu{
 
 class GameOverAnnouncement{
     public:
-        int direct;
+        Tabs direct;
     public:
         GameOverAnnouncement(){
             direct = InGame_SoloMode;
         }
-        int getDirect(){
+        Tabs getDirect(){
             return direct;
         }
         void resetDirect(){
@@ -346,12 +350,12 @@ class GameOverAnnouncement{
 };
 class BattleEnded{
     private:
-        int direct;
+        Tabs direct;
     public:
         BattleEnded(){
             direct = InGame_BattleMode;
         }
-        int getDirect(){
+        Tabs getDirect(){
             return direct;
         }
         bool handleEvents(SDL_Event* e){
@@ -405,7 +409,7 @@ enum HelpsInlineTabs{
 class HelpsAndCredit{
     private: 
         int inlineTab;
-        int direct;
+        Tabs direct;
         LButton helpsButton, aboutButton, copyrightButton;
     public:
         HelpsAndCredit()
@@ -417,7 +421,7 @@ class HelpsAndCredit{
             copyrightButton.setPosition(411, 642);
         }
 
-        int getDirect()
+        Tabs getDirect()
         {
             return direct;
         }

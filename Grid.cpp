@@ -1,3 +1,4 @@
+
 #include "Game.h"
 #include "Tetromino.h"
 #include "Grid.h"
@@ -14,8 +15,8 @@ Grid::Grid(){
 Grid::~Grid(){
 
 }
-void Grid::render(SDL_Renderer *renderer, int gameMode){
-    if (gameMode == 0){
+void Grid::render(SDL_Renderer *renderer, GameMode gameMode){
+    if (gameMode == SinglePlay){
     //         for (int i = 0; i <= ROWS; i++){
     //     SDL_SetRenderDrawColor(renderer, 100, 100, 0, 0);
     //     SDL_RenderDrawLine(renderer, xPos, i*TILE_SIZE + yPos, xPos + TILE_SIZE*COLS, i*TILE_SIZE + yPos);
@@ -27,10 +28,10 @@ void Grid::render(SDL_Renderer *renderer, int gameMode){
         xPos = 0;
         yPos = 0;
         
-    }else if (gameMode == 1){
+    }else if (gameMode == Player2){
         xPos = -SCREEN_WIDTH/4;
         yPos = 0;
-    }else if (gameMode == -1){
+    }else if (gameMode == Player1){
         xPos = SCREEN_WIDTH/4;
         yPos = 0;
     }
@@ -46,4 +47,3 @@ void Grid::render(SDL_Renderer *renderer, int gameMode){
     	    // std::cout << fontStar_40 << std::endl;
 
 }
-

@@ -1,3 +1,4 @@
+
 #ifndef Grid_h
 #define Grid_h
 
@@ -30,7 +31,7 @@ class Grid{
             return yPos;
         }
 
-        void render(SDL_Renderer *renderer, int gameMode);
+        void render(SDL_Renderer *renderer, GameMode gameMode);
         //kiểm tra 1 hàng có filled hay ko
         bool filledRow(int i){
             for (int j = 0; j<COLS; j++)

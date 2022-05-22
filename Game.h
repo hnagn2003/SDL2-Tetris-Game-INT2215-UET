@@ -16,7 +16,8 @@
 #include <functional>
 #include <string>
 void renderText(long long text, SDL_Renderer* renderer, TTF_Font* gFont, int xCenter, int yCenter, SDL_Color textColor = WHITE_COLOR);
-class Game_State {
+class Game_State 
+{
     private:
         bool playing;
         int lineCount;
@@ -28,7 +29,7 @@ class Game_State {
         bool pause;
         int countDownTime;
         bool inCountDown;
-        int direct;
+        Tabs direct;
         Uint32 timeC;
         Tetromino* next0Tetrads;
         Tetromino* next1Tetrads;
@@ -65,7 +66,7 @@ class Game_State {
             hardLevel = easy; //...
 
         }
-        int getDirect()
+        Tabs getDirect()
         {
             return direct;
         }
@@ -128,7 +129,7 @@ class Game_State {
         {
             return recordScore;
         }
-        void render (SDL_Renderer *renderer, int gameMode = 0)
+        void render (SDL_Renderer *renderer, GameMode gameMode = SinglePlay)
         {
             grid->render(renderer, gameMode);
             renderText(lineCount, renderer, gFont1, 693.5+grid->getX(), 628.5+grid->getY());
@@ -150,14 +151,14 @@ class Game_State {
             {
                 currentTetrads->renderGhostPiece(renderer, grid);
             }
-            if (gameMode!=-1 && pause && playing)
+            if (gameMode!=Player1 && pause && playing)
             {
                 static LTexture pressPTex;
                 pressPTex.loadFromRenderedText("Press P to pause/continue the game", DARK_CYAN_COLOR, fontVarino1, renderer);
                 pressPTex.render(renderer, (SCREEN_WIDTH - pressPTex.getWidth())/2, 100);
             }
             backButton->render(renderer, backButton->getXCen()-backButton->getWidth()/2, backButton->getYCen()-backButton->getHeight()/2);
-            if (isOver && gameMode==0)
+            if (isOver && gameMode==SinglePlay)
             {
                 gameOverAnnouncement->render(renderer);
                 LTexture printScore;
@@ -563,14 +564,14 @@ class Game_State {
                 }
             return false;
         }
-        void update(bool gameMode = 0, bool player2 = 0)
+        void update(GameMode gameMode = SinglePlay)
         {
             isOver = gameOver();
             static bool gameOver_SE = true;
             if (isOver)
             {
                 backButton->setPosition(1289, 569);
-                if (gameOver_SE && !gameMode)
+                if (gameOver_SE && gameMode == SinglePlay)
                 {
                     playSoundEffects(se_gameover);
                     gameOver_SE = false;
@@ -594,7 +595,7 @@ class BallteProcessor{
         Game_State *gameStatePlayer1;
         Game_State *gameStatePlayer2;
         BattleEnded* battleEnded;
-        int direct;
+        Tabs direct;
         bool isOver;
         int result;
     public:
@@ -623,7 +624,7 @@ class BallteProcessor{
         {
             return isOver;
         }
-        int getDirect()
+        Tabs getDirect()
         {
             return direct;
         }
@@ -683,8 +684,8 @@ class BallteProcessor{
             // std::thread y(&Game_State::update, gameStatePlayer2, 1);
             // x.join();
             // y.join();
-            gameStatePlayer1->update(1);
-            gameStatePlayer2->update(1, 1);
+            gameStatePlayer1->update(Player1);
+            gameStatePlayer2->update(Player2);
             static bool battleOver_SE = true;
             if (isOver)
             {
@@ -698,8 +699,8 @@ class BallteProcessor{
         }
         void render(SDL_Renderer* renderer)
         {
-            gameStatePlayer1->render(renderer, 1);
-            gameStatePlayer2->render(renderer, -1);
+            gameStatePlayer1->render(renderer, Player1);
+            gameStatePlayer2->render(renderer, Player2);
             if (isOver){
                 battleEnded->render(renderer, result);
             }
@@ -745,7 +746,7 @@ class UserSettings
     private:
         LButton setButton[settingElementsTotal][2];
         LButton clearButton[2];
-        int direct;
+        Tabs direct;
     public:
         UserSettings()
         {
@@ -764,7 +765,7 @@ class UserSettings
         {
 
         }
-        int getDirect()
+        Tabs getDirect()
         {
             return direct;
         }
