@@ -151,12 +151,12 @@ class BallteProcessor{
         void update()
         {
             isOver = gameOver();
-            // std::thread x(&Game_State::update, gameStatePlayer1, 0);
-            // std::thread y(&Game_State::update, gameStatePlayer2, 1);
-            // x.join();
-            // y.join();
-            gameStatePlayer1->update(Player1);
-            gameStatePlayer2->update(Player2);
+            std::thread x(&Game_State::update, gameStatePlayer1, Player1);
+            std::thread y(&Game_State::update, gameStatePlayer2, Player2);
+            x.join();
+            y.join();
+            // gameStatePlayer1->update(Player1);
+            // gameStatePlayer2->update(Player2);
             static bool battleOver_SE = true;
             if (isOver)
             {

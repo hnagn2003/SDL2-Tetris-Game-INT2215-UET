@@ -188,28 +188,12 @@ class LButton
                 bool inside = true;
                 if (!circleButton)
                 {
-                    if (x<xPos)
-                    {
-                        inside = false;
-                    }
-                    else if (x>xPos+width)
-                    {
-                        inside = false;
-                    }
-                    else if (y<yPos)
-                    {
-                        inside = false;
-                    }
-                    else if (y>yPos + height)
-                    {
-                        inside = false;
-                    }
+                    inside = isInside(x, y);
                 }
                 else
                 {
                     if ( (x-xCen)*(x-xCen) + (y-yCen)*(y-yCen) <= width*width/4 )
                     {
-                        
                         inside = true;
                     }else
                     {
@@ -253,7 +237,25 @@ class LButton
                 keyUp->render(renderer, x, y);
             }
         }
-
+        bool isInside(int x, int y){
+        if (x<xPos)
+        {
+            return false;
+        }
+        else if (x>xPos+width)
+        {
+            return false;
+        }
+        else if (y<yPos)
+        {
+            return false;
+        }
+        else if (y>yPos + height)
+        {
+            return false;
+        }
+        return true;
+        }
 };
 extern LButton* backButton;
 extern LButton* replayButton;
