@@ -1,13 +1,11 @@
 #ifndef Tetromino_h
 #define Tetromino_h
 
-#include <SDL.h>
 #include <stdio.h>
 #include <SDL_image.h>
 #include "Specifications.h"
 #include "Grid.h"
 #include "Game.h"
-#include <iostream>
 #include <algorithm>  
 const int xTetradsInit = 3;
 const int yTetradsInit = -1;
