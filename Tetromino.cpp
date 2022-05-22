@@ -1,11 +1,6 @@
-// #include <iostream>
-// #include <SDL_image.h>
-// #include <SDL.h>
 #include "Game.h"
 #include "Tetromino.h"
-// #include "Grid.h"
-// #include "Specifications.h"
-// #include <cstdlib>
+
 #include <set>
 void Tetromino::renderGhostPiece(SDL_Renderer* renderer, Grid* grid)
 {

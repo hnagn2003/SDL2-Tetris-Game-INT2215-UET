@@ -58,7 +58,8 @@ class Tabs_Menu{
             {
                 button[i].render(renderer, button[i].getXCen()-button[i].getWidth()/2, button[i].getYCen()-button[i].getHeight()/2);
             }
-
+            static LTexture logoTex(logoP, renderer);
+            logoTex.render(renderer, 0 ,0);
         }
 };
 #endif

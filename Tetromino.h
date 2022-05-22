@@ -77,6 +77,7 @@ class Tetromino{
                 }
             }
         }
+        ~Tetromino(){}
         void setCollinYInitTetrads(int landingPoint)
         {
             yPos=landingPoint-HIDDEN_ROWS-4;            
