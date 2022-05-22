@@ -1,20 +1,12 @@
 #ifndef Game_h
 #define Game_h
 
-// #include <SDL.h>
-#include <stdio.h>
-#include <SDL_image.h>
-// #include <SDL_ttf.h>
-
+// #include <stdio.h>
+// #include <SDL_image.h>
 #include "Tetromino.h"
 #include "Grid.h"
 #include "Specifications.h"
-// #include <iostream>
-// #include "Structure.h"
-#include <thread>
-#include <cstdint>
-#include <functional>
-#include <string>
+// #include <cstdint>
 #include "GameState.h"
 #include "Tabs_Battle.h"
 #include "Tabs_Settings.h"

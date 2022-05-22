@@ -2,14 +2,14 @@
 #ifndef Grid_h
 #define Grid_h
 
-#include <SDL.h>
-#include <stdio.h>
-#include <SDL_image.h>
-#include "Tetromino.h"
-#include "Game.h"
+// #include <SDL.h>
+// #include <stdio.h>
+// #include <SDL_image.h>
+// #include "Tetromino.h"
+// #include "Game.h"
 #include "Specifications.h"
-#include <iostream>
-#include <cstdlib>
+// #include <iostream>
+// #include <cstdlib>
 class block
 {
     public:

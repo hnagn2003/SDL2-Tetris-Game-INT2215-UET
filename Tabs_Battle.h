@@ -1,6 +1,8 @@
 #ifndef Battle_h
 #define Battle_h
 #include "Specifications.h"
+#include <thread>
+
 class BattleEnded
 {
     private:

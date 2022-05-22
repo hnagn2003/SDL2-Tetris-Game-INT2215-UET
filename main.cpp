@@ -1,12 +1,12 @@
-#include <SDL.h>
-#include <iostream>
-#include <stdio.h>
+// #include <SDL.h>
+// #include <iostream>
+// #include <stdio.h>
 #include "Game.h"
-#include "Tetromino.h"
-#include "Grid.h"
-#include "Specifications.h"
-#include <time.h>
-#include <math.h>
+// #include "Tetromino.h"
+// #include "Grid.h"
+// #include "Specifications.h"
+// #include <time.h>
+// #include <math.h>
 // press ESC to escape from the game
 bool fullScreen = false;
 int main( int argc, char* args[] )
