@@ -7,7 +7,7 @@
 #include <SDL_ttf.h>
 #include <iostream>
 #include <algorithm>  
-
+#include "Data.h"
 class LTexture
 {
 	public:
@@ -67,6 +67,55 @@ class LTimer
 
 		bool mPaused;
 		bool mStarted;
+};
+
+// xử lý fps: print, capping
+class FPS_Processor
+{
+    public:
+        long long countedFrames;
+        LTexture* gFPSTextTexture;
+        LTimer* fpsTimer;
+        LTimer* capTimer;
+    public:
+        FPS_Processor()
+        {
+            countedFrames = 0;
+            gFPSTextTexture = new LTexture;
+            fpsTimer = new LTimer;
+            capTimer = new LTimer;
+        }
+        ~FPS_Processor()
+        {
+            gFPSTextTexture->free();
+        }
+        void initTimeCounting()
+        {
+            fpsTimer->start();
+        }
+        void cappingFrame()
+        {
+            capTimer->start();
+            ++countedFrames;
+            int frameTicks = capTimer->getTicks();
+            if( frameTicks < SCREEN_TICK_PER_FRAME )
+            {
+                //Wait remaining time
+                SDL_Delay( SCREEN_TICK_PER_FRAME - frameTicks );
+            }
+        }
+        void printFPS(SDL_Renderer* renderer, TTF_Font* gFont){
+            int avgFPS = countedFrames / ( fpsTimer->getTicks() / 1000.f );
+            std::stringstream timeText;
+            timeText.str( "" );
+            timeText << "FPS: " << avgFPS; 
+            SDL_Color textColor = { 0, 0, 0, 255 };
+            if( !gFPSTextTexture->loadFromRenderedText( timeText.str().c_str(), textColor, gFont, renderer ))
+            {
+                printf( "Unable to render FPS texture!\n" );
+	        }
+            gFPSTextTexture->render( renderer,( SCREEN_WIDTH - gFPSTextTexture->getWidth() ), 0 );
+        }
 };
 
 #endif

@@ -14,6 +14,27 @@ const int yTetradsInit = -1;
 const int sizeOfTetradsSide = 4;
 
 void transPos(bool matrix[sizeOfTetradsSide][sizeOfTetradsSide]);
+enum TetroType
+{
+    I_BLOCK,
+    L_BLOCK,
+    J_BLOCK,
+    O_BLOCK,
+    S_BLOCK,
+    T_BLOCK,
+    Z_BLOCK,
+    TOTAL_OF_TETRADS
+};
+
+const SDL_Color TetroColor[] = {
+    {0, 209, 232},
+    {0, 126, 229},
+    {218, 147, 0},
+    {232, 214, 0},
+    {0, 222, 61},
+    {187, 0, 222},
+    {232, 0, 0}
+};
 
 class Tetromino{
     private:

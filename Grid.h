@@ -10,7 +10,76 @@
 #include "Specifications.h"
 #include <iostream>
 #include <cstdlib>
+class block
+{
+    public:
+        int xReal, yReal;
+        int xGrid, yGrid, wGrid = 1, hGrid = 1;
+        int type;  
+        bool exist;
+        block()
+        {
+            exist = false;
+        }
+        block(int x, int y, int _type, int realCoordinates = 0)
+        {
+            if (realCoordinates)
+            {
+                xReal = x;
+                yReal = y;
+            }
+            else
+            {
+                xGrid = x;
+                yGrid = y;
+            }
+            type = _type;
+            exist = false;
+        }
+        int getXGrid()
+        {
+            return xGrid;
+        }
+        int getYGrid()
+        {
+            return yGrid;
+        }
+        int getWGrid()
+        {
+            return wGrid;
+        }
+        int getHGrid()
+        {
+            return hGrid;
+        }
 
+        void render(SDL_Renderer* renderer, int gridXPos, int realCoordinates = 0, bool ghost = 0)
+        {
+            static LTexture blockTemp(tetroTempP, renderer);
+            static LTexture ghostBlockTex(ghostBlockP, renderer);
+            SDL_Rect clip{type*TILE_SIZE, 0, TILE_SIZE, TILE_SIZE};
+            if (!ghost)
+            {
+                if (realCoordinates)
+                {
+                    blockTemp.render(renderer, xReal+gridXPos, yReal, &clip);
+                }
+                else
+                {
+                    blockTemp.render(renderer, gridXPosToRendererPos(xGrid)+gridXPos, gridYPosToRendererPos(yGrid), &clip);
+                }
+            }else{
+                if (realCoordinates)
+                {
+                    ghostBlockTex.render(renderer, xReal+gridXPos, yReal, &clip);
+                }
+                else
+                {
+                    ghostBlockTex.render(renderer, gridXPosToRendererPos(xGrid)+gridXPos, gridYPosToRendererPos(yGrid), &clip);
+                }
+            }
+        }
+};  
 class Grid{
     private:
         int width = COLS*TILE_SIZE;

@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
-#include <SDL_mixer.h>
+
 #include "Tetromino.h"
 #include "Grid.h"
 #include "Specifications.h"
@@ -16,6 +16,15 @@
 #include <functional>
 #include <string>
 void renderText(long long text, SDL_Renderer* renderer, TTF_Font* gFont, int xCenter, int yCenter, SDL_Color textColor = WHITE_COLOR);
+
+enum LEVEL
+{
+    easy = 21,
+    hard = 16,
+    extremely_hard = 11,
+    super_ultra_hard = 6,
+    asian = 1
+};
 class Game_State 
 {
     private:
