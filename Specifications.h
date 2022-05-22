@@ -79,6 +79,6 @@ int gridXPosToRendererPos(int x);
 int gridYPosToRendererPos(int y);
 
 void loadGameFonts();
-
+void loadGameButtons(SDL_Renderer* renderer);
 
 #endif

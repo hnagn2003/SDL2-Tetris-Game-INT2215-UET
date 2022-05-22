@@ -100,17 +100,7 @@ void Game::loadmedia()
 	helpsAndCredit->setUp(renderer);
 	userSettings->initSettings(renderer); 
 
-	LTexture* backButtonTex = new LTexture;
-	LTexture* backButtonTex_ = new LTexture;
-	backButtonTex->loadFromFile(back_button, renderer);
-    backButtonTex_->loadFromFile(back_button_, renderer);
-	backButton->setTexture(backButtonTex, backButtonTex_);
-
-	LTexture* replayButtonTex = new LTexture;
-    LTexture* replayButtonTex_ = new LTexture;
-	replayButtonTex->loadFromFile(play_again_button, renderer);
-	replayButtonTex_->loadFromFile(play_again_button_, renderer);
-	replayButton->setTexture(replayButtonTex, replayButtonTex_);
+	loadGameButtons(renderer);
 	playingSoundtrack = Mix_LoadMUS( "assets/Musics/playing.mp3" );
 	themeSoundtrack = Mix_LoadMUS( "assets/Musics/backgroundMusic.mp3" );
 	ES_MouseClick = Mix_LoadWAV(ES_MouseClickP.c_str());

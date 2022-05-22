@@ -69,13 +69,24 @@ void renderText(long long text, SDL_Renderer* renderer, TTF_Font* gFont, int xPo
     textTexture.loadFromRenderedText(ssText.str().c_str(), textColor, gFont, renderer);
     textTexture.render(renderer, xPos-textTexture.getWidth()/2, yPos-textTexture.getHeight()/2);
 }
-// TTF_Font* gFont1;
-// TTF_Font* fontVarino1;
-// TTF_Font* fontStar_40;
-// TTF_Font* fontStar_50;
+
 void loadGameFonts(){
     gFont1 = TTF_OpenFont(fo_northStarP.c_str() , 24 );
 	fontVarino1 = TTF_OpenFont(fo_Varino1P.c_str(), 20);
 	fontStar_40 = TTF_OpenFont(fo_northStarP.c_str(), 40);
 	fontStar_50 = TTF_OpenFont(fo_northStarP.c_str(), 50);
+}
+
+void loadGameButtons(SDL_Renderer* renderer){
+    LTexture* backButtonTex = new LTexture;
+	LTexture* backButtonTex_ = new LTexture;
+	backButtonTex->loadFromFile(back_button, renderer);
+    backButtonTex_->loadFromFile(back_button_, renderer);
+	backButton->setTexture(backButtonTex, backButtonTex_);
+
+	LTexture* replayButtonTex = new LTexture;
+    LTexture* replayButtonTex_ = new LTexture;
+	replayButtonTex->loadFromFile(play_again_button, renderer);
+	replayButtonTex_->loadFromFile(play_again_button_, renderer);
+	replayButton->setTexture(replayButtonTex, replayButtonTex_);
 }
