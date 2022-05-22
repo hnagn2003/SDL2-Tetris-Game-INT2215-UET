@@ -13,8 +13,8 @@ std::vector<int> highestScore;
 std::map<std::string, int> settingsElement;
 LButton* backButton;
 LButton* replayButton;
-Mix_Music* playingSoundtrack;
-Mix_Music* themeSoundtrack;
+Mix_Music* me_playing;
+Mix_Music* me_theme;
 Mix_Chunk* ES_MouseClick;
 Mix_Chunk* se_move;
 Mix_Chunk* se_hold;
@@ -177,7 +177,7 @@ void Game::playMusic()
 	case InGame_SoloMode:
 		if( Mix_PlayingMusic() == 0 && !gameState->isInCountDown() && gameState->getPlaying())
 		{
-			Mix_PlayMusic( playingSoundtrack, -1 );
+			Mix_PlayMusic( me_playing, -1 );
 		}
 		if (gameState->getPause() && gameState->getPlaying())
 		{
@@ -187,7 +187,7 @@ void Game::playMusic()
 	case InGame_BattleMode:
 		if( Mix_PlayingMusic() == 0 && !battleProcessor->getGameState1()->isInCountDown() && battleProcessor->getGameState1()->getPlaying())
 		{
-			Mix_PlayMusic( playingSoundtrack, -1 );
+			Mix_PlayMusic( me_playing, -1 );
 		}
 		if (battleProcessor->getGameState1()->getPause() && battleProcessor->getGameState1()->getPlaying())
 		{
@@ -196,7 +196,7 @@ void Game::playMusic()
 		break;
 	default:
 		if( Mix_PlayingMusic() == 0 ){
-			Mix_PlayMusic( themeSoundtrack, -1 );
+			Mix_PlayMusic( me_theme, -1 );
 		}
 		break;
 	}
