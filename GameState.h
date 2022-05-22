@@ -242,7 +242,6 @@ class Game_State
                         break;
                 }
             }
-
         }
         void processEventSinglePlay(const SDL_Event &event)
         {
@@ -296,20 +295,11 @@ class Game_State
                     {
                         if (holding == NULL)
                         {
-                            playSoundEffects(se_hold);
-                            holding = new Tetromino;
-                            *holding = Tetrads[currentTetrads->getType()];
-                            currentTetrads = next0Tetrads;
-                            next0Tetrads = next1Tetrads;
-                            next1Tetrads = next2Tetrads;
-                            next2Tetrads = getRandomTetrads();
+                            holdCurrentTetrads();
                         }else{
                             if (!switchHold)
                             {
-                                playSoundEffects(se_hold);
-                                int tmp = holding->getType();
-                                *holding = Tetrads[currentTetrads->getType()];
-                                *currentTetrads = Tetrads[tmp];
+                                swapHoldingWithCurrent();
                             }
                         }
                         switchHold = 1;
@@ -382,22 +372,11 @@ class Game_State
                     {
                         if (holding == NULL)
                         {
-                            playSoundEffects(se_hold);
-                            holding = new Tetromino;
-                            *holding = Tetrads[currentTetrads->getType()];
-                            currentTetrads = next0Tetrads;
-                            next0Tetrads = next1Tetrads;
-                            next1Tetrads = next2Tetrads;
-                            next2Tetrads = getRandomTetrads();
-                        }
-                        else
-                        {
+                            holdCurrentTetrads();
+                        }else{
                             if (!switchHold)
                             {
-                                playSoundEffects(se_hold);
-                                int tmp = holding->getType();
-                                *holding = Tetrads[currentTetrads->getType()];
-                                *currentTetrads = Tetrads[tmp];
+                                swapHoldingWithCurrent();
                             }
                         }
                         switchHold = 1;
@@ -470,20 +449,13 @@ class Game_State
                     break;
                 case SDLK_KP_PLUS:
                     if (!pause){
-                        if (holding == NULL){
-                            playSoundEffects(se_hold);
-                            holding = new Tetromino;
-                            *holding = Tetrads[currentTetrads->getType()];
-                            currentTetrads = next0Tetrads;
-                            next0Tetrads = next1Tetrads;
-                            next1Tetrads = next2Tetrads;
-                            next2Tetrads = getRandomTetrads();
+                        if (holding == NULL)
+                        {
+                            holdCurrentTetrads();
                         }else{
-                            if (!switchHold){
-                                playSoundEffects(se_hold);
-                                int tmp = holding->getType();
-                                *holding = Tetrads[currentTetrads->getType()];
-                                *currentTetrads = Tetrads[tmp];
+                            if (!switchHold)
+                            {
+                                swapHoldingWithCurrent();
                             }
                         }
                         switchHold = 1;
@@ -595,6 +567,25 @@ class Game_State
 			playing = 1;
 			newTetradsFalling();
 			updateFallingTetrads();
+        }
+
+        void holdCurrentTetrads()
+        {
+            playSoundEffects(se_hold);
+            holding = new Tetromino;
+            *holding = Tetrads[currentTetrads->getType()];
+            currentTetrads = next0Tetrads;
+            next0Tetrads = next1Tetrads;
+            next1Tetrads = next2Tetrads;
+            next2Tetrads = getRandomTetrads();
+        }
+
+        void swapHoldingWithCurrent()
+        {
+            playSoundEffects(se_hold);
+            int tmp = holding->getType();
+            *holding = Tetrads[currentTetrads->getType()];
+            *currentTetrads = Tetrads[tmp];
         }
 };
 
