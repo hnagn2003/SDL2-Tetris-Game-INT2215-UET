@@ -50,47 +50,61 @@ class Tetromino{
             collin.h = _h;
             xPos = _xPos;
             yPos = _yPos;
-            for (int i=0; i<sizeOfTetradsSide; i++){
-                for (int j=0; j<sizeOfTetradsSide; j++){
+            for (int i=0; i<sizeOfTetradsSide; i++)
+            {
+                for (int j=0; j<sizeOfTetradsSide; j++)
+                {
                     matrix[i][j] = _matrix[i][j];
                 }
             }
         }
-        void setCollinYInitTetrads(int landingPoint){
+        void setCollinYInitTetrads(int landingPoint)
+        {
             yPos=landingPoint-HIDDEN_ROWS-4;            
-            if (yPos+HIDDEN_ROWS<=0){
+            if (yPos+HIDDEN_ROWS<=0)
+            {
                 std::cout << "out of range" << std::endl;
             }
             detectCoveredRect();
         }
-        TetroType getType(){
+        TetroType getType()
+        {
             return type;
         }
-        bool getStatus(){
+        bool getStatus()
+        {
             return active;
         }
-        void setActice(bool _active){
+        void setActice(bool _active)
+        {
             active = _active;
         }
-        bool getFall(){
+        bool getFall()
+        {
             return falling;
         }
-        void setFall(bool fall){
+        void setFall(bool fall)
+        {
             falling = fall;
         }
-        int getXPos(){
+        int getXPos()
+        {
             return xPos;
         }
-        int getYPos(){
+        int getYPos()
+        {
             return yPos;
         }
-        void setXPos(int x){
+        void setXPos(int x)
+        {
             xPos = x;
         }
-        void setYPos(int y){
+        void setYPos(int y)
+        {
             yPos = y;
         }
-        int getXCol(){
+        int getXCol()
+        {
             return collin.x;
         }
         int getYCol()
@@ -101,17 +115,24 @@ class Tetromino{
         {
             return collin.w;
         }
-        int getHCol(){
+        int getHCol()
+        {
             return collin.h;
         }
-        void setPause(bool p){
+        void setPause(bool p)
+        {
             pause = p;
         }
-        void render(SDL_Renderer* renderer, int gridXPos, bool ghost = 0){ // render = toa do grid
-            if (active || ghost){
-                for (int i=0; i<sizeOfTetradsSide; i++){
-                    for (int j=0; j<sizeOfTetradsSide; j++){
-                        if (matrix[i][j] == true){
+        void render(SDL_Renderer* renderer, int gridXPos, bool ghost = 0)
+        { // render = toa do grid
+            if (active || ghost)
+            {
+                for (int i=0; i<sizeOfTetradsSide; i++)
+                {
+                    for (int j=0; j<sizeOfTetradsSide; j++)
+                    {
+                        if (matrix[i][j] == true)
+                        {
                             block aBlock{xPos+j, yPos+i, type};
                             aBlock.render(renderer, gridXPos, 0, ghost);
                         }
@@ -119,10 +140,14 @@ class Tetromino{
                 }
             }
         }
-        void render(SDL_Renderer* renderer, int gridXPos, int x, int y){ // render theo toa do thuc
-            for (int i=0; i<sizeOfTetradsSide; i++){
-                    for (int j=0; j<sizeOfTetradsSide; j++){
-                        if (matrix[i][j] == true){
+        void render(SDL_Renderer* renderer, int gridXPos, int x, int y)
+        { // render theo toa do thuc
+            for (int i=0; i<sizeOfTetradsSide; i++)
+            {
+                    for (int j=0; j<sizeOfTetradsSide; j++)
+                    {
+                        if (matrix[i][j] == true)
+                        {
                             block aBlock{x+j*TILE_SIZE, y+i*TILE_SIZE, type, 1};
                             aBlock.render(renderer, gridXPos, 1);
                         }
@@ -130,15 +155,20 @@ class Tetromino{
                 }
         }
         // tắt active
-        void disableFromActivate(){
+        void disableFromActivate()
+        {
             falling = false;
             active = false;
         }
         // kết nạp khối tetrads vào grid của game
-        void mergeToGrid(Grid *grid){
-            for (int i=0; i<sizeOfTetradsSide; i++){
-                for (int j=0; j<sizeOfTetradsSide; j++){
-                    if (matrix[i][j] == true){
+        void mergeToGrid(Grid *grid)
+        {
+            for (int i=0; i<sizeOfTetradsSide; i++)
+            {
+                for (int j=0; j<sizeOfTetradsSide; j++)
+                {
+                    if (matrix[i][j] == true)
+                    {
                         grid->getGrid()[i+yPos+HIDDEN_ROWS][j+xPos].type = type;
                         grid->getGrid()[i+yPos+HIDDEN_ROWS][j+xPos].exist = true;
 
@@ -148,9 +178,11 @@ class Tetromino{
         }
         // kiểm tra va chạm dưới
 
-        bool collision(Grid *grid, bool disabled = 1, bool mergeToGrid_ = 1){ // ...
+        bool collision(Grid *grid, bool disabled = 1, bool mergeToGrid_ = 1)
+        { // ...
                 int bottomSide = collin.y + collin.h;
-                if ((bottomSide >= ROWS  || collisionWithOtherTetrads(grid)) && disabled){
+                if ((bottomSide >= ROWS  || collisionWithOtherTetrads(grid)) && disabled)
+                {
                         if (mergeToGrid_)
                         {
                             disableFromActivate();
@@ -240,7 +272,8 @@ class Tetromino{
             }
             return false;
         }
-        bool rightCollision(Grid grid){ // ...
+        bool rightCollision(Grid grid)
+        { // ...
             int rightSide = collin.x+collin.w;
             if (rightSide >= COLS || collisionWithRightTetrads(&grid))
             {

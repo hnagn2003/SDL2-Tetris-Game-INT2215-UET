@@ -9,7 +9,8 @@
 #include <math.h>
 // press ESC to escape from the game
 bool fullScreen = false;
-int main( int argc, char* args[] ){
+int main( int argc, char* args[] )
+{
     srand(time(0));
     Game *game = new Game;
     game->init("Tetris - by me", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, fullScreen );

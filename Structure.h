@@ -15,7 +15,7 @@ class LTexture
 
 		LTexture(std::string path, SDL_Renderer* gRenderer);
 
-		// ~LTexture();
+		~LTexture();
 		LTexture(std::string textureText, SDL_Color textColor, TTF_Font* gFont1, SDL_Renderer* gRenderer );
 		bool loadFromFile( std::string path, SDL_Renderer* gRenderer );
 		

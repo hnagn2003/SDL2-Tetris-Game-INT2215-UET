@@ -19,16 +19,16 @@ LTexture::LTexture(std::string path, SDL_Renderer* gRenderer)
 	mHeight = 0;
 	loadFromFile(path, gRenderer);
 }
-// LTexture::~LTexture()
-// {
-// 	free();
-// }
 LTexture::LTexture (std::string textureText, SDL_Color textColor, TTF_Font* gFont1, SDL_Renderer* gRenderer )
 {
 	mTexture = NULL;
 	mWidth = 0;
 	mHeight = 0;
 	loadFromRenderedText(textureText, textColor, gFont1, gRenderer);
+}
+LTexture::~LTexture()
+{
+	free();
 }
 bool LTexture::loadFromFile( std::string path, SDL_Renderer* gRenderer)
 {
@@ -66,7 +66,6 @@ bool LTexture::loadFromFile( std::string path, SDL_Renderer* gRenderer)
 bool LTexture::loadFromRenderedText( std::string textureText, SDL_Color textColor, TTF_Font* gFont, SDL_Renderer* gRenderer )
 {
 	free();
-	// gFont = TTF_OpenFont( "font/Northstar3D-4D3x.otf", 28 );
 	SDL_Surface* textSurface = TTF_RenderText_Solid( gFont, textureText.c_str(), textColor );
 	if( textSurface != NULL )
 	{

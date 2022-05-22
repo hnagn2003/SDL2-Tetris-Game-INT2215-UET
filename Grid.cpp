@@ -6,44 +6,46 @@
 #include <iostream>
 
 Grid::Grid(){
-    for (int i=0; i<ROWS+HIDDEN_ROWS; i++){
-        for (int j=0; j<COLS; j++){
+    for (int i=0; i<ROWS+HIDDEN_ROWS; i++)
+    {
+        for (int j=0; j<COLS; j++)
+        {
             matrix[i][j] = {j, i-HIDDEN_ROWS, -1};
         }
     }
 }
-Grid::~Grid(){
+Grid::~Grid()
+{
 
 }
-void Grid::render(SDL_Renderer *renderer, GameMode gameMode){
-    if (gameMode == SinglePlay){
-    //         for (int i = 0; i <= ROWS; i++){
-    //     SDL_SetRenderDrawColor(renderer, 100, 100, 0, 0);
-    //     SDL_RenderDrawLine(renderer, xPos, i*TILE_SIZE + yPos, xPos + TILE_SIZE*COLS, i*TILE_SIZE + yPos);
-    // }
-    // for (int i = 0; i <= COLS; i++){
-    //     SDL_SetRenderDrawColor(renderer, 100, 100, 0, 0);
-    //     SDL_RenderDrawLine(renderer, i*TILE_SIZE + xPos, yPos, i*TILE_SIZE + xPos, yPos + TILE_SIZE*ROWS);
-    // }
+void Grid::render(SDL_Renderer *renderer, GameMode gameMode)
+{
+    if (gameMode == SinglePlay)
+    {
         xPos = 0;
         yPos = 0;
         
-    }else if (gameMode == Player2){
+    }
+    else if (gameMode == Player2)
+    {
         xPos = -SCREEN_WIDTH/4;
         yPos = 0;
-    }else if (gameMode == Player1){
+    }
+    else if (gameMode == Player1)
+    {
         xPos = SCREEN_WIDTH/4;
         yPos = 0;
     }
     static LTexture gridFrame(grid_frame, renderer);
     gridFrame.render(renderer, xPos, yPos);
-    for (int i = -4; i < ROWS; i++){
-        for (int j = 0; j < COLS; j++){
-            if (matrix[i+HIDDEN_ROWS][j].exist){
+    for (int i = -4; i < ROWS; i++)
+    {
+        for (int j = 0; j < COLS; j++)
+        {
+            if (matrix[i+HIDDEN_ROWS][j].exist)
+            {
                 matrix[i+HIDDEN_ROWS][j].render(renderer, xPos);
             }
         }
     }
-    	    // std::cout << fontStar_40 << std::endl;
-
 }

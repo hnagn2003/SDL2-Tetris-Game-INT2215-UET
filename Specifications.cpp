@@ -9,28 +9,34 @@
 #include <SDL_ttf.h>
 #include <vector>
 // std::vector<int> highestScore;
-// std::map<std::string, int> settingsElement;
 int gridSizeToRendererSize(int w)
-    {
-    return w*TILE_SIZE;
-    }
+{
+return w*TILE_SIZE;
+}
+
 int gridXPosToRendererPos(int x) //...
-    {
-        return (SCREEN_WIDTH - COLS*TILE_SIZE) / 2 + x*TILE_SIZE;
-    }
+{
+    return (SCREEN_WIDTH - COLS*TILE_SIZE) / 2 + x*TILE_SIZE;
+}
+
 int gridYPosToRendererPos(int y)
-    {return (SCREEN_HEIGHT - ROWS*TILE_SIZE) / 2 + y*TILE_SIZE;
-    }
-bool updateScoreTable(int score){
+{
+    return (SCREEN_HEIGHT - ROWS*TILE_SIZE) / 2 + y*TILE_SIZE;
+}
+
+bool updateScoreTable(int score)
+{
     highestScore.push_back(score);
     sort(highestScore.begin(), highestScore.end(), std::greater<int>());
     highestScore.pop_back();
     return true;
 }
 
-void printScoreTable(SDL_Renderer *renderer, int x, int y){
+void printScoreTable(SDL_Renderer *renderer, int x, int y)
+{
     LTexture ranking[scoreMaxMem];
-    for (int i=0; i<scoreMaxMem; i++){
+    for (int i=0; i<scoreMaxMem; i++)
+    {
         if (i==0){
             ranking[i].loadFromRenderedText(std::to_string(highestScore[i]), GOLD_YELLOW_COLOR, fontStar_50, renderer);
         }else{
@@ -40,21 +46,26 @@ void printScoreTable(SDL_Renderer *renderer, int x, int y){
     }
 }
 
-void clearSettings(){
+void clearSettings()
+{
     settingsElement["Ghost Piece"]=1;
 	settingsElement["Level"]=easy;
 	settingsElement["Sound Effects"]=1;
 	settingsElement["Music Volume"]=80;
 }
 
-void clearRankingScore(){
-    for (int i : highestScore){
+void clearRankingScore()
+{
+    for (int i = 0; i<scoreMaxMem; i++)
+    {
         highestScore[i] = 0;
     }
 }
 
-void playSoundEffects(Mix_Chunk* chunk, int loop, int channel){
-    if (settingsElement["Sound Effects"]){
+void playSoundEffects(Mix_Chunk* chunk, int loop, int channel)
+{
+    if (settingsElement["Sound Effects"])
+    {
         Mix_PlayChannel( channel, chunk, loop );
     }
 }

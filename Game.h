@@ -207,7 +207,7 @@ class Game_State
 
                 return;
             }
-            if (gameMode == Player1){
+            if (gameMode != Player2){
                 backButton->handleEvents(&event, 1);
                 if (backButton->getPressed())
                 {

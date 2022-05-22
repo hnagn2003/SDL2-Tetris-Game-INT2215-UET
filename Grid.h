@@ -21,19 +21,23 @@ class Grid{
     public:
         Grid();
         ~Grid();
-        block (*(getGrid)())[COLS]{
+        block (*(getGrid)())[COLS]
+        {
             return matrix;
         }
-        int getX(){
+        int getX()
+        {
             return xPos;
         }
-        int getY(){
+        int getY()
+        {
             return yPos;
         }
 
         void render(SDL_Renderer *renderer, GameMode gameMode);
-        //kiểm tra 1 hàng có filled hay ko
-        bool filledRow(int i){
+        //check a completed line
+        bool filledRow(int i)
+        {
             for (int j = 0; j<COLS; j++)
             {
                 if (matrix[i][j].exist==0)
@@ -54,13 +58,14 @@ class Grid{
                 }
             }
         }
-        // kiểm tra sự tạo thành 1 hàng và xóa, return số hàng bị xóa
+        // check completed lines and delete, return số hàng bị xóa
         int update(int topRowCheck, int botRowCheck)
         {
             int deletedRowCount = 0;
             for (int i = topRowCheck; i<=botRowCheck; i++)
             {
-                if (filledRow(i)){
+                if (filledRow(i))
+                {
                     deleteRow(i);
                     deletedRowCount++;
                 }

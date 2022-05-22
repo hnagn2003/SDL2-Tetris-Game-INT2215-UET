@@ -34,7 +34,7 @@ const std::string menuPicturePath = "assets/Pictures/tabs_menu.png";
 const std::string gameOverBgPath = "assets/Pictures/game_over_path.png";
 const std::string play_again_button = "assets/Pictures/play_again_button.png";
 const std::string play_again_button_ = "assets/Pictures/play_again_button_.png";
-
+const std::string tetroTempP = "assets/Pictures/7block.png";
 const std::string back_button = "assets/Pictures/return_button.png";
 const std::string back_button_ = "assets/Pictures/return_button_.png";
 
@@ -168,53 +168,68 @@ class LButton
         int getYPos(){return yPos;}
         int getWidth(){return width;}
         int getHeight(){return height;}
-        void setSize(int w, int h){
-            width = w; height = h;
-        }
-        void setPressed(bool _pressed){
-            pressed = _pressed;
-        }
-        void setTexture(LTexture* _keyUp, LTexture* _keyDown){
+        void setSize(int w, int h){width = w; height = h;}
+        void setPressed(bool _pressed){pressed = _pressed;}
+        void setTexture(LTexture* _keyUp, LTexture* _keyDown)
+        {
             keyUp = _keyUp;
             keyDown = _keyDown;
             width = keyUp->getWidth();
             height = keyUp->getHeight();
         }
-        void setPosition( int x, int y ){
+        void setPosition( int x, int y )
+        {
             xPos = x; yPos = y;
         }
-		void setCenterPosition( int x, int y ){
+		void setCenterPosition( int x, int y )
+        {
             xCen = x; yCen = y;
         }
-        void handleEvents(SDL_Event* e, bool circleButton = 0){
-            if (xPos == 0 && yPos == 0){
+        void handleEvents(SDL_Event* e, bool circleButton = 0)
+        {
+            if (xPos == 0 && yPos == 0)
+            {
                 xPos = xCen - width/2, yPos = yCen - height/2;
             }
             motionMouse = 0;
             pressed = 0;
-        	if( e->type == SDL_MOUSEMOTION || e->type == SDL_MOUSEBUTTONDOWN || e->type == SDL_MOUSEBUTTONUP ){
+        	if( e->type == SDL_MOUSEMOTION || e->type == SDL_MOUSEBUTTONDOWN || e->type == SDL_MOUSEBUTTONUP )
+            {
                 int x, y;
 		        SDL_GetMouseState( &x, &y );
                 bool inside = true;
-                if (!circleButton){
-                    if (x<xPos){
-                        inside = false;
-                    }else if (x>xPos+width){
-                        inside = false;
-                    }else if (y<yPos){
-                        inside = false;
-                    }else if (y>yPos + height){
+                if (!circleButton)
+                {
+                    if (x<xPos)
+                    {
                         inside = false;
                     }
-                }else{
-                    if ( (x-xCen)*(x-xCen) + (y-yCen)*(y-yCen) <= width*width/4 ){
-                        
-                        inside = true;
-                    }else{
+                    else if (x>xPos+width)
+                    {
+                        inside = false;
+                    }
+                    else if (y<yPos)
+                    {
+                        inside = false;
+                    }
+                    else if (y>yPos + height)
+                    {
                         inside = false;
                     }
                 }
-                if (inside){
+                else
+                {
+                    if ( (x-xCen)*(x-xCen) + (y-yCen)*(y-yCen) <= width*width/4 )
+                    {
+                        
+                        inside = true;
+                    }else
+                    {
+                        inside = false;
+                    }
+                }
+                if (inside)
+                {
                     switch (e->type)
                     {
                         case SDL_MOUSEMOTION:
@@ -235,13 +250,18 @@ class LButton
             }
     
         }
-		void render(SDL_Renderer* renderer, int x = 0, int y = 0){
-            if (x==0&&y==0){
+		void render(SDL_Renderer* renderer, int x = 0, int y = 0)
+        {
+            if (x==0&&y==0)
+            {
                 x=xPos; y = yPos;
             }
-            if (motionMouse){
+            if (motionMouse)
+            {
                 keyDown->render(renderer, x, y);
-            }else{
+            }
+            else
+            {
                 keyUp->render(renderer, x, y);
             }
         }
@@ -266,20 +286,20 @@ class Tabs_Menu{
         ~Tabs_Menu(){
 
         }
-        Tabs getDirect(){
-            return direct;
-        }
-        void resetDirect(){
-            direct = Menu;
-        }
-        void handleEvents(SDL_Event* e){
+        Tabs getDirect(){return direct;}
+        void resetDirect(){direct = Menu;}
+        void handleEvents(SDL_Event* e)
+        {
             bool flag = 0;
-            for (int i=0; i<allButtonsOfMenu; i++){
+            for (int i=0; i<allButtonsOfMenu; i++)
+            {
                 button[i].handleEvents(e);
-                if (button[i].getPressed()){
+                if (button[i].getPressed())
+                {
                     button[i].setPressed(0);
                     direct=(Tabs)i;
-                    if (direct == InGame_SoloMode){
+                    if (direct == InGame_SoloMode)
+                    {
                         Mix_HaltMusic();
                     }
                     flag = 1;
@@ -289,48 +309,59 @@ class Tabs_Menu{
 
             direct = Menu; 
         }
-        void setUpMenu(SDL_Renderer* renderer){
-            for (int i=0; i<4; i++){
+        void setUpMenu(SDL_Renderer* renderer)
+        {
+            for (int i=0; i<4; i++)
+            {
                 keyUp[i].loadFromFile(menuButton[i], renderer);
                 keyDown[i].loadFromFile(menuButton_[i], renderer);
                 button[i].setTexture((keyUp+i), (keyDown+i));
             }
         }
-        void render(SDL_Renderer* renderer){
+        void render(SDL_Renderer* renderer)
+        {
             static LTexture tabMenuBg(menuPicturePath, renderer);
             tabMenuBg.render(renderer, 0, 0);
-            for (int i=0; i<4; i++){
+            for (int i=0; i<4; i++)
+            {
                 button[i].render(renderer, button[i].getXCen()-button[i].getWidth()/2, button[i].getYCen()-button[i].getHeight()/2);
             }
 
         }
 };
 
-class GameOverAnnouncement{
+class GameOverAnnouncement
+{
     public:
         Tabs direct;
     public:
-        GameOverAnnouncement(){
+        GameOverAnnouncement()
+        {
             direct = InGame_SoloMode;
         }
-        Tabs getDirect(){
+        Tabs getDirect()
+        {
             return direct;
         }
-        void resetDirect(){
+        void resetDirect()
+        {
             direct = InGame_SoloMode;
         }
 
-        bool handleEvents(SDL_Event* e){
+        bool handleEvents(SDL_Event* e)
+        {
             bool flag = 0;
             backButton->handleEvents(e, 1);
-            if (backButton->getPressed()){
+            if (backButton->getPressed())
+            {
                 backButton->setPressed(0);
                 direct=Menu;
                 flag = 1;
                 return false;
             }
             replayButton->handleEvents(e, 1);
-            if (replayButton->getPressed()){
+            if (replayButton->getPressed())
+            {
                 replayButton->setPressed(0);
                 direct=InGame_SoloMode;
                 flag = 1;
@@ -340,7 +371,8 @@ class GameOverAnnouncement{
             direct = InGame_SoloMode; 
             return false;
         }
-        void render(SDL_Renderer* renderer){
+        void render(SDL_Renderer* renderer)
+        {
             static LTexture gameOverBg(gameOverBgPath, renderer);
             gameOverBg.render(renderer, 0, 0);
             backButton->render(renderer, backButton->getXCen()-backButton->getWidth()/2, backButton->getYCen()-backButton->getHeight()/2);
@@ -348,19 +380,24 @@ class GameOverAnnouncement{
             printScoreTable(renderer, 620, 505);
         }
 };
-class BattleEnded{
+class BattleEnded
+{
     private:
         Tabs direct;
     public:
-        BattleEnded(){
+        BattleEnded()
+        {
             direct = InGame_BattleMode;
         }
-        Tabs getDirect(){
+        Tabs getDirect()
+        {
             return direct;
         }
-        bool handleEvents(SDL_Event* e){
+        bool handleEvents(SDL_Event* e)
+        {
             backButton->handleEvents(e, 1);
-            if (backButton->getPressed()){
+            if (backButton->getPressed())
+            {
                 backButton->setPressed(0);
                 direct=Menu;
                 return false;
@@ -401,12 +438,14 @@ class BattleEnded{
             }
         }
 };
-enum HelpsInlineTabs{
+enum HelpsInlineTabs
+{
     H_Helps,
     H_About,
     H_Copyright
 };
-class HelpsAndCredit{
+class HelpsAndCredit
+{
     private: 
         HelpsInlineTabs inlineTab;
         Tabs direct;
@@ -439,7 +478,8 @@ class HelpsAndCredit{
             copyrightButton.setTexture(copyrightButtonTex, copyrightButtonTex_);
         }
 
-        void handleEvent(SDL_Event* e){
+        void handleEvent(SDL_Event* e)
+        {
             bool flag = 0;
             backButton->handleEvents(e, 1);
             if (backButton->getPressed())
@@ -470,7 +510,8 @@ class HelpsAndCredit{
                 inlineTab = H_Copyright;
             }
         }
-        void render(SDL_Renderer* renderer){
+        void render(SDL_Renderer* renderer)
+        {
             static LTexture helpsBg (helpsBgP, renderer);
             helpsBg.render(renderer, 0, 0);
             backButton->render(renderer, backButton->getXCen()-backButton->getWidth()/2, backButton->getYCen()-backButton->getHeight()/2);
@@ -497,7 +538,8 @@ class HelpsAndCredit{
             }
 };
 
-enum TetroType{
+enum TetroType
+{
     I_BLOCK,
     L_BLOCK,
     J_BLOCK,
@@ -519,7 +561,8 @@ const SDL_Color TetroColor[] = {
 };
 
 
-enum LEVEL{
+enum LEVEL
+{
     easy = 21,
     hard = 16,
     extremely_hard = 11,
@@ -538,94 +581,107 @@ struct Point
     }
 };
 
-// struct PointOnGrid{
-//     int x;
-//     int y;
-//     PointOnGrid(int _x = 0, int _y = 0){
-//         x = (SCREEN_WIDTH - COLS*TILE_SIZE) / 2 + _x*TILE_SIZE;
-//         y = (SCREEN_HEIGHT - ROWS*TILE_SIZE) / 2 + _y*TILE_SIZE;
-//     }
-// };
 // chuyển tọa độ trong grid về tọa độ thực (tọa độ render ra màn hình)
 int gridSizeToRendererSize(int w);
 int gridXPosToRendererPos(int x);
 int gridYPosToRendererPos(int y);
 
-class block{
+class block
+{
     public:
         int xReal, yReal;
         int xGrid, yGrid, wGrid = 1, hGrid = 1;
         int type;  
         bool exist;
-        block(){
+        block()
+        {
             exist = false;
         }
-        block(int x, int y, int _type, int realCoordinates = 0){
-            if (realCoordinates){
+        block(int x, int y, int _type, int realCoordinates = 0)
+        {
+            if (realCoordinates)
+            {
                 xReal = x;
                 yReal = y;
-            }else{
+            }
+            else
+            {
                 xGrid = x;
                 yGrid = y;
             }
             type = _type;
             exist = false;
         }
-        int getXGrid(){
+        int getXGrid()
+        {
             return xGrid;
         }
-        int getYGrid(){
+        int getYGrid()
+        {
             return yGrid;
         }
-        int getWGrid(){
+        int getWGrid()
+        {
             return wGrid;
         }
-        int getHGrid(){
+        int getHGrid()
+        {
             return hGrid;
         }
 
-        void render(SDL_Renderer* renderer, int gridXPos, int realCoordinates = 0, bool ghost = 0){
-            // SDL_Rect rectBlock{gridXPosToRendererPos(xGrid)+gridXPos, gridYPosToRendererPos(yGrid), gridSizeToRendererSize(wGrid), gridSizeToRendererSize(hGrid)};
-            // SDL_SetRenderDrawColor( renderer, color.r, color.g, color.b, 0 );
-            static LTexture blockTemp("assets/Pictures/7block.png", renderer);
+        void render(SDL_Renderer* renderer, int gridXPos, int realCoordinates = 0, bool ghost = 0)
+        {
+            static LTexture blockTemp(tetroTempP, renderer);
             static LTexture ghostBlockTex(ghostBlockP, renderer);
             SDL_Rect clip{type*TILE_SIZE, 0, TILE_SIZE, TILE_SIZE};
-            if (!ghost){
-                if (realCoordinates){
+            if (!ghost)
+            {
+                if (realCoordinates)
+                {
                     blockTemp.render(renderer, xReal+gridXPos, yReal, &clip);
-                }else{
+                }
+                else
+                {
                     blockTemp.render(renderer, gridXPosToRendererPos(xGrid)+gridXPos, gridYPosToRendererPos(yGrid), &clip);
                 }
             }else{
-                if (realCoordinates){
+                if (realCoordinates)
+                {
                     ghostBlockTex.render(renderer, xReal+gridXPos, yReal, &clip);
-                }else{
+                }
+                else
+                {
                     ghostBlockTex.render(renderer, gridXPosToRendererPos(xGrid)+gridXPos, gridYPosToRendererPos(yGrid), &clip);
                 }
             }
         }
 };  
 // xử lý fps: print, capping
-class FPS_Processor{
+class FPS_Processor
+{
     public:
         long long countedFrames;
         LTexture* gFPSTextTexture;
         LTimer* fpsTimer;
         LTimer* capTimer;
     public:
-        FPS_Processor(){
+        FPS_Processor()
+        {
             countedFrames = 0;
             gFPSTextTexture = new LTexture;
             fpsTimer = new LTimer;
             capTimer = new LTimer;
         }
-        ~FPS_Processor(){
+        ~FPS_Processor()
+        {
             gFPSTextTexture->free();
         }
-        void initTimeCounting(){
+        void initTimeCounting()
+        {
             fpsTimer->start();
         }
-        void cappingFrame(){
+        void cappingFrame()
+        {
             capTimer->start();
             ++countedFrames;
             int frameTicks = capTimer->getTicks();

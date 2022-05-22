@@ -7,11 +7,11 @@
 #include "Specifications.h"
 #include <cstdlib>
 #include <set>
-void Tetromino::renderGhostPiece(SDL_Renderer* renderer, Grid* grid){
+void Tetromino::renderGhostPiece(SDL_Renderer* renderer, Grid* grid)
+{
     static Tetromino ghostTetro;
     ghostTetro = *this;
     ghostTetro.disableFromActivate();
-        // std::cout << ghostTetro.xPos << ' ' << ghostTetro.collin.x++<<std::endl;
     while(!ghostTetro.collision(grid, 1, 0)){
         ghostTetro.yPos++;
         ghostTetro.collin.y++;
@@ -19,7 +19,8 @@ void Tetromino::renderGhostPiece(SDL_Renderer* renderer, Grid* grid){
     ghostTetro.render(renderer, grid->getX(), 1);
 }
 // hàm random tetrads, làm giảm xác suất giống nhau của 2 khối liên tiếp
-Tetromino* getRandomTetrads(){ //...
+Tetromino* getRandomTetrads()
+{ //...
     Tetromino* res = new Tetromino;
     static std::set<int> tetradsBag;
     if (tetradsBag.begin() == tetradsBag.end()){
