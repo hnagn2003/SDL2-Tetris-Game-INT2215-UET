@@ -9,6 +9,7 @@
 #include <SDL_image.h>
 
 #include "Data.h"
+#include "GameState.h"
 #include "Tabs_Menu.h"
 #include "Tabs_Helps.h"
 bool updateScoreTable(int score);
