@@ -12,7 +12,9 @@
 
 ## 2. Mô tả chung <br />
 
+### Giới thiệu
 Tetris hay Xếp Hình (1984), trò chơi có 7 loại Khối Hình (Tetromino) I (thẳng đứng), J, L, O (vuông), S, T, Z ứng với 7 màu khác nhau. <br />
+
 ### Về Game Mechanics <br />
 Mỗi Khối Hình được cấu tạo từ 4 khối gạch vuông (Block). Các Khối Hình có thể xoay được các góc 90, 180, 270 độ. <br />
 Mục tiêu của trò chơi là di chuyển các khối gạch đang rơi từ từ xuống trong kích thước hình chữ nhật 20 hàng x 10 cột (trên màn hình).  <br />
@@ -71,7 +73,7 @@ Tách file giấu code.<br />
 Kỹ thuật duyệt mảng, sinh số ngẫu nhiên.<br />
 
 ## 5. Kết luận
-Game được viết do bản thân 100%, có sự học hỏi từ lazyfoo. (kể cả đồ họa)<br />
+Game được viết do bản thân 100%, có sự học hỏi từ lazyfoo. <br />
 Việc hoàn thiện 1 dự án lập trình như thế này giúp em mở mang kiến thức rất nhiều.<br />
 - Hiểu được mô hình phát triển 1 phần mềm kiểu thác nước: Phân tích, thiết kế, lập trình, kiểm thử, chuyển giao và bảo trì (forever).<br />
 - Sử dụng thành thạo class, pointer, chia tách file,...<br />
