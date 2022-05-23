@@ -110,14 +110,18 @@ Chứa thông tin cụ thể về trò chơi:
 &nbsp; - Tốn Coin để giảm độ khôn của Deep Green. <br />
 ## 6. Kết luận
 Game được viết do bản thân 100%, có sự học hỏi từ lazyfoo. <br />
-Việc hoàn thiện 1 dự án lập trình như thế này giúp em mở mang kiến thức rất nhiều.<br />
+### Việc hoàn thiện 1 dự án lập trình như thế này giúp em mở mang kiến thức rất nhiều.<br />
 - Hiểu được mô hình phát triển 1 phần mềm kiểu thác nước: Phân tích, thiết kế, lập trình, kiểm thử, chuyển giao và bảo trì (forever). <br />
 - Sử dụng thành thạo class, pointer, chia tách file,...<br />
 - Cách dùng github.<br />
 - Học rất nhiều syntax, thuật toán mới của c++.<br />
 - Hiểu sơ sơ một số khía cạnh của lập trình hướng đối tượng: kế thừa, đa hình,...<br />
 - Hình thành tư duy xử lý và giải quyết bài toán<br />
-- Bên cạnh còn tồn tại những thiếu sót như viết code chưa được tối ưu, chưa refac code đến nơi đến chốn, đôi chỗ thiếu trong sáng gây hoang mang cho người đọc, ... đó là những thiếu sót em cần hoàn thiện thêm.<br />
+### Khuyết điểm <br />
+- Code chưa được tối ưu hoàn toàn. <br />
+- Các syntax và thuật toán vẫn còn ngây ngô. <br />
+- Chưa refac code đến nơi đến chốn. <br />
+- Một vài đoạn code thiếu trong sáng gây hoang mang cho người đọc <br />
 - Nhưng với các kỹ thuật lập trình, tính chất trò chơi (chất lượng đồ họa, âm thanh, mechanics) đã trình bày bên trên em nghĩ mình xứng đáng được 10 môn này. <br />
  <br />
 Cuối cùng, em xin chân thành cảm ơn bố mẹ, các thầy cô và các bạn đã đồng hành cùng em trong suốt chặng đường qua để em có thể tạo nên một trò chơi thật tuyệt vời, thú vị và đẳng cấp như thế này. Game rất hay, em chơi rất nhiều <br />
@@ -127,4 +131,4 @@ A Special Thanks To:<br />
 - Thầy Đỗ Minh Khá.<br />
 - Và các bạn lớp INT2215 1.<br />
 
-## Em xin trân trọng cảm ơn thầy cô đã dành thời gian lắng nghe.
+## Em xin trân trọng cảm ơn thầy cô đã dành thời gian lắng nghe. <br />
