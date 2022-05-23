@@ -94,6 +94,7 @@ Việc hoàn thiện 1 dự án lập trình như thế này giúp em mở mang 
 - Hiểu sơ sơ một số khía cạnh của lập trình hướng đối tượng: kế thừa, đa hình,...<br />
 - Hình thành tư duy xử lý và giải quyết bài toán<br />
 - Bên cạnh còn tồn tại những thiếu sót như viết code chưa được tối ưu, chưa refac code đến nơi đến chốn, đôi chỗ thiếu trong sáng gây hoang mang cho người đọc, ... đó là những thiếu sót em cần hoàn thiện thêm.<br />
+- Nhưng với các kỹ thuật lập trình, tính chất trò chơi (chất lượng đồ họa, âm thanh, mechanics) đã trình bày bên trên em nghĩ mình xứng đáng được 10 môn này. <br />
  <br />
 Cuối cùng, em xin chân thành cảm ơn bố mẹ, các thầy cô và các bạn đã đồng hành cùng em trong suốt chặng đường qua để em có thể tạo nên một trò chơi thật tuyệt vời, thú vị và đẳng cấp như thế này. Game rất hay, em chơi rất nhiều <br />
 
