@@ -7,8 +7,7 @@
 * [Kỹ thuật lập trình](#tech)
 * [Kết luận](#summary)
 ## 1. Hướng dẫn cài đặt <br />
-Để khởi động trò chơi, click main.exe.
-
+- Để khởi động trò chơi, click main.exe.
 
 ## 2. Mô tả chung <br />
 
@@ -61,8 +60,7 @@ Chứa thông tin cụ thể về trò chơi:
 
 ### 5. Một số chức năng khác <br />
 - Đang chơi có thể bấm P để dừng hoặc chơi tiếp.<br />
-- Thuật toán sinh Khối Hình ngẫu nhiên giảm tỷ lệ sinh 2 khối giống nhau liên tiếp.
-- Độ khó trò chơi dựa vào điểm người chơi (hoặc thiết lập độ khó trong Settings).
+- Độ khó trò chơi dựa vào điểm người chơi (hoặc thiết lập độ khó trong Settings).<br />
 
 ## 4. Kỹ thuật lập trình <br />
 ### Xây dựng trên nền tảng C++ và SDL2 bao gồm:<br />
@@ -71,19 +69,25 @@ Chứa thông tin cụ thể về trò chơi:
 - Các thư viện mở rộng C++. <br />
 - IDE Visual Code. <br />
 ### Các kỹ thuật lập trình <br />
-Gồm tất cả các kỹ thuật cơ bản: <br />
-Biến (static, extern), vòng lặp, cấu trúc rẽ nhánh, mảng, chuỗi. <br />
-Con trỏ, set, map, vector <br />
-Class: Tạo, hủy, member function. <br />
-Đọc viết file binary: Lưu giữ điểm số và user settings. <br />
-Multithreading: Xử lý chức năng Battle.<br />
-Tách file giấu code.<br />
-Kỹ thuật duyệt mảng, sinh số ngẫu nhiên.<br />
-
+- Gồm tất cả các kỹ thuật cơ bản: <br />
+- Biến (static, extern), vòng lặp, cấu trúc rẽ nhánh, mảng, chuỗi. <br />
+- Con trỏ, set, map, vector <br />
+- Class: Tạo, hủy, member function. <br />
+- Đọc viết file binary: Lưu giữ điểm số và user settings. <br />
+- Multithreading: Xử lý chức năng Battle.<br />
+- Tách file giấu code.<br />
+- Kỹ thuật duyệt mảng, sinh số ngẫu nhiên.<br />
+- Kỹ năng refac code.
+- Các kỹ thuật, syntax của SDL.
+- Kỹ thuật giải phóng bộ nhớ động. <br />
+### Ứng dụng
+- Thuật toán sinh Khối Hình ngẫu nhiên giảm tỷ lệ sinh 2 khối giống nhau liên tiếp. <br />
+- Mỗi chức năng của game (Play Single, Battle, Setting, Helps), mỗi Khối hình (Tetrads) được xác định bằng 1 đối tượng (class) riêng biệt.  <br />
+- Ứng dụng đa nhiệm xử lý Battle khi có 2 người chơi cùng thao tác trên một bàn phím cùng 1 lúc.  <br />
 ## 5. Kết luận
 Game được viết do bản thân 100%, có sự học hỏi từ lazyfoo. <br />
 Việc hoàn thiện 1 dự án lập trình như thế này giúp em mở mang kiến thức rất nhiều.<br />
-- Hiểu được mô hình phát triển 1 phần mềm kiểu thác nước: Phân tích, thiết kế, lập trình, kiểm thử, chuyển giao và bảo trì (forever).<br />
+- Hiểu được mô hình phát triển 1 phần mềm kiểu thác nước: Phân tích, thiết kế, lập trình, kiểm thử, chuyển giao và bảo trì (forever). <br />
 - Sử dụng thành thạo class, pointer, chia tách file,...<br />
 - Cách dùng github.<br />
 - Học rất nhiều syntax, thuật toán mới của c++.<br />
