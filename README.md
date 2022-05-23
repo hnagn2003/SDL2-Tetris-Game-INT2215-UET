@@ -121,5 +121,10 @@ Việc hoàn thiện 1 dự án lập trình như thế này giúp em mở mang 
 - Nhưng với các kỹ thuật lập trình, tính chất trò chơi (chất lượng đồ họa, âm thanh, mechanics) đã trình bày bên trên em nghĩ mình xứng đáng được 10 môn này. <br />
  <br />
 Cuối cùng, em xin chân thành cảm ơn bố mẹ, các thầy cô và các bạn đã đồng hành cùng em trong suốt chặng đường qua để em có thể tạo nên một trò chơi thật tuyệt vời, thú vị và đẳng cấp như thế này. Game rất hay, em chơi rất nhiều <br />
+A Special Thanks To:<br />
+- Thầy Trần Quốc Long.<br />
+- Thầy Nguyễn Việt Anh.<br />
+- Thầy Đỗ Minh Khá.<br />
+- Và các bạn lớp INT2215 1.<br />
 
 ## Em xin trân trọng cảm ơn thầy cô đã dành thời gian lắng nghe.
