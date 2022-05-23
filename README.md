@@ -1,5 +1,5 @@
 # SDL2-Tetris-Game-INT2215-UET
-### Vui lòng coi Video https://youtu.be/9wpVOchaK8I
+### Video Demo https://youtu.be/9wpVOchaK8I
 ## Table Of Contents <br />
 * [Hướng dẫn cài đặt](#setup)
 * [Mô tả chung](#info)
