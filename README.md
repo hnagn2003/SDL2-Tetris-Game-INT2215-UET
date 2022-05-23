@@ -61,7 +61,7 @@ Chứa thông tin cụ thể về trò chơi:
 ### 5. Một số chức năng khác <br />
 - Đang chơi có thể bấm P để dừng hoặc chơi tiếp.<br />
 - Độ khó trò chơi dựa vào điểm người chơi (hoặc thiết lập độ khó trong Settings).<br />
-
+- Dữ liệu Ranking Score và User Settings được lưu trữ tại file Binary trong thư mục "settings" <br />
 ## 4. Kỹ thuật lập trình <br />
 ### Xây dựng trên nền tảng C++ và SDL2 bao gồm:<br />
 - SDL_Mixer: Hỗ trợ xử lý âm thanh. <br />
@@ -73,7 +73,7 @@ Chứa thông tin cụ thể về trò chơi:
 - Biến (static, extern), vòng lặp, cấu trúc rẽ nhánh, mảng, chuỗi. <br />
 - Con trỏ, set, map, vector <br />
 - Class: Tạo, hủy, member function. <br />
-- Đọc viết file binary: Lưu giữ điểm số và user settings. <br />
+- Đọc viết file binary. <br />
 - Multithreading: Xử lý chức năng Battle.<br />
 - Tách file giấu code.<br />
 - Kỹ thuật duyệt mảng, sinh số ngẫu nhiên.<br />
