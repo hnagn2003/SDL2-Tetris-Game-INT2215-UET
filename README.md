@@ -122,7 +122,7 @@ Game được viết do bản thân 100%, có sự học hỏi từ lazyfoo. <br
 - Các syntax và thuật toán vẫn còn ngây ngô. <br />
 - Chưa refac code đến nơi đến chốn. <br />
 - Một vài đoạn code thiếu trong sáng gây hoang mang cho người đọc <br />
-- Nhưng với các kỹ thuật lập trình, tính chất trò chơi (chất lượng đồ họa, âm thanh, mechanics) đã trình bày bên trên em nghĩ mình xứng đáng được 10 môn này. <br />
+- Nhưng với các kỹ thuật lập trình, tính chất trò chơi (chất lượng đồ họa, âm thanh, mechanics) đã trình bày bên trên em nghĩ mình xứng đáng được 10 môn này. (Nhưng nếu thấp hơn thì em vẫn vui vẻ chấp nhận ạ ^^). <br />
  <br />
 Cuối cùng, em xin chân thành cảm ơn bố mẹ, các thầy cô và các bạn đã đồng hành cùng em trong suốt chặng đường qua để em có thể tạo nên một trò chơi thật tuyệt vời, thú vị và đẳng cấp như thế này. Game rất hay, em chơi rất nhiều <br />
 A Special Thanks To:<br />
