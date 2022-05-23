@@ -77,7 +77,7 @@ Chứa thông tin cụ thể về trò chơi:
 - SDL_Ttf: Hỗ trợ xử lý fonts chữ. <br />
 - Các thư viện mở rộng C++. <br />
 - IDE Visual Code. <br />
- <br />
+
 ### Các kỹ thuật lập trình <br />
 - Gồm tất cả các kỹ thuật cơ bản: <br />
 - Biến (static, extern), vòng lặp, cấu trúc rẽ nhánh, mảng, chuỗi. <br />
@@ -91,7 +91,7 @@ Chứa thông tin cụ thể về trò chơi:
 - Các kỹ thuật, syntax của SDL.
 - Kỹ thuật giải phóng bộ nhớ động. <br />
 
- <br />
+
 ### Ứng dụng
 - Thuật toán sinh Khối Hình ngẫu nhiên giảm tỷ lệ sinh 2 khối giống nhau liên tiếp. <br />
 - Mỗi chức năng của game (Play Single, Battle, Setting, Helps), mỗi Khối hình (Tetrads) được xác định bằng 1 đối tượng (class) riêng biệt.  <br />
@@ -106,24 +106,24 @@ Chứa thông tin cụ thể về trò chơi:
 - Một Đấu Trường bao gồm khoảng 10-50-100 người chơi. <br />
 - Khi một người chơi bất kỳ ăn hàng, hàng đó sẽ không biến mất mà trở thành Garbage Tetrads xuất hiện tại màn hình của người chơi khác bất kỳ (random). <br />
 - Người chơi cuối cùng nằm xuống là người chiến thắng. <br />
- <br />
+
  ### Xã hội hóa: Ứng dụng trí tuệ nhân tạo viết bot Deep Green chơi với người tự kỷ, người cô đơn,... <br />
  - Thêm chức năng chơi với máy (Play With Deep Green). <br />
  - Công việc của Deep Green:  <br />
 &nbsp; - Nhận diện grid, nhận diện Khối Hình hiện tại và các khối tiếp theo <br />
 &nbsp; - Xử lý dữ liệu bằng thuật toán. <br />
 &nbsp; - Đưa ra vị trí và góc quay tối ưu nhất để bạn không bao giờ thắng được máy =))). <br />
- <br />
+
 ### Tư bản hóa trò chơi: Hệ thống nạp tiền Pay to Play: <br />
 - Người chơi sẽ nạp tiền vào game, số tiền sẽ chuyển vào tài khoản nhà phát hành. <br />
 - Tiền nạp sẽ chuyển hóa thành Coin với tỷ lệ tương ứng. <br />
 - Có thể dùng Coin để đổi các vật phẩm sau: <br />
-<br />
+
 &nbsp; - Skin cho Khối Hình theo cơ chế gacha (quay ngẫu nhiên từ một tập có sẵn) <br />
 &nbsp; - Theme UI game mới <br />
 &nbsp; - Theme Music game mới <br />
 &nbsp; - Tốn Coin để giảm độ khôn của Deep Green. <br />
- <br />
+
 * <a name="summary"/>
 ## 6. Kết luận
 Game được viết do bản thân 100%, có sự học hỏi từ lazyfoo. <br />
@@ -135,14 +135,14 @@ Game được viết do bản thân 100%, có sự học hỏi từ lazyfoo. <br
 - Hiểu sơ sơ một số khía cạnh của lập trình hướng đối tượng: kế thừa, đa hình,...<br />
 - Hình thành tư duy xử lý và giải quyết bài toán<br />
 
- <br />
+
 ### Khuyết điểm <br />
 - Code chưa được tối ưu hoàn toàn. <br />
 - Các syntax và thuật toán vẫn còn ngây ngô. <br />
 - Chưa refac code đến nơi đến chốn. <br />
 - Một vài đoạn code thiếu trong sáng gây hoang mang cho người đọc <br />
 - Nhưng với các kỹ thuật lập trình, tính chất trò chơi (chất lượng đồ họa, âm thanh, mechanics) đã trình bày bên trên em nghĩ mình xứng đáng được 10 môn này. (Nhưng nếu thấp hơn thì em vẫn vui vẻ chấp nhận ạ ^^). <br />
- <br />
+
 Cuối cùng, em xin chân thành cảm ơn bố mẹ, các thầy cô và các bạn đã đồng hành cùng em trong suốt chặng đường qua để em có thể tạo nên một trò chơi thật tuyệt vời, thú vị và đẳng cấp như thế này. Game rất hay, em chơi rất nhiều <br />
 A Special Thanks To:<br />
 - Thầy Trần Quốc Long.<br />
