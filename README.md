@@ -63,7 +63,7 @@ IDE Visual Code. <br />
 ### Các kỹ thuật lập trình <br />
 Gồm tất cả các kỹ thuật cơ bản: <br />
 Biến (static, extern), vòng lặp, cấu trúc rẽ nhánh, mảng, chuỗi. <br />
-Con trỏ. <br />
+Con trỏ, set, map, vector <br />
 Class: Tạo, hủy, member function. <br />
 Đọc viết file binary: Lưu giữ điểm số và user settings. <br />
 Multithreading: Xử lý chức năng Battle.<br />
