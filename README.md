@@ -16,11 +16,11 @@
 Tetris hay Xếp Hình (1984), trò chơi có 7 loại Khối Hình (Tetromino) I (thẳng đứng), J, L, O (vuông), S, T, Z ứng với 7 màu khác nhau. <br />
 
 ### Về Game Mechanics <br />
-Mỗi Khối Hình được cấu tạo từ 4 khối gạch vuông (Block). Các Khối Hình có thể xoay được các góc 90, 180, 270 độ. <br />
-Mục tiêu của trò chơi là di chuyển các khối gạch đang rơi từ từ xuống trong kích thước hình chữ nhật 20 hàng x 10 cột (trên màn hình).  <br />
-Chỗ nào có gạch rồi thì không di chuyển được tới vị trí đó. <br />
-Người chơi xếp những khối hình sao cho khối hình lấp đầy 1 hàng ngang để ghi điểm và hàng ngang ấy sẽ biến mất và người chơi sẽ ghi điểm. <br />
-Người chơi thua cuộc khi Khối Hình tràn ra trên 2 dòng khỏi Grid (Lưới). <br />
+- Cấu tạo: Mỗi Khối Hình được cấu tạo từ 4 khối gạch vuông (Block). Các Khối Hình có thể xoay được các góc 90, 180, 270 độ. <br />
+- Mục tiêu: Di chuyển các khối gạch đang rơi từ từ xuống trong kích thước hình chữ nhật 20 hàng x 10 cột (trên màn hình).  <br />
+- Chỗ nào có gạch rồi thì không di chuyển được tới vị trí đó. <br />
+- Người chơi xếp những khối hình sao cho khối hình lấp đầy 1 hàng ngang để ghi điểm và hàng ngang ấy sẽ biến mất và người chơi sẽ ghi điểm. <br />
+- Người chơi thua cuộc khi Khối Hình tràn ra trên 2 dòng khỏi Grid (Lưới). <br />
 
 Chi tiết tại mục Help trong Game <br />
 ![image](https://user-images.githubusercontent.com/94885088/169710203-0dca5817-3242-460e-8323-bc12a4390d6a.png)
@@ -44,24 +44,32 @@ Nếu cả hai đều thua cuộc sẽ dựa trên điểm số quyết định 
 ![image](https://user-images.githubusercontent.com/94885088/169710558-be531114-de21-45e3-a876-0b3a2d64d1bd.png)
 
 ### 3. Chức năng Setting <br />
-Cho phép thiết lập các thông số của trò chơi bằng chuột, bao gồm bật tắt Ghost Tetromino, bật tắt Sound Efects, điều chỉnh Music Volume, thiết lập Level. <br />
+Cho phép thiết lập các thông số của trò chơi bằng chuột, bao gồm:
+- bật tắt Ghost Tetromino  <br />
+- bật tắt Sound Efects  <br />
+- điều chỉnh Music Volume <br />
+- thiết lập Level. <br />
 Ngoài ra còn reset Ranking Score và reset Settings. <br />
 ![image](https://user-images.githubusercontent.com/94885088/169710316-90c18edd-0bef-4967-981f-455d545b4f18.png)
 
 ### 4. Chức năng Help <br />
-Chứa thông tin cụ thể về trò chơi: cách chơi, thông tin chi tiết và bản quyền.<br />
-![image](https://user-images.githubusercontent.com/94885088/169710416-76b97939-e7b3-4aa4-845e-46b67bbdf973.png)<br />
+Chứa thông tin cụ thể về trò chơi: 
+- Cách chơi (Helps) <br />
+- Thông tin chi tiết (About) <br />
+- Bản quyền (copyright) <br />
+![image](https://user-images.githubusercontent.com/94885088/169710416-76b97939-e7b3-4aa4-845e-46b67bbdf973.png) <br />
 
 ### 5. Một số chức năng khác <br />
-Đang chơi có thể bấm P để dừng hoặc chơi tiếp.<br />
-Thuật toán sinh Khối Hình ngẫu nhiên giảm tỷ lệ sinh 2 khối giống nhau liên tiếp.
+- Đang chơi có thể bấm P để dừng hoặc chơi tiếp.<br />
+- Thuật toán sinh Khối Hình ngẫu nhiên giảm tỷ lệ sinh 2 khối giống nhau liên tiếp.
+- Độ khó trò chơi dựa vào điểm người chơi (hoặc thiết lập độ khó trong Settings).
 
 ## 4. Kỹ thuật lập trình <br />
 ### Xây dựng trên nền tảng C++ và SDL2 bao gồm:<br />
-SDL_Mixer: Hỗ trợ xử lý âm thanh. <br />
-SDL_Ttf: Hỗ trợ xử lý fonts chữ. <br />
-Các thư viện mở rộng C++. <br />
-IDE Visual Code. <br />
+- SDL_Mixer: Hỗ trợ xử lý âm thanh. <br />
+- SDL_Ttf: Hỗ trợ xử lý fonts chữ. <br />
+- Các thư viện mở rộng C++. <br />
+- IDE Visual Code. <br />
 ### Các kỹ thuật lập trình <br />
 Gồm tất cả các kỹ thuật cơ bản: <br />
 Biến (static, extern), vòng lặp, cấu trúc rẽ nhánh, mảng, chuỗi. <br />
@@ -82,6 +90,7 @@ Việc hoàn thiện 1 dự án lập trình như thế này giúp em mở mang 
 - Hiểu sơ sơ một số khía cạnh của lập trình hướng đối tượng: kế thừa, đa hình,...<br />
 - Hình thành tư duy xử lý và giải quyết bài toán<br />
 - Bên cạnh còn tồn tại những thiếu sót như viết code chưa được tối ưu, chưa refac code đến nơi đến chốn, đôi chỗ thiếu trong sáng gây hoang mang cho người đọc, ... đó là những thiếu sót em cần hoàn thiện thêm.<br />
+ <br />
 Cuối cùng, em xin chân thành cảm ơn bố mẹ, các thầy cô và các bạn đã đồng hành cùng em trong suốt chặng đường qua để em có thể tạo nên một trò chơi thật tuyệt vời, thú vị và đẳng cấp như thế này. Game rất hay, em chơi rất nhiều <br />
 
 ## Em xin trân trọng cảm ơn thầy cô đã dành thời gian lắng nghe.
