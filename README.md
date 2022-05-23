@@ -84,7 +84,23 @@ Chứa thông tin cụ thể về trò chơi:
 - Thuật toán sinh Khối Hình ngẫu nhiên giảm tỷ lệ sinh 2 khối giống nhau liên tiếp. <br />
 - Mỗi chức năng của game (Play Single, Battle, Setting, Helps), mỗi Khối hình (Tetrads) được xác định bằng 1 đối tượng (class) riêng biệt.  <br />
 - Ứng dụng đa nhiệm xử lý Battle khi có 2 người chơi cùng thao tác trên một bàn phím cùng 1 lúc.  <br />
-## 5. Kết luận
+## 5. Các hướng đi trong tương lai
+- Nâng cấp chức năng Battle trở thành Royal Battle:
+### Kết nối hóa trò chơi: Royal Battle:
+- Sử dụng kết nối mạng máy tính (LAN, Router,... ) kết nối người chơi với nhau.
+- Sẽ thiết lập một trường cơ sở dữ liệu (database) lưu trữ trên máy chủ (server) lưu trữ thông tin người chơi.
+- Một Đấu Trường bao gồm khoảng 10-50-100 người chơi.
+- Khi một người chơi bất kỳ ăn hàng, hàng đó sẽ không biến mất mà trở thành Garbage Tetrads xuất hiện tại màn hình của người chơi khác bất kỳ (random).
+- Người chơi cuối cùng nằm xuống là người chiến thắng.
+### Tư bản hóa trò chơi: Hệ thống nạp tiền Pay to Play:
+- Người chơi sẽ nạp tiền vào game, số tiền sẽ chuyển vào tài khoản nhà phát hành.
+- Tiền nạp sẽ chuyển hóa thành Coin với tỷ lệ tương ứng.
+- Có thể dùng Coin để đổi các vật phẩm sau:
+&nbsp; - Skin cho Khối Hình theo cơ chế gacha (quay ngẫu nhiên từ một tập có sẵn)
+&nbsp; - Theme UI game mới
+&nbsp; - Theme Music game mới
+ 
+## 6. Kết luận
 Game được viết do bản thân 100%, có sự học hỏi từ lazyfoo. <br />
 Việc hoàn thiện 1 dự án lập trình như thế này giúp em mở mang kiến thức rất nhiều.<br />
 - Hiểu được mô hình phát triển 1 phần mềm kiểu thác nước: Phân tích, thiết kế, lập trình, kiểm thử, chuyển giao và bảo trì (forever). <br />
