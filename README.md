@@ -38,8 +38,7 @@ Chức năng cơ bản nhất của game. Chơi như trên mô tả, cách chơi
 - Next Tetrads: Thông tin về các khối hình sinh kế tiếp.  <br />
  
 Khi người chơi thua sẽ xuất hiện 1 bảng tổng sắp cho biết điểm số của người chơi và các kỷ lục trước<br />
-![image](https://user-images.githubusercontent.com/94885088/169710488-80d9d7a1-f174-4aae-bcf7-97565e011809.png)
-Người chơi có thể bấm nút Replay để chơi lại hoặc Return để quay lại màn hình chính.<br />
+![image](https://user-images.githubusercontent.com/94885088/170225487-e925c20a-9590-4f1c-b612-2162e0d048d3.png)Người chơi có thể bấm nút Replay để chơi lại hoặc Return để quay lại màn hình chính.<br />
 ### 2. Chức năng Battle <br />
 Cũng là chơi nhưng mà chơi hai người. Mỗi bên điều khiển một phía của bàn phím. <br />
 ![image](https://user-images.githubusercontent.com/94885088/169710291-548f96b8-1293-421b-9476-129dd74ed5df.png)
@@ -47,11 +46,11 @@ Cũng là chơi nhưng mà chơi hai người. Mỗi bên điều khiển một 
 Khi một trong hai người chơi thua cuộc, người còn lại sẽ chiến thắng.<br />
 Nếu cả hai đều thua cuộc sẽ dựa trên điểm số quyết định người chiến thắng.<br />
 
-![image](https://user-images.githubusercontent.com/94885088/169710558-be531114-de21-45e3-a876-0b3a2d64d1bd.png)
-
+![image](https://user-images.githubusercontent.com/94885088/170225290-eb2ffe56-4c28-4f01-bb13-ed142b99dc29.png)
 ### 3. Chức năng Setting <br />
 Cho phép thiết lập các thông số của trò chơi bằng chuột, bao gồm:
 - bật tắt Ghost Tetromino  <br />
+![image](https://user-images.githubusercontent.com/94885088/170225806-ac546811-eee9-4ff7-a80c-999a9dd7a5c0.png)
 - bật tắt Sound Efects  <br />
 - điều chỉnh Music Volume <br />
 - thiết lập Level. <br />
@@ -64,9 +63,7 @@ Chứa thông tin cụ thể về trò chơi:
 - Cách chơi (Helps) <br />
 - Thông tin chi tiết (About) <br />
 - Bản quyền (copyright) <br />
-![image](https://user-images.githubusercontent.com/94885088/169710416-76b97939-e7b3-4aa4-845e-46b67bbdf973.png) <br />
-
-### 5. Một số chức năng khác <br />
+ ### 5. Một số chức năng khác <br />
 - Đang chơi có thể bấm P để dừng hoặc chơi tiếp.<br />
 - Độ khó trò chơi dựa vào điểm người chơi (hoặc thiết lập độ khó trong Settings).<br />
 - Dữ liệu Ranking Score và User Settings được lưu trữ tại file Binary trong thư mục "settings" <br />
