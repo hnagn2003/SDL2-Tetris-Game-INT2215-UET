@@ -26,8 +26,10 @@ Tetris hay Xếp Hình (1984), trò chơi có 7 loại Khối Hình (Tetromino) 
 - Chỗ nào có gạch rồi thì không di chuyển được tới vị trí đó. <br />
 - Người chơi xếp những khối hình sao cho khối hình lấp đầy 1 hàng ngang để ghi điểm và hàng ngang ấy sẽ biến mất và người chơi sẽ ghi điểm. <br />
 - Người chơi thua cuộc khi Khối Hình tràn ra trên 2 dòng khỏi Grid (Lưới). <br />
-Chi tiết tại mục Help trong Game <br />
-![image](https://user-images.githubusercontent.com/94885088/169710203-0dca5817-3242-460e-8323-bc12a4390d6a.png)
+![image](https://user-images.githubusercontent.com/94885088/170222565-b1ef89e6-0eab-4fd7-89fa-539e6a7b6725.png)
+- Hold <C> : Ấn để giữ lại khối hình hiện tại, khối hình hiện tại được thay thế bằng khối hình tiếp theo.  <br />
+- Bảng thông số: Lần lượt là Line (lưu trữ số dòng đã hoàn thành), Score (điểm hiện tại), Level (đại lượng tượng trưng cho speed).  <br />
+- Next Tetrads: Thông tin về các khối hình sinh kế tiếp.  <br />
 * <a name="detail"/>
 ## 3. Các chức năng
 Để thoát game, nhấn ESC.<br />
