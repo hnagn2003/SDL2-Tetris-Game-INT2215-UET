@@ -7,12 +7,12 @@
 * [Kỹ thuật lập trình](#tech)
 * [Các hướng đi trong tương lai](#future)
 * [Kết luận](#summary)
- <br />
+
 
 * <a name="setup"/>
-## 1. Hướng dẫn cài đặt <br />
-- Để khởi động trò chơi, click main.exe.
- <br />
+## 1. Hướng dẫn cài đặt
+- Để khởi động trò chơi, click main.exe. <br />
+
 
 * <a name="info"/>
 ## 2. Mô tả chung <br />
@@ -31,21 +31,21 @@ Chi tiết tại mục Help trong Game <br />
 ![image](https://user-images.githubusercontent.com/94885088/169710203-0dca5817-3242-460e-8323-bc12a4390d6a.png)
 * <a name="detail"/>
 ## 3. Các chức năng
-Để thoát game, nhấn ESC.
+Để thoát game, nhấn ESC.<br />
 ### 1. Chức năng Play Single <br />
 Chức năng cơ bản nhất của game. Chơi như trên mô tả, cách chơi cụ thể ở hình minh họa dưới mục "Chức năng Help" ^^. <br />
 ![image](https://user-images.githubusercontent.com/94885088/169710259-a1b0b66c-3d18-4c8a-b8d8-9fc094dfe1da.png)
 <br />
 Khi người chơi thua sẽ xuất hiện 1 bảng tổng sắp cho biết điểm số của người chơi và các kỷ lục trước<br />
 ![image](https://user-images.githubusercontent.com/94885088/169710488-80d9d7a1-f174-4aae-bcf7-97565e011809.png)
-Người chơi có thể bấm nút Replay để chơi lại hoặc Return để quay lại màn hình chính.
+Người chơi có thể bấm nút Replay để chơi lại hoặc Return để quay lại màn hình chính.<br />
 ### 2. Chức năng Battle <br />
 Cũng là chơi nhưng mà chơi hai người. Mỗi bên điều khiển một phía của bàn phím. <br />
 ![image](https://user-images.githubusercontent.com/94885088/169710291-548f96b8-1293-421b-9476-129dd74ed5df.png)
-<br />
-Khi một trong hai người chơi thua cuộc, người còn lại sẽ chiến thắng.
-Nếu cả hai đều thua cuộc sẽ dựa trên điểm số quyết định người chiến thắng.
-<br />
+
+Khi một trong hai người chơi thua cuộc, người còn lại sẽ chiến thắng.<br />
+Nếu cả hai đều thua cuộc sẽ dựa trên điểm số quyết định người chiến thắng.<br />
+
 ![image](https://user-images.githubusercontent.com/94885088/169710558-be531114-de21-45e3-a876-0b3a2d64d1bd.png)
 
 ### 3. Chức năng Setting <br />
@@ -54,7 +54,7 @@ Cho phép thiết lập các thông số của trò chơi bằng chuột, bao g�
 - bật tắt Sound Efects  <br />
 - điều chỉnh Music Volume <br />
 - thiết lập Level. <br />
- <br />
+
 Ngoài ra còn reset Ranking Score và reset Settings. <br />
 ![image](https://user-images.githubusercontent.com/94885088/169710316-90c18edd-0bef-4967-981f-455d545b4f18.png)
 
@@ -96,7 +96,7 @@ Chứa thông tin cụ thể về trò chơi:
 - Thuật toán sinh Khối Hình ngẫu nhiên giảm tỷ lệ sinh 2 khối giống nhau liên tiếp. <br />
 - Mỗi chức năng của game (Play Single, Battle, Setting, Helps), mỗi Khối hình (Tetrads) được xác định bằng 1 đối tượng (class) riêng biệt.  <br />
 - Ứng dụng đa nhiệm xử lý Battle khi có 2 người chơi cùng thao tác trên một bàn phím cùng 1 lúc.  <br />
- <br />
+
 * <a name="future"/>
 ## 5. Các hướng đi trong tương lai <br />
 - Nâng cấp chức năng Battle trở thành Royal Battle: <br />
@@ -149,5 +149,4 @@ A Special Thanks To:<br />
 - Thầy Nguyễn Việt Anh.<br />
 - Thầy Đỗ Minh Khá.<br />
 - Và các bạn lớp INT2215 1.<br />
- <br />
 ## Em xin trân trọng cảm ơn thầy cô đã dành thời gian lắng nghe. <br />
