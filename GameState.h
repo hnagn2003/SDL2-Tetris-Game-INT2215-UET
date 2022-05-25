@@ -36,22 +36,11 @@ class Game_State
         bool getPause();
         long long getScore();
 
-        // Grid* getGrid();
-        // Tetromino* getCurTetrads();
-        // Tetromino* getNext0Tetrads();
+        Grid* getGrid();
+        Tetromino* getCurTetrads();
+        Tetromino* getNext0Tetrads();
         
-        Grid *getGrid()
-        {
-            return grid;
-        }
-        Tetromino *getCurTetrads()
-        {
-            return currentTetrads;
-        }
-                Tetromino *getNext0Tetrads()
-        {
-            return next0Tetrads;
-        }
+
         void setCountDownTime(int c);
         void setInCountDown(bool iC);
         bool isInCountDown();
