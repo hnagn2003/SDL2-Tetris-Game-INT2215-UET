@@ -49,454 +49,60 @@ class Tetromino{
         bool pause;
         Uint32 startTime;
     public:
-        Tetromino()
-        {
-            active = true;
-            falling = false;
-            pause = 0;
-            startTime = 0;
-        }
-        Tetromino (TetroType _type, SDL_Color _color, bool _matrix[sizeOfTetradsSide][sizeOfTetradsSide], int _w, int _h, int _x, int _y, int _xPos = xTetradsInit, int _yPos = yTetradsInit)
-        {
-            type = _type;
-            active = true;
-            falling = false;
-            pause = 0;
-            color = _color;
-            collin.x = _x;
-            collin.y = _y;
-            collin.w = _w;
-            collin.h = _h;
-            xPos = _xPos;
-            yPos = _yPos;
-            for (int i=0; i<sizeOfTetradsSide; i++)
-            {
-                for (int j=0; j<sizeOfTetradsSide; j++)
-                {
-                    matrix[i][j] = _matrix[i][j];
-                }
-            }
-        }
-        ~Tetromino(){}
-        void setCollinYInitTetrads(int landingPoint)
-        {
-            yPos=landingPoint-HIDDEN_ROWS-4;            
-            if (yPos+HIDDEN_ROWS<=0)
-            {
-                std::cout << "out of range" << std::endl;
-            }
-            detectCoveredRect();
-        }
-        TetroType getType()
-        {
-            return type;
-        }
-        bool getStatus()
-        {
-            return active;
-        }
-        void setActice(bool _active)
-        {
-            active = _active;
-        }
-        bool getFall()
-        {
-            return falling;
-        }
-        void setFall(bool fall)
-        {
-            falling = fall;
-        }
-        int getXPos()
-        {
-            return xPos;
-        }
-        int getYPos()
-        {
-            return yPos;
-        }
-        void setXPos(int x)
-        {
-            xPos = x;
-        }
-        void setYPos(int y)
-        {
-            yPos = y;
-        }
-        int getXCol()
-        {
-            return collin.x;
-        }
-        int getYCol()
-        {
-            return collin.y;
-        }
-        int getWCol()
-        {
-            return collin.w;
-        }
-        int getHCol()
-        {
-            return collin.h;
-        }
-        void setPause(bool p)
-        {
-            pause = p;
-        }
-        void render(SDL_Renderer* renderer, int gridXPos, bool ghost = 0)
-        { // render = toa do grid
-            if (active || ghost)
-            {
-                for (int i=0; i<sizeOfTetradsSide; i++)
-                {
-                    for (int j=0; j<sizeOfTetradsSide; j++)
-                    {
-                        if (matrix[i][j] == true)
-                        {
-                            block aBlock{xPos+j, yPos+i, type};
-                            aBlock.render(renderer, gridXPos, 0, ghost);
-                        }
-                    }
-                }
-            }
-        }
-        void render(SDL_Renderer* renderer, int gridXPos, int x, int y)
-        { // render theo toa do thuc
-            for (int i=0; i<sizeOfTetradsSide; i++)
-            {
-                    for (int j=0; j<sizeOfTetradsSide; j++)
-                    {
-                        if (matrix[i][j] == true)
-                        {
-                            block aBlock{x+j*TILE_SIZE, y+i*TILE_SIZE, type, 1};
-                            aBlock.render(renderer, gridXPos, 1);
-                        }
-                    }
-                }
-        }
-        // tắt active
-        void disableFromActivate()
-        {
-            falling = false;
-            active = false;
-        }
+        Tetromino();
+        Tetromino (TetroType _type, SDL_Color _color, bool _matrix[sizeOfTetradsSide][sizeOfTetradsSide], int _w, int _h, int _x, int _y, int _xPos = xTetradsInit, int _yPos = yTetradsInit);
+        ~Tetromino();
+        void setCollinYInitTetrads(int landingPoint);
+        TetroType getType();
+        bool getStatus();
+        void setActice(bool _active);
+        bool getFall();
+        void setFall(bool fall);
+        int getXPos();
+        int getYPos();
+        void setXPos(int x);
+        void setYPos(int y);
+        int getXCol();
+        int getYCol();
+        int getWCol();
+        int getHCol();
+        void setPause(bool p);
+        void render(SDL_Renderer* renderer, int gridXPos, bool ghost = 0);
+        void render(SDL_Renderer* renderer, int gridXPos, int x, int y);        // tắt active
+        void disableFromActivate();
         // kết nạp khối tetrads vào grid của game
-        void mergeToGrid(Grid *grid)
-        {
-            for (int i=0; i<sizeOfTetradsSide; i++)
-            {
-                for (int j=0; j<sizeOfTetradsSide; j++)
-                {
-                    if (matrix[i][j] == true)
-                    {
-                        grid->getGrid()[i+yPos+HIDDEN_ROWS][j+xPos].type = type;
-                        grid->getGrid()[i+yPos+HIDDEN_ROWS][j+xPos].exist = true;
-
-                    }
-                }
-            }
-        }
+        void mergeToGrid(Grid *grid);
         // kiểm tra va chạm dưới
 
-        bool collision(Grid *grid, bool disabled = 1, bool mergeToGrid_ = 1)
-        { // ...
-                int bottomSide = collin.y + collin.h;
-                if ((bottomSide >= ROWS  || collisionWithOtherTetrads(grid)) && disabled)
-                {
-                        if (mergeToGrid_)
-                        {
-                            disableFromActivate();
-                            mergeToGrid(grid);
-                        }
-                    return true;
-                }
-                return false;
-        }
+        bool collision(Grid *grid, bool disabled = 1, bool mergeToGrid_ = 1);
         //kiểm tra chồng chéo giữa các khối tetrads và tetrads với grid
-        bool checkSuperimposed(Grid *grid)
-        {
-            for (int i=0; i<sizeOfTetradsSide; i++)
-            {
-                for (int j=0; j<sizeOfTetradsSide; j++)
-                {
-                    if (matrix[i][j]){
-                        if (grid->getGrid()[i+yPos+HIDDEN_ROWS][j+xPos].exist || collin.x < 0|| collin.y < HIDDEN_ROWS*-1  || collin.x + collin.w > COLS || collin.y + collin.h > ROWS){
-                            return true;
-                        }
-                    }
-                }
-            }
-            return false;
-        }
+        bool checkSuperimposed(Grid *grid);
         // kiểm tra va chạm với các khối tetrads khác
-        bool collisionWithOtherTetrads(Grid *grid)
-        { //bug
-            for (int i=0; i<sizeOfTetradsSide; i++)
-            {
-                for (int j=0; j<sizeOfTetradsSide; j++)
-                {
-                    if (matrix[i][j])
-                    {
-                        if (grid->getGrid()[i+yPos+HIDDEN_ROWS+1][j+xPos].exist)
-                        {
-                            return true;
-                        }
-                    }
-                }
-            }
-            return false;
-        }
-
+        bool collisionWithOtherTetrads(Grid *grid);
         // va chạm phải, trái
-        bool collisionWithRightTetrads(Grid *grid)
-        {
-            for (int i=0; i<sizeOfTetradsSide; i++)
-            {
-                for (int j=0; j<sizeOfTetradsSide; j++)
-                {
-                    if (matrix[i][j])
-                    {
-                        if (grid->getGrid()[i+yPos+HIDDEN_ROWS][j+xPos+1].exist)
-                        {
-                            return true;
-                        }
-                    }
-                }
-            }
-            return false;
-        }
-        bool collisionWithLeftTetrads(Grid *grid)
-        {
-            for (int i=0; i<sizeOfTetradsSide; i++)
-            {
-                for (int j=0; j<sizeOfTetradsSide; j++)
-                {
-                    if (matrix[i][j])
-                    {
-                        if (grid->getGrid()[i+yPos+HIDDEN_ROWS][j+xPos-1].exist)
-                        {
-                            return true;
-                        }
-                    }
-                }
-            }
-            return false;
-        }
-        bool leftCollision(Grid grid)
-        { // ...
-            int leftSide = collin.x;
-            if (leftSide <= 0 || collisionWithLeftTetrads(&grid))
-            {
-                
-                return true;
-            }
-            return false;
-        }
-        bool rightCollision(Grid grid)
-        { // ...
-            int rightSide = collin.x+collin.w;
-            if (rightSide >= COLS || collisionWithRightTetrads(&grid))
-            {
-                return true;
-            }
-            return false;
-        }
+        bool collisionWithRightTetrads(Grid *grid);
+        bool collisionWithLeftTetrads(Grid *grid);
+        bool leftCollision(Grid grid);
+        bool rightCollision(Grid grid);
         // xác định hình chữ nhật bao quanh khối tetrads
-        void detectCoveredRect()
-        { //bug
-            collin.w = 0; collin.h = 0;
-            for (int i=0; i<sizeOfTetradsSide; i++)
-            {
-                for (int j=0; j<sizeOfTetradsSide; j++)
-                {
-                    if (matrix[i][j]!=0)
-                    {
-                        collin.h++;
-                        break;
-                    }
-                }
-            }
-            for (int j=0; j<sizeOfTetradsSide; j++)
-            {
-                for (int i=0; i<sizeOfTetradsSide; i++)
-                {
-                    if (matrix[i][j]!=0)
-                    {
-                        collin.w++;
-                        break;
-                    }
-                }
-            }
-            bool xStop = false, yStop = false;
-            for (int i=0; i<sizeOfTetradsSide && !xStop; i++)
-            {
-                for (int j=0; j<sizeOfTetradsSide && !xStop; j++)
-                {
-                    if (matrix[i][j]!=0)
-                    {
-                        collin.y = yPos+i;
-                        xStop = true;
-                    }
-                }
-            }
-            for (int j=0; j<sizeOfTetradsSide && !yStop; j++)
-            {
-                for (int i=0; i<sizeOfTetradsSide && !yStop; i++)
-                {
-                    if (matrix[i][j]!=0)
-                    {
-                        collin.x = xPos+j;
-                        yStop = true;
-                    }
-                }
-            }
-        }
+        void detectCoveredRect();
 
        // hàm thực hiện hành động xoay khối ngược lại
-        void rotateBack()
-        {
-            if (active)
-            {
-                transPos(matrix);
-                transPos(matrix);
-                transPos(matrix);
-                detectCoveredRect();
-            }
-        }
+        void rotateBack();
         // rơi khối tetrads
-        void fall(int velocity, Grid *grid)
-        {
-            if (active && falling && !pause)
-            {
-                if (startTime == 0)
-                {
-                    startTime = SDL_GetTicks();
-                }
-                if (SDL_GetTicks() - startTime >= velocity)
-                { // cứ mỗi velocity/1000 giây khối tetrads sẽ rơi xuống
-                    moveDown(grid);
-                    startTime = SDL_GetTicks();
-                }
-           }
-        }
+        void fall(int velocity, Grid *grid);
         // di chuyển
-        void moveUp(Grid *grid)
-        {
-                collin.y--;
-                yPos--;
-        }
-        void moveDown(Grid *grid, bool disable = 1)
-        {
-            if (!collision(grid, disable))
-            {
-                collin.y++;
-                yPos++;
-            }
-        }
-        void moveRight(Grid *grid)
-        {
-            if (!rightCollision(*grid) )
-            {
-                collin.x++;
-                xPos++;
-            }
-        }
+        void moveUp(Grid *grid);
+        void moveDown(Grid *grid, bool disable = 1);
+        void moveRight(Grid *grid);
 
-        void moveLeft(Grid *grid)
-        {
-            if (!leftCollision(*grid) )
-            {
-                collin.x--;
-                xPos--;
-            }
-        }
+        void moveLeft(Grid *grid);
         // rơi thẳng xuống nếu phím enter is pressed
-        void dropDown(Grid *grid)
-        {
-            
-            if (active && ((collin.y + collin.h - 1) < grid->getHighestRow(0, collin.x, collin.x+collin.w-1)))
-            {
-                while(!collision(grid))
-                { //bughere
-                    moveDown(grid);
-                }
-            }
-            disableFromActivate();
-            
-        }
-        void fixTheSuperimposed(Grid *grid)
-        {
-            if (checkSuperimposed(grid))
-            {
-                moveLeft(grid);
-                detectCoveredRect();
-                if(checkSuperimposed(grid))
-                {
-                    moveLeft(grid);
-                    detectCoveredRect();
-                    if (checkSuperimposed(grid))
-                    {
-                        moveRight(grid);
-                        detectCoveredRect();
-                        moveRight(grid);
-                        detectCoveredRect();
-                        moveRight(grid);
-                        detectCoveredRect();
-                        if (checkSuperimposed(grid))
-                        {
-                            moveRight(grid);
-                            detectCoveredRect();
-                            if (checkSuperimposed(grid))
-                            {
-                                moveLeft(grid);
-                                detectCoveredRect();
-                                moveLeft(grid);
-                                detectCoveredRect();
-                                moveUp(grid);
-                                detectCoveredRect();
-                                if (checkSuperimposed(grid))
-                                {
-                                    moveUp(grid);
-                                    detectCoveredRect();
-                                    if (checkSuperimposed(grid))
-                                    {
-                                        moveDown(grid, 0);
-                                        detectCoveredRect();
-                                        moveDown(grid, 0);
-                                        detectCoveredRect();
-                                        moveDown(grid, 0);
-                                        detectCoveredRect();
-                                        if (checkSuperimposed(grid))
-                                        {
-                                            moveUp(grid);
-                                            detectCoveredRect();
-                                            rotateBack();
-                                            detectCoveredRect();
-                                        }
-                                    }
-                                }
-                            }    
-                        }
-                    }
-                }
-            }
-        }
+        void dropDown(Grid *grid);
+        void fixTheSuperimposed(Grid *grid);
         // hàm xoay (fix lỗi va chạm, lỗi chồng chéo khi xoay, có thể refac để code đẹp hơn nhưng em chưa kịp làm)
-        void rotate(Grid *grid)
-        {
-            if (active)
-            {
-                transPos(matrix);
-                detectCoveredRect();
-                fixTheSuperimposed(grid);
-                detectCoveredRect();
-            }
-        }
-        void swapWithHolding(Tetromino &holding)
-        {
-
-        }
-
+        void rotate(Grid *grid);
+        void swapWithHolding(Tetromino &holding);
         void renderGhostPiece(SDL_Renderer* renderer, Grid* grid);
 };
 static bool matrixStructure_I[sizeOfTetradsSide][sizeOfTetradsSide] = {
