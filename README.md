@@ -95,7 +95,7 @@ Chứa thông tin cụ thể về trò chơi:
 - Mỗi chức năng của game (Play Single, Battle, Setting, Helps), mỗi Khối hình (Tetrads) được xác định bằng 1 đối tượng (class) riêng biệt.  <br />
 - Ứng dụng đa nhiệm xử lý Battle khi có 2 người chơi cùng thao tác trên một bàn phím cùng 1 lúc.  <br />
 
-* <a name="future"/>
+- <a name="future"/>
 ## 5. Các hướng đi trong tương lai <br />
 ### Kết nối hóa trò chơi: Royal Battle: Nâng cấp chức năng Battle trở thành Royal Battle:<br />
 - Sử dụng kết nối mạng máy tính (LAN, Router,... ) kết nối người chơi với nhau. <br />
