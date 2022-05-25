@@ -32,50 +32,11 @@ class GameOverAnnouncement
     public:
         Tabs direct;
     public:
-        GameOverAnnouncement()
-        {
-            direct = InGame_SoloMode;
-        }
-        Tabs getDirect()
-        {
-            return direct;
-        }
-        void resetDirect()
-        {
-            direct = InGame_SoloMode;
-        }
-
-        bool handleEvents(SDL_Event* e)
-        {
-            bool flag = 0;
-            backButton->handleEvents(e, 1);
-            if (backButton->getPressed())
-            {
-                backButton->setPressed(0);
-                direct=Menu;
-                flag = 1;
-                return false;
-            }
-            replayButton->handleEvents(e, 1);
-            if (replayButton->getPressed())
-            {
-                replayButton->setPressed(0);
-                direct=InGame_SoloMode;
-                flag = 1;
-                return true;
-            }
-
-            direct = InGame_SoloMode; 
-            return false;
-        }
-        void render(SDL_Renderer* renderer)
-        {
-            static LTexture gameOverBg(gameOverBgPath, renderer);
-            gameOverBg.render(renderer, 0, 0);
-            backButton->render(renderer, backButton->getXCen()-backButton->getWidth()/2, backButton->getYCen()-backButton->getHeight()/2);
-            replayButton->render(renderer, replayButton->getXCen()-replayButton->getWidth()/2, replayButton->getYCen()-replayButton->getHeight()/2);
-            printScoreTable(renderer, 620, 505);
-        }
+        GameOverAnnouncement();
+        Tabs getDirect();
+        void resetDirect();
+        bool handleEvents(SDL_Event* e);
+        void render(SDL_Renderer* renderer);
 };
 
 void loadGameSettings();

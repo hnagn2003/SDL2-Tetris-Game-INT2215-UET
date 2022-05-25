@@ -1,14 +1,6 @@
-// #include <iostream>
-// #include <SDL_image.h>
-// #include <SDL.h>
 #include "Game.h"
-// #include "Tetromino.h"
-// #include "Grid.h"
 #include "Specifications.h"
-// #include <cstdlib>
-// #include <vector>
-// LButton* backButton;
-// LButton* replayButton;
+
 int gridSizeToRendererSize(int w)
 {
 return w*TILE_SIZE;
@@ -157,4 +149,49 @@ void loadGameSettings()
 		}
 		SDL_RWclose(highestScoreFile);
 	}
+}
+
+GameOverAnnouncement::GameOverAnnouncement()
+{
+	direct = InGame_SoloMode;
+}
+Tabs GameOverAnnouncement::getDirect()
+{
+	return direct;
+}
+void GameOverAnnouncement::resetDirect()
+{
+	direct = InGame_SoloMode;
+}
+
+bool GameOverAnnouncement::handleEvents(SDL_Event* e)
+{
+	bool flag = 0;
+	backButton->handleEvents(e, 1);
+	if (backButton->getPressed())
+	{
+		backButton->setPressed(0);
+		direct=Menu;
+		flag = 1;
+		return false;
+	}
+	replayButton->handleEvents(e, 1);
+	if (replayButton->getPressed())
+	{
+		replayButton->setPressed(0);
+		direct=InGame_SoloMode;
+		flag = 1;
+		return true;
+	}
+
+	direct = InGame_SoloMode; 
+	return false;
+}
+void GameOverAnnouncement::render(SDL_Renderer* renderer)
+{
+	static LTexture gameOverBg(gameOverBgPath, renderer);
+	gameOverBg.render(renderer, 0, 0);
+	backButton->render(renderer, backButton->getXCen()-backButton->getWidth()/2, backButton->getYCen()-backButton->getHeight()/2);
+	replayButton->render(renderer, replayButton->getXCen()-replayButton->getWidth()/2, replayButton->getYCen()-replayButton->getHeight()/2);
+	printScoreTable(renderer, 620, 505);
 }
