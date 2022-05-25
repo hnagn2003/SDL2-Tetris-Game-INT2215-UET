@@ -99,8 +99,7 @@ Chứa thông tin cụ thể về trò chơi:
 
 * <a name="future"/>
 ## 5. Các hướng đi trong tương lai <br />
-- Nâng cấp chức năng Battle trở thành Royal Battle: <br />
-### Kết nối hóa trò chơi: Royal Battle: <br />
+### Kết nối hóa trò chơi: Royal Battle: Nâng cấp chức năng Battle trở thành Royal Battle:<br />
 - Sử dụng kết nối mạng máy tính (LAN, Router,... ) kết nối người chơi với nhau. <br />
 - Sẽ thiết lập một trường cơ sở dữ liệu (database) lưu trữ trên máy chủ (server) lưu trữ thông tin người chơi. <br />
 - Một Đấu Trường bao gồm khoảng 10-50-100 người chơi. <br />
