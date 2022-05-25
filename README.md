@@ -119,7 +119,7 @@ Chứa thông tin cụ thể về trò chơi:
 &nbsp; - Skin cho Khối Hình theo cơ chế gacha (quay ngẫu nhiên từ một tập có sẵn) <br />
 &nbsp; - Theme UI game mới <br />
 &nbsp; - Theme Music game mới <br />
-&nbsp; - Tốn Coin để giảm độ khôn của Deep Green. <br />
+&nbsp; - Tốn Coin để giảm độ khôn của Deep Green, giúp chiến thắng bot một cách dễ dàng, giảm đi áp lực cuộc sống. <br />
 
 * <a name="summary"/>
 ## 6. Kết luận
