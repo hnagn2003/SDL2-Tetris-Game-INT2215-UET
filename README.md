@@ -26,16 +26,17 @@ Tetris hay Xếp Hình (1984), trò chơi có 7 loại Khối Hình (Tetromino) 
 - Chỗ nào có gạch rồi thì không di chuyển được tới vị trí đó. <br />
 - Người chơi xếp những khối hình sao cho khối hình lấp đầy 1 hàng ngang để ghi điểm và hàng ngang ấy sẽ biến mất và người chơi sẽ ghi điểm. <br />
 - Người chơi thua cuộc khi Khối Hình tràn ra trên 2 dòng khỏi Grid (Lưới). <br />
-![image](https://user-images.githubusercontent.com/94885088/170222565-b1ef89e6-0eab-4fd7-89fa-539e6a7b6725.png)
-- Hold <C> : Ấn để giữ lại khối hình hiện tại, khối hình hiện tại được thay thế bằng khối hình tiếp theo.  <br />
-- Bảng thông số: Lần lượt là Line (lưu trữ số dòng đã hoàn thành), Score (điểm hiện tại), Level (đại lượng tượng trưng cho speed).  <br />
-- Next Tetrads: Thông tin về các khối hình sinh kế tiếp.  <br />
+
 * <a name="detail"/>
 ## 3. Các chức năng
 Để thoát game, nhấn ESC.<br />
 ### 1. Chức năng Play Single <br />
 Chức năng cơ bản nhất của game. Chơi như trên mô tả, cách chơi cụ thể ở hình minh họa dưới mục "Chức năng Help" ^^. <br />
-![image](https://user-images.githubusercontent.com/94885088/169710259-a1b0b66c-3d18-4c8a-b8d8-9fc094dfe1da.png)
+![image](https://user-images.githubusercontent.com/94885088/170222565-b1ef89e6-0eab-4fd7-89fa-539e6a7b6725.png)
+- Hold <C> : Ấn để giữ lại khối hình hiện tại, khối hình hiện tại được thay thế bằng khối hình tiếp theo.  <br />
+- Bảng thông số: Lần lượt là Line (lưu trữ số dòng đã hoàn thành), Score (điểm hiện tại), Level (đại lượng tượng trưng cho speed).  <br />
+- Next Tetrads: Thông tin về các khối hình sinh kế tiếp.  <br />
+ 
 Khi người chơi thua sẽ xuất hiện 1 bảng tổng sắp cho biết điểm số của người chơi và các kỷ lục trước<br />
 ![image](https://user-images.githubusercontent.com/94885088/169710488-80d9d7a1-f174-4aae-bcf7-97565e011809.png)
 Người chơi có thể bấm nút Replay để chơi lại hoặc Return để quay lại màn hình chính.<br />
